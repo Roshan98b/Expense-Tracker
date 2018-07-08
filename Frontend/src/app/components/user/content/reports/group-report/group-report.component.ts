@@ -112,17 +112,12 @@ export class GroupReportComponent implements OnInit {
       })
   }
 
-  isDataEmpty(): boolean {
-    //return this.data.length === 0;
-    return false;
-  }
-
   getCurrentYear(): number {
     return (new Date()).getFullYear();
   }
 
   onSubmit() {
-    console.log("Yes");
+
     this.obj = {
     	year: this.reportForm.value,
     	groupId: this.groupService.active._groupId

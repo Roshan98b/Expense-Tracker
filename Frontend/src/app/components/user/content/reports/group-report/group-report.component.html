@@ -19,16 +19,11 @@
     </section>
     <section class="content-header">
         <div class="box box-info">
-            <div class="box-body" *ngIf="!isDataEmpty(); else elseBlock">
+            <div class="box-body">
                 <div *ngIf="categoryChart">
                     <canvas id="categoryCanvas">{{ categoryChart }}</canvas>
                 </div>
             </div>
-            <ng-template class="container no-data" #elseBlock>
-                <span class="fa fa-bar-chart"></span>
-                <h2>No expense data!</h2>
-                <h6>Please enter an expense.</h6>
-            </ng-template>
         </div>
     </section>
 	<section class="content-header">
@@ -36,16 +31,11 @@
     </section>
     <section class="content">
         <div class="box box-info">
-            <div class="box-body" *ngIf="!isDataEmpty(); else elseBlock">
+            <div class="box-body">
                 <div *ngIf="monthlyChart">
                     <canvas id="monthlyCanvas">{{ monthlyChart }}</canvas>
                 </div>
             </div>
-            <ng-template class="container no-data" #elseBlock>
-                <span class="fa fa-bar-chart"></span>
-                <h2>No expense data!</h2>
-                <h6>Please enter an expense.</h6>
-            </ng-template>
         </div>
     </section>
 </div>
