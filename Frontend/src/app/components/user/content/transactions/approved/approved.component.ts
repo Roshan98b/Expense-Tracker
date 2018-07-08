@@ -18,18 +18,19 @@ export class ApprovedComponent implements OnInit {
   	private transactionService: TransactionService,
   	private groupService: GroupService,
   	private userService: UserService
-   ) { }
+  ) { }
 
   selected = {};
   active;
 
   paymentForm: FormGroup = new FormGroup({
-    balance: new FormControl(this.userService.user.balance),
+    balance: new FormControl(0),
     useBalance: new FormControl(false),
     amount: new FormControl(0,[Validators.required, Validators.min(0)])
   });
 
   ngOnInit() {
+    this.paymentForm.controls['balance'].setValue(this.userService.user.balance);
   	this.checkComplete();
     this.active = this.groupService.active;  	
     this.groupService.getAllMembers(() => {});
@@ -58,7 +59,6 @@ export class ApprovedComponent implements OnInit {
     this.transactionService.checkComplete(this.groupService.active._groupId).subscribe(
       (model) => {
         this.changeStatus();
-        console.log(model);
       },
       (err) => {
         console.log(err);
@@ -70,7 +70,6 @@ export class ApprovedComponent implements OnInit {
   	this.transactionService.changeStatus(this.groupService.active._groupId).subscribe(
   		(model) => {
   			this.getApprovedTransactions();
-  			console.log(model);
   		},
   		(err) => {
   			console.log(err);
