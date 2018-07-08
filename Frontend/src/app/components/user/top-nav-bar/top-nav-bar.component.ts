@@ -23,6 +23,20 @@ export class TopNavBarComponent implements OnInit {
 
   selected = {};
   EditForm: FormGroup;
+  questions: string[] = ['What was your childhood nickname?', 'What school did you attend for sixth grade?', 'What is the last name of the teacher who gave you your first failing grade?', 'In what city or town did your mother and father meet?', 'What is your favorite movie?'];
+  default: string = 'What was your childhood nickname?';
+
+  pform: FormGroup = new FormGroup({
+    password: new FormControl(null,[Validators.required, Validators.minLength(6)]),
+    cpassword: new FormControl(null,[Validators.required]),
+    
+  });
+  sForm: FormGroup = new FormGroup({
+    securityQuestion: new FormControl(null,[Validators.required]),
+    securityAnswer: new FormControl(null,[Validators.required])
+  });
+
+  password:FormControl =  new FormControl(null,{ validators: [Validators.required, Validators.minLength(6)]});
 
   focusDob: boolean;
   focusMobile: boolean;
@@ -130,6 +144,52 @@ export class TopNavBarComponent implements OnInit {
         console.error(err);
       }
     );
+  }
+
+  onOldPassword() {
+    // Request for password check
+    let flag = true; 
+    if(flag) {
+      $("#changepassword").modal("hide");    
+      console.log(this.password.value);
+      $("#newpassword").modal("show");
+    } else {
+      $("#changepassword").modal("hide");    
+      alert('Incorrect password');
+    }
+  }
+
+  onChangePassword(i){
+    $("#edit").modal("hide");
+  }
+
+  onChangeSecurity(){
+    $("#newpassword").modal("hide");
+  }
+
+  onChangedPassword() {
+    if(!this.pform.valid) {
+      if(!this.pform.controls.password.valid) alert('Invalid password!!');
+    } else if(this.pform.controls.password.value != this.pform.controls.cpassword.value) alert('Confirm Password does not match password!!');
+    else {
+      $("#newpassword").modal("hide");
+
+      // Post new password
+
+      alert('Password changed'); 
+    }
+  }
+
+  onChangedSecurity() {
+    if(!this.sForm.valid) {
+      if(!this.sForm.controls.securityAnswer.valid) alert('Answer the security question!!');
+    } else {
+      $("#changesecurity").modal("hide");
+
+      // Post new password
+
+      alert('Security changed'); 
+    }
   }
 
   logout() {
