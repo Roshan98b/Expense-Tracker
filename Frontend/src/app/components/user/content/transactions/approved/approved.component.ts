@@ -122,7 +122,6 @@ export class ApprovedComponent implements OnInit {
     };
     this.transactionService.billPayment(obj).subscribe(
       (model) => {
-        console.log(model);
         this.checkComplete();
       },
       (err) => {

@@ -117,31 +117,53 @@ router.post('/changestatus',
 			if(err) res.status(501).json(err);
 			else {
 				if(!model.length) res.status(200).json({message: 'Empty'});
-				for(let i of model) {
-					let diff = (new Date() - i.uploadDate)/1e3;
-					if(diff > 84600) {
-						let True = 0, False = 0;
-						for(let j of i.poll) {
-							if(j.response) True++;
-							else False++;
-						} 
-						if(True >= False) {
-							Transaction.statusApproved(i._id, (err, model) => {
-								if(err) res.status(501).json(err);
-								else res.status(200).json({message: "Approved"});			
-							});
+				else {
+					for(let i of model) {
+						let diff = (new Date() - i.uploadDate)/1e3;
+						if(diff > 84600) {
+							let True = 0, False = 0;
+							for(let j of i.poll) {
+								if(j.response) True++;
+								else False++;
+							}
+							for(let j of i.members) 
+								if(j.amount == 0) False--;						 
+							if(True >= False) {
+								Transaction.statusApproved(i._id, (err, model) => {
+									if(err) res.status(501).json(err);
+								});
+							}
+							else {
+								Transaction.statusUnapproved(i._id, (err, model) => {
+									if(err) res.status(501).json(err);
+								});
+							}	
 						}
-						else {
-							Transaction.statusUnapproved(i._id, (err, model) => {
-								if(err) res.status(501).json(err);
-								else res.status(200).json({message: "Unapproved"});											
-							});
-						}
-					} else {
-						res.status(200).json({message: "Initial"});
 					}
-				}
+					res.status(200).json({message: 'Checked'});
+				}	
 			}
+		});
+	}
+);
+
+router.post('/updatetoinitial',
+	passport.authenticate('jwt', {session: false}),
+	(req, res) => {
+		var obj = req.body;
+		obj.expenseDate = new Date(obj.expenseDate);
+		obj.uploadDate = new Date();
+		obj.poll = [];
+    for (let i of obj.members) {
+      obj.poll.push({
+        _id: i._id,
+        response: false
+      });
+      delete i.email;
+    }
+		Transaction.updateToInitial(obj, (err, model) => {
+			if(err) res.status(501).json(err);
+			else res.status(200).json({message: "Update To Initial Successfull"});	
 		});
 	}
 );
@@ -180,6 +202,17 @@ router.post('/billpayment',
 					else res.status(200).json({message: "Payment Successful"});	
 				});
 			}				
+		});
+	}
+);
+
+router.post('/deletetransaction',
+	passport.authenticate('jwt', {session: false}),
+	(req, res) => {
+		var obj = req.body._id;
+		Transaction.delete(obj, (err) => {
+			if(err) res.status(501).json(err);
+			else res.status(200).json({message: 'Delete Successful'});
 		});
 	}
 );

@@ -97,4 +97,20 @@ export class TransactionService {
     });    
   }
 
+  updateToInitial(model) {
+    this.token = localStorage.getItem('id_token');
+    return this.http.post(this.url+'/updatetoinitial', model, {
+      observe: 'body',
+      headers: new HttpHeaders().append('Content-Type','application/json').append('Authorization',this.token)
+    });        
+  }
+
+  deleteTransaction(_id) {
+    this.token = localStorage.getItem('id_token');
+    return this.http.post(this.url+'/deletetransaction', {_id: _id}, {
+      observe: 'body',
+      headers: new HttpHeaders().append('Content-Type','application/json').append('Authorization',this.token)
+    });    
+  }
+
 }
