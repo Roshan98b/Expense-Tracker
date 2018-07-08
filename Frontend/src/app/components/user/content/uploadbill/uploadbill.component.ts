@@ -137,7 +137,7 @@ export class UploadbillComponent implements OnInit, DoCheck {
       poll: [],
       status: 0
     };
-    for (var i of this.members.value) {
+    for (let i of this.members.value) {
       obj.members.push({
         _id: i.id,
         amount: i.amount
@@ -145,7 +145,7 @@ export class UploadbillComponent implements OnInit, DoCheck {
       obj.poll.push({
         _id: i.id,
         response: false
-      })
+      });
     }
     this.transactionService.postBill(obj).subscribe(
       (model) => {
@@ -163,15 +163,6 @@ export class UploadbillComponent implements OnInit, DoCheck {
   }
 
 }
-  //   this.transactionService.getInitialTransactions(this.groupService.active._groupId).subscribe(
-  //     (model)=> {
-  //       console.log(model);
-  //     },
-  //     (err) => {
-  //       console.log(err);
-  //     }
-  //   );
-  // }
 
  //   this.transactionService.getGroupExpense(this.groupService.active._groupId, 2018).subscribe(
  //     (model) => {

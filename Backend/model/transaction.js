@@ -139,8 +139,31 @@ module.exports.statusCompleted = (id, callback) => {
 	Transaction.update(query, update, callback);	
 };
 
+module.exports.updateToInitial = (obj, callback) => {
+	var query = {'_id': mongoose.Types.ObjectId(obj._id)};
+	var update = {$set: 
+		{
+			transactionName: obj.transactionName,
+			amount: obj.amount,
+			expenseDate: obj.expenseDate,
+			expenseType: obj.expenseType,
+			comments: obj.comments,
+			members: obj.members,
+			poll: obj.poll,
+			status: 0,
+			uploadDate: obj.uploadDate,
+		}
+	};
+	Transaction.update(query, update, callback);
+};
+
 module.exports.makePayment = (obj, callback) => {
 	var query = {_id: mongoose.Types.ObjectId(obj._id), 'members._id': mongoose.Types.ObjectId(obj._Uid)};
 	var update = {$set: {'members.$.amount': obj.transactionAmount}};
 	Transaction.update(query, update, callback);
+};
+
+module.exports.delete = (_id, callback) => {
+	var query = {_id: mongoose.Types.ObjectId(_id)};
+	Transaction.remove(query, callback);
 };

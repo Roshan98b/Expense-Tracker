@@ -4,6 +4,8 @@ import { TransactionService } from '../../../../../services/transaction/transact
 import { GroupService } from '../../../../../services/group/group.service';
 import { UserService } from '../../../../../services/user/user.service';
 
+declare var $ :any;
+
 @Component({
   selector: 'app-unapproved',
   templateUrl: './unapproved.component.html',
@@ -49,7 +51,6 @@ export class UnapprovedComponent implements OnInit {
   	this.transactionService.changeStatus(this.groupService.active._groupId).subscribe(
   		(model) => {
   			this.getUnapprovedTransactions();
-  			console.log(model);
   		},
   		(err) => {
   			console.log(err);
@@ -58,11 +59,6 @@ export class UnapprovedComponent implements OnInit {
   }
 
   onView(i) {
-    let True=0, False=0;
-    for(let j of i.poll) {
-      if(j.response) True++;
-      else False++
-    }
     this.selected = {
       _id: i._id,
       transactionName: i.transactionName,
@@ -71,16 +67,9 @@ export class UnapprovedComponent implements OnInit {
       uploadDate: i.uploadDate,
       expenseType: i.expenseType,
       comments: i.comments,
-      poll: Math.ceil((True/(True+False))*100),
       members: []
     }
     this.add(this.selected, i);
-  }
-
-  getProgress() {
-    return {
-      'width': this.selected['poll']+'%'
-    }
   }
 
   add(selected, i) {
@@ -95,6 +84,29 @@ export class UnapprovedComponent implements OnInit {
   }
 
   onMove(i) {
-
+    i.poll = 0;
+    this.transactionService.updateToInitial(i).subscribe(
+      (model) => {
+        this.changeStatus();
+        console.log(model);        
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
+
+  onDelete(i) {
+    $("#view").modal("hide");
+    this.transactionService.deleteTransaction(i._id).subscribe(
+      (message) => {
+        this.changeStatus();
+        console.log(message);        
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+  }
+
 }

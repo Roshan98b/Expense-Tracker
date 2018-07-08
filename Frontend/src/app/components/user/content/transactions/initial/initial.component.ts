@@ -58,7 +58,7 @@ export class InitialComponent implements OnInit {
     for(let index=0 ; index < members.length ; index++) {
       this.members.push(
         this.formBuilder.group({
-          id: members[index]._id,
+          _id: members[index]._id,
           email: members[index].email,
           amount: this.check(i[index])
         })
@@ -92,13 +92,19 @@ export class InitialComponent implements OnInit {
   changeStatus() {
   	this.transactionService.changeStatus(this.groupService.active._groupId).subscribe(
   		(model) => {
-  			console.log(model);
   			this.getInitialTransactions();
   		},
   		(err) => {
   			console.log(err);
   		}
   	);
+  }
+
+  onAmount(i) {
+    for(let j of i.members)
+      if(j._id == this.userService.user._id && j.amount == 0)
+        return true;
+    return false;          
   }
 
 	initPoll(i) {
@@ -117,7 +123,7 @@ export class InitialComponent implements OnInit {
 		};
 		this.transactionService.updatePoll(obj).subscribe(
 			(model) =>{
-				console.log(model);
+        this.changeStatus();
 			},
 			(err) => {
 				console.log(err);
@@ -131,6 +137,8 @@ export class InitialComponent implements OnInit {
       if(j.response) True++;
       else False++
     }
+    for(let j of i.members)
+      if(j.amount == 0) False--;
     this.selected = {
       _id: i._id,
       transactionName: i.transactionName,
@@ -164,6 +172,7 @@ export class InitialComponent implements OnInit {
 
   onEdit(i) {
     $("#view").modal("hide");
+    this.selected = i;
     this.EditForm.controls['transactionName'].setValue(i.transactionName);
     this.EditForm.controls['expenseAmount'].setValue(i.amount);
     let date = new Date(i.expenseDate);
@@ -174,13 +183,40 @@ export class InitialComponent implements OnInit {
     this.addMembers(this.groupService.allMembers, i.members);
   }
 
-  onSubmit(i) {
-    $("#edit").modal("hide");
-    
+  onSubmit() {
+    $("#edit1").modal("hide");
+    this.selected['_Uid'] = this.userService.user._id;
+    this.selected['_groupId'] = this.groupService.active._groupId;    
+    this.selected['transactionName'] = this.EditForm.controls['transactionName'].value;
+    this.selected['amount'] = this.EditForm.controls['expenseAmount'].value;
+    this.selected['expenseDate'] = this.EditForm.controls['transactionDate'].value;
+    this.selected['expenseType'] = this.EditForm.controls['expenseTypeOptions'].value;
+    this.selected['comments'] = this.EditForm.controls['comments'].value;
+    this.selected['members'] = this.EditForm.controls['members'].value;
+    this.selected['status'] = 0;
+
+    this.transactionService.updateToInitial(this.selected).subscribe(
+      (model) => {
+        this.changeStatus();        
+        console.log(model);
+      },
+      (err) => {
+        console.log(err);
+      }
+    );     
   }
 
   onDelete(i) {
-
+    $("#view").modal("hide");
+    this.transactionService.deleteTransaction(i._id).subscribe(
+      (message) => {
+        this.changeStatus();
+        console.log(message);
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 
 }
