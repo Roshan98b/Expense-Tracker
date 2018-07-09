@@ -25,7 +25,8 @@
 	      </div>
 	      
 	      <div [ngClass]="{'has-success': rForm.controls.dob.valid && dateValid ,'has-error': (!rForm.controls.dob.valid || !dateValid) && focusDob,'form-group': true, 'has-feedback': true}">
-	       	<label *ngIf="rForm.controls.dob.valid && dateValid" class="control-label" for="dob"><i class="fa fa-check"></i>Invalid Date of Birth</label>
+	       	<label *ngIf="rForm.controls.dob.valid && dateValid" class="control-label" for="dob"><i class="fa fa-check"></i>Valid Date of Birth</label>
+	       	<label *ngIf="(!rForm.controls.dob.valid || !dateValid) && focusDob" class="control-label" for="dob"><i class="fa fa-times-circle-o"></i>Invalid Date of Birth!!</label>
 	       	<label *ngIf="(!rForm.controls.dob.valid || !dateValid) && focusDob" class="control-label" for="dob"><i class="fa fa-times-circle-o"></i>You must be at least 12 years old!!</label>
 				<input type="date" name="dob" id="dob" data-placeholder="Date of Birth" class="form-control" required formControlName="dob" (focus)="onFocus(2)"/>
 				<span class="glyphicon glyphicon-calendar form-control-feedback"></span>
@@ -59,7 +60,7 @@
 	      <div [ngClass]="{'has-success': rForm.controls.contactno.valid ,'has-error': !rForm.controls.contactno.valid && focusMobile,'form-group': true, 'has-feedback': true}">
 	       <label *ngIf="rForm.controls.contactno.valid" class="control-label" for="contactno"><i class="fa fa-check"></i>Valid mobile number</label>
 	       <label *ngIf="!rForm.controls.contactno.valid && focusMobile" class="control-label" for="contactno"><i class="fa fa-times-circle-o"></i>Please enter a valid mobile number</label>
-	        <input type="num" oninput="this.value=this.value.slice(0,10)" class="form-control" placeholder="Mobile number" id="contactno" name="contactno" formControlName="contactno" (focus)="onFocus(3)">
+	        <input type="number" oninput="this.value=this.value.slice(0,10)" class="form-control" placeholder="Mobile number" id="contactno" name="contactno" formControlName="contactno" (focus)="onFocus(3)">
 	        <span class="glyphicon glyphicon-phone form-control-feedback"></span>
 	      </div>          
 	      
@@ -70,7 +71,7 @@
 	        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
 	      </div>
 	      
-	      <div [ngClass]="{'has-success': rForm.controls.cpassword.valid && this.rForm.controls.password.value === this.rForm.controls.cpassword.value && this.rForm.controls.cpassword.value != null ,'has-error': (!rForm.controls.cpassword.valid || (this.rForm.controls.password.value != this.rForm.controls.cpassword.value && this.rForm.controls.cpassword.value != null)) && focusCPassword,'form-group': true, 'has-feedback': true}">
+	      <div [ngClass]="{'has-success': rForm.controls.cpassword.valid && this.rForm.controls.password.value === this.rForm.controls.cpassword.value && this.rForm.controls.cpassword.value != null ,'has-error': (!rForm.controls.cpassword.valid || (this.rForm.controls.password.value != this.rForm.controls.cpassword.value && this.rForm.controls.cpassword.value != null) || (this.rForm.controls.password.value != this.rForm.controls.cpassword.value && this.rForm.controls.cpassword.value == null)) && focusCPassword,'form-group': true, 'has-feedback': true}">
 	       <label *ngIf="this.rForm.controls.password.value === this.rForm.controls.cpassword.value && this.rForm.controls.cpassword.value != null" class="control-label" for="cpassword"><i class="fa fa-check"></i>Confirm password matches password</label>
 	       <label *ngIf="this.rForm.controls.password.value != this.rForm.controls.cpassword.value && this.rForm.controls.cpassword.value != null && focusCPassword" class="control-label" for="cpassword"><i class="fa fa-times-circle-o"></i>Confirm password does not match password</label>
 	       <label *ngIf="this.rForm.controls.cpassword.value === null && focusCPassword" class="control-label" for="cpassword"><i class="fa fa-times-circle-o"></i>Please re-type password</label>

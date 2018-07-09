@@ -109,15 +109,15 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit() {
-    if(!this.dateValid) alert('Sorry, you cannot register!! You should be at least 12 years old to use this application!!');
-    if(!this.rForm.valid) {
-      if(!this.rForm.controls.dob.valid) alert('Please enter your Date of Birth!!');
-      if(!this.rForm.controls.email.valid) alert('Please enter a valid E-mail ID');
-      if(!this.rForm.controls.contactno.valid) alert('Mobile number should have 10 digits');
-      if(!this.rForm.controls.password.valid) alert('Invalid password!!');
-      if(!this.rForm.controls.securityAnswer.valid) alert('Answer the security question!!');
-    }else if(this.rForm.controls.password.value != this.rForm.controls.cpassword.value) alert('Confirm Password does not match password!!');
-    else this.userService.postMember(this.rForm.value).subscribe(
+    if(!this.dateValid) this.focusDob = true;
+    else if(!this.rForm.valid) {
+      if(!this.rForm.controls.dob.valid) this.focusDob = true;
+      if(!this.rForm.controls.email.valid) this.focusEmail = true;
+      if(!this.rForm.controls.contactno.valid) this.focusMobile = true;
+      if(!this.rForm.controls.password.valid) this.focusPassword = true;
+      if(!this.rForm.controls.securityAnswer.valid) this.focusSecAnswer = true;
+      if(this.rForm.controls.password.value != this.rForm.controls.cpassword.value) this.focusCPassword = true;
+    }else this.userService.postMember(this.rForm.value).subscribe(
       (message) => {
         alert('Registration successful');
         console.log(message);
