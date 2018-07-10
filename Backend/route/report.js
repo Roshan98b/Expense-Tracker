@@ -7,12 +7,35 @@ var mongoose = require('mongoose');
 var Transaction = require('../model/transaction');
 var router = express.Router();
 
-router.post('/groupexpense',	
+router.post('/generatereport',	
 	passport.authenticate('jwt', {session: false}),
 	(req, res) => {
-		Transaction.getExpenseReportByMonth(req.body.groupId, req.body.year, 1, (err, model) => {
+		Transaction.getExpenseReportByMonth(req.body.groupId, req.body.year, (err, mmodel) => {
 			if(err) res.status(501).json(err);
-			else res.status(200).json(model);
+			else {
+				Transaction.getExpenseReportByExpenseType(req.body.groupId, req.body.year, (err, cmodel) => {
+					if(err) res.status(501).json(err);
+					else {
+						res.status(200).json({
+							monthly: mmodel,
+							catagorical: cmodel
+						});						
+					}
+				});
+			}
+		});				
+	}
+);
+
+router.post('/generateusergroupreport',	
+	passport.authenticate('jwt', {session: false}),
+	(req, res) => {
+		Transaction.getUserGroupReportByMonth(req.body.groupId, req.body.year, req.body._Uid,(err, mmodel) => {
+			if(err) res.status(501).json(err);
+			else {
+				console.log(mmodel);
+				res.status(200).json(mmodel);				
+			}
 		});				
 	}
 );

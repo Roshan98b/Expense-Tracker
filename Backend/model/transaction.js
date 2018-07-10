@@ -92,29 +92,6 @@ module.exports.getCompleted = (groupId, callback) => {
 	Transaction.find(query, callback);
 };
 
-module.exports.getExpenseReportByMonth = (groupId, year, month, callback) => {
-	var match = {$match: {status: 3, _groupId: mongoose.Types.ObjectId(groupId)}};
-	var sort = {
-		$sort: {
-			month: 1
-		}
-	};
-	var group = {
-		$group: {
-			_id: {month: {$month: '$expenseDate'}, year: {$year: '$expenseDate'}},						
-			expense: {$sum: '$amount'}
-		}
-	};
-	var project = {
-		$project: {
-			_id: 0,
-			month: "$_id.month",
-			expense: 1	
-		}
-	};
-	Transaction.aggregate([match, group, project, sort], callback);
-};
-
 module.exports.updatePoll = (obj, callback) => {
 	match = {_id: mongoose.Types.ObjectId(obj._id), 'poll._id': mongoose.Types.ObjectId(obj.poll._id)};
 	set = {$set: {'poll.$.response': obj.poll.response}};
@@ -166,4 +143,75 @@ module.exports.makePayment = (obj, callback) => {
 module.exports.delete = (_id, callback) => {
 	var query = {_id: mongoose.Types.ObjectId(_id)};
 	Transaction.remove(query, callback);
+};
+
+
+// Monthly Report
+module.exports.getExpenseReportByMonth = (groupId, year, callback) => {
+	var match = {$match: {status: 3, _groupId: mongoose.Types.ObjectId(groupId)}};
+	var sort = {
+		$sort: {
+			month: 1
+		}
+	};
+	var group = {
+		$group: {
+			_id: {month: {$month: '$expenseDate'}, year: {$year: '$expenseDate'}},
+			expense: {$sum: '$amount'}
+		}
+	};
+	var project = {
+		$project: {
+			_id: 0,
+			month: "$_id.month",
+			expense: 1	
+		}
+	};
+	Transaction.aggregate([match, group, project, sort], callback);
+};
+
+// Expense Type Report
+module.exports.getExpenseReportByExpenseType = (groupId, year, callback) => {
+	var match = {$match: {status: 3, _groupId: mongoose.Types.ObjectId(groupId)}};
+	var group = {
+		$group: {
+			_id: "$expenseType",
+			expense: {$sum: '$amount'}
+		}
+	};
+	var project = {
+		$project: {
+			_id: 0,
+			expenseType: "$_id",
+			expense: 1	
+		}
+	};
+	Transaction.aggregate([match, group, project], callback);
+};
+
+module.exports.getUserGroupReportByMonth = (groupId, year, Uid, callback) => {
+	var match1 = {$match: {status: 3, _groupId: mongoose.Types.ObjectId(groupId)}};
+	var unwind = {
+		$unwind: "$members" 
+	};
+	var match2 = {$match: {"members._id": Uid}};
+	var sort = {
+		$sort: {
+			month: 1
+		}
+	};
+	var group = {
+		$group: {
+			_id: {month: {$month: '$expenseDate'}, year: {$year: '$expenseDate'}},
+			expense: {$sum: '$amount'}
+		}
+	};
+	var project = {
+		$project: {
+			_id: 0,
+			month: "$_id.month",
+			expense: 1	
+		}
+	};
+	Transaction.aggregate([match1, unwind, match2], callback);
 };

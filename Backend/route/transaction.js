@@ -180,18 +180,22 @@ router.post('/billpayment',
 			if(amt > req.body.transactionAmount) {
 				obj.transactionAmount = 0;
 				obj.memberBalance = amt - req.body.transactionAmount;
+				// bal = req.body.transactionAmount
 			} else {
 				obj.transactionAmount = req.body.transactionAmount - amt;
-				obj.memberBalance = 0;	
+				obj.memberBalance = 0;
+				// bal = amt	
 			}			
 		} else {
 			amt = req.body.amount;
 			if(amt > req.body.transactionAmount) {
 				obj.transactionAmount = 0;
 				obj.memberBalance = req.body.memberBalance + (amt - req.body.transactionAmount);
+				// bal = req.body.transactionAmount
 			} else {
 				obj.transactionAmount =  req.body.transactionAmount - amt;
-				obj.memberBalance = req.body.memberBalance;			
+				obj.memberBalance = req.body.memberBalance;
+				// bal = amt			
 			}
 		}
 		Transaction.makePayment(obj, (err, model) => {

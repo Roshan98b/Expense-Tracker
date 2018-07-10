@@ -8,34 +8,26 @@ import { map } from 'rxjs/operators';
 export class ReportService {
 
 	token: any;
-	url: string = '';
+  url: string = 'http://127.0.0.1:3000/users';
 
-  constructor(private _http: HttpClient) { }
-
-  categorywiseReport() {
-  	//this.token = localStorage.getItem('id_token');
-    return this._http.get("/assets/reportCategorySample.json")/*, {
-      observe: 'body',
-      headers: new HttpHeaders().append('Content-Type','application/json').append('Authorization',this.token)
-    })*/
-      .pipe(map(result => result));
-  }
-
-  monthlyReport() {
-    //this.token = localStorage.getItem('id_token');
-    return this._http.get("/assets/reportMonthlySample.json")/*, {
-      observe: 'body',
-      headers: new HttpHeaders().append('Content-Type','application/json').append('Authorization',this.token)
-    })*/
-      .pipe(map(result => result));
-  }
+  constructor(
+    private http: HttpClient
+  ) { }
 
   postYear(model) {
     this.token = localStorage.getItem('id_token');
-  	return this._http.post(this.url + '/generateReport', model, {
+  	return this.http.post(this.url + '/generatereport', model, {
       observe: 'body',
       headers: new HttpHeaders().append('Content-Type','application/json').append('Authorization',this.token)
     });
   }
+
+  postUserGroup(model) {
+    this.token = localStorage.getItem('id_token');
+    return this.http.post(this.url + '/generateusergroupreport', model, {
+      observe: 'body',
+      headers: new HttpHeaders().append('Content-Type','application/json').append('Authorization',this.token)
+    });
+  }  
 
 }
