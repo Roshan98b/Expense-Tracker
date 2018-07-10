@@ -137,7 +137,7 @@ export class InitialComponent implements OnInit {
       if(j.response) True++;
       else False++
     }
-    for(let j of i.members)
+    for(let j of i.initial)
       if(j.amount == 0) False--;
     this.selected = {
       _id: i._id,
@@ -148,7 +148,7 @@ export class InitialComponent implements OnInit {
       expenseType: i.expenseType,
       comments: i.comments,
       poll: Math.ceil((True/(True+False))*100),
-      members: []
+      initial: []
     }
     this.add(this.selected, i);
   }
@@ -160,11 +160,11 @@ export class InitialComponent implements OnInit {
   }
 
   add(selected, i) {
-    for(let j = 0 ; j < i.members.length ; j++) {
-      selected.members.push(
+    for(let j = 0 ; j < i.initial.length ; j++) {
+      selected.initial.push(
         {
           email: this.groupService.allMembers[j].email,
-          amount: i.members[j].amount
+          amount: i.initial[j].amount
         }
       );
     }
@@ -180,7 +180,7 @@ export class InitialComponent implements OnInit {
     this.EditForm.controls['expenseTypeOptions'].setValue(i.expenseType);    
     this.EditForm.controls['comments'].setValue(i.comments);    
     this.EditForm.setControl('members', new FormArray([])); 
-    this.addMembers(this.groupService.allMembers, i.members);
+    this.addMembers(this.groupService.allMembers, i.initial);
   }
 
   onSubmit() {
@@ -192,7 +192,13 @@ export class InitialComponent implements OnInit {
     this.selected['expenseDate'] = this.EditForm.controls['transactionDate'].value;
     this.selected['expenseType'] = this.EditForm.controls['expenseTypeOptions'].value;
     this.selected['comments'] = this.EditForm.controls['comments'].value;
-    this.selected['members'] = this.EditForm.controls['members'].value;
+    this.selected['members'] = JSON.parse(JSON.stringify(this.EditForm.controls['members'].value));
+    this.selected['initial'] = JSON.parse(JSON.stringify(this.EditForm.controls['members'].value));
+    for(let i=0 ; i<this.selected['members'].length ; i++) {
+      if(this.selected['members'][i]._id == this.selected['_Uid']) this.selected['members'][i].amount = 0;
+      delete this.selected['members'][i].email;
+      delete this.selected['initial'][i].email;
+    }       
     this.selected['status'] = 0;
 
     this.transactionService.updateToInitial(this.selected).subscribe(

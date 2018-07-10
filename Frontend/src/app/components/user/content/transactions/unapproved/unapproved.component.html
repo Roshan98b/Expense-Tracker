@@ -19,7 +19,7 @@
           <td>{{i.transactionName}}</td>
           <td>{{i.amount}}</td>
           <td>{{i.expenseType}}</td>
-          <td>{{i.expenseDate}}</td>                    
+          <td>{{i.expenseDate | date}}</td>                    
           <td><button class="btn btn-sm btn-link" (click)="onMove(i)">Move To Initial</button></td>
           <td><button class="btn btn-sm btn-link" (click)="onView(i)" data-toggle="modal" data-target="#view">View</button></td>
         </tr>
@@ -64,7 +64,7 @@
             <div class="col-sm-6">{{selected.comments}}</div>
           </div><br>          
           <div class="row"><div class="col-sm-12"><b>Members</b></div></div>
-          <div class="row rows" *ngFor="let j of selected.members">
+          <div class="row rows" *ngFor="let j of selected.initial">
             <div class="col-sm-6">{{j.email}}</div>
             <div class="col-sm-6">{{j.amount}}</div>
           </div><br>
