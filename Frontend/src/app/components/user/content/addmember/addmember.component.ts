@@ -20,13 +20,28 @@ export class AddmemberComponent implements OnInit {
   search = new FormControl();
 
   ngOnInit() {
+    this.groupService.getAllMembers(() => {});
+  }
+
+  filterUsers(model) {
+    let pos;
+    for(let i=0 ; i<model.length ; i++) {
+      for(let j=0 ; j<this.groupService.allMembers.length ; j++)
+        if(model[i]) {
+          if(model[i].email == "admin@admin.com") pos = i; 
+          if(model[i].email == this.groupService.allMembers[j].email)
+            model.splice(i, 1);         
+        }
+    }
+    if(model[pos]) model.splice(pos, 1);
+    this.groupService.tempMember = model;
   }
 
   onKey(event: any) { 
     if(event.target.value) {
     	this.groupService.searchMember(event.target.value).subscribe(
     		(model) => {
-    			this.groupService.tempMember = model;
+          this.filterUsers(model);
     		},
     		(err) => {
     			console.log(err);
