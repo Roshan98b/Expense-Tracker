@@ -21,7 +21,21 @@ export class TopNavBarComponent implements OnInit {
     private formBuilder: FormBuilder
    ) { }
 
+  passwordForm1: FormGroup = new FormGroup({
+      existingPassword1: new FormControl(null,[Validators.required, Validators.minLength(6)])
+   });
+
+  passwordForm2: FormGroup = new FormGroup({
+      existingPassword2: new FormControl(null,[Validators.required, Validators.minLength(6)])
+   });
+
+  focusPassword1: boolean;
+  focusPassword2: boolean;
+
   selected = {};
+  obj;
+  obj1;
+  obj2;
   EditForm: FormGroup;
   questions: string[] = ['What was your childhood nickname?', 'What school did you attend for sixth grade?', 'What is the last name of the teacher who gave you your first failing grade?', 'In what city or town did your mother and father meet?', 'What is your favorite movie?'];
   default: string = 'What was your childhood nickname?';
@@ -29,14 +43,17 @@ export class TopNavBarComponent implements OnInit {
   pform: FormGroup = new FormGroup({
     password: new FormControl(null,[Validators.required, Validators.minLength(6)]),
     cpassword: new FormControl(null,[Validators.required]),
-    
   });
+
+  focusPassword: boolean;
+  focusCPassword: boolean;
+
   sForm: FormGroup = new FormGroup({
     securityQuestion: new FormControl(null,[Validators.required]),
     securityAnswer: new FormControl(null,[Validators.required])
   });
 
-  password:FormControl =  new FormControl(null,{ validators: [Validators.required, Validators.minLength(6)]});
+  focusSecAnswer: boolean;
 
   focusDob: boolean;
   focusMobile: boolean;
@@ -106,9 +123,24 @@ export class TopNavBarComponent implements OnInit {
     if(i == 1){
         if(this.focusDob == false)
             this.focusDob = true;
-    } else {
+    } else if (i == 2) {
         if(this.focusMobile == false)
             this.focusMobile = true;
+    } else if (i == 3) {
+        if(this.focusPassword1 == false)
+            this.focusPassword1 = true;
+    } else if (i == 4) {
+        if(this.focusPassword2 == false)
+            this.focusPassword2 = true;
+    } else if (i == 5) {
+        if(this.focusPassword == false)
+            this.focusPassword = true;
+    } else if (i == 6) {
+        if(this.focusCPassword == false)
+            this.focusCPassword = true;
+    } else {
+        if(this.focusSecAnswer == false)
+            this.focusSecAnswer = true;
     }
   }
 
@@ -146,50 +178,119 @@ export class TopNavBarComponent implements OnInit {
     );
   }
 
-  onOldPassword() {
-    // Request for password check
-    let flag = true; 
-    if(flag) {
-      $("#changepassword").modal("hide");    
-      console.log(this.password.value);
-      $("#newpassword").modal("show");
-    } else {
-      $("#changepassword").modal("hide");    
-      alert('Incorrect password');
-    }
+  checkPasswordValid1() {
+    this.obj = {
+      id: this.userService.user._id,
+      password: this.passwordForm1.controls.existingPassword1.value
+    };
+    if(!this.passwordForm1.valid) {
+      if(!this.passwordForm1.controls.existingPassword1.valid) this.focusPassword1 = true;
+    } else this.userService.postPassword(this.obj).subscribe(
+      (message) => {
+        console.log(message);
+        this.passwordForm1.reset();
+        this.focusPassword = false;
+        this.focusCPassword = false;
+        $("#changepassword1").modal("hide");
+        $("#newpassword").modal("show");
+      },
+      (err) => {
+        alert('Entered password is incorrect!! Please re-type password.');
+        this.passwordForm1.reset();
+        this.focusPassword1 = false;
+        console.log(err);
+      }
+    );
   }
 
-  onChangePassword(i){
-    $("#edit").modal("hide");
+  checkPasswordValid2() {
+    this.obj = {
+      id: this.userService.user._id,
+      password: this.passwordForm2.controls.existingPassword2.value
+    };
+    if(!this.passwordForm2.valid) {
+      if(!this.passwordForm2.controls.existingPassword2.valid) this.focusPassword2 = true;
+    } else this.userService.postPassword(this.obj).subscribe(
+      (message) => {
+        console.log(message);
+        this.passwordForm2.reset();
+        this.focusSecAnswer = false;
+        $("#changepassword2").modal("hide");
+        $("#changesecurity").modal("show");
+      },
+      (err) => {
+        alert('Entered password is incorrect!! Please re-type password.');
+        this.passwordForm2.reset();
+        this.focusPassword2 = false;
+        console.log(err);
+      }
+    );
   }
 
-  onChangeSecurity(){
-    $("#newpassword").modal("hide");
+  gotoProfile1() {
+    $("#changepassword1").modal("hide");
+    this.passwordForm1.reset();
+    $("#profileModal").modal("show");
   }
 
-  onChangedPassword() {
+  gotoProfile2() {
+    $("#changepassword2").modal("hide");
+    this.passwordForm2.reset();
+    $("#profileModal").modal("show");
+  }
+
+  changePassword(){
+    $("#profileModal").modal("hide");
+    this.focusPassword1 = false;
+  }
+
+  changeSecurityCredentials(){
+    $("#profileModal").modal("hide");
+    this.focusPassword2 = false;
+    this.sForm.controls['securityQuestion'].setValue(this.default, {onlySelf: true});
+  }
+
+  onEnterNewPassword() {
+    this.obj1 = {
+      id: this.userService.user._id,
+      password: this.pform.controls.password.value
+    };
     if(!this.pform.valid) {
-      if(!this.pform.controls.password.valid) alert('Invalid password!!');
+      if(!this.pform.controls.password.valid) this.focusPassword = false;
+      if(!this.pform.controls.cpassword.valid) this.focusCPassword = false;
     } else if(this.pform.controls.password.value != this.pform.controls.cpassword.value) alert('Confirm Password does not match password!!');
-    else {
-      $("#newpassword").modal("hide");
-
-      // Post new password
-
-      alert('Password changed'); 
-    }
+    else this.userService.resetPasswordRequest1(this.obj1).subscribe(
+      (message) => {
+        console.log(message);
+        alert('Your have successfully changed your password!!')
+        this.pform.reset();
+        $("#newpassword").modal("hide");
+      },
+      (err) => {
+        alert(err.error.message);
+      }
+    );
   }
 
   onChangedSecurity() {
+    this.obj2 = {
+      id: this.userService.user._id,
+      question: this.sForm.controls.securityQuestion.value,
+      answer: this.sForm.controls.securityAnswer.value
+    };
     if(!this.sForm.valid) {
-      if(!this.sForm.controls.securityAnswer.valid) alert('Answer the security question!!');
-    } else {
-      $("#changesecurity").modal("hide");
-
-      // Post new password
-
-      alert('Security changed'); 
-    }
+      if(!this.sForm.controls.securityAnswer.valid) this.focusSecAnswer = false;
+    } else this.userService.resetSecurityCredentials(this.obj2).subscribe(
+      (message) => {
+        console.log(message);
+        alert('Your have successfully changed your security credentials!!')
+        this.sForm.reset();
+        $("#changesecurity").modal("hide");
+      },
+      (err) => {
+        alert(err.error.message);
+      }
+    );
   }
 
   logout() {

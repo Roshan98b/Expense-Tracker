@@ -165,6 +165,36 @@ router.post('/resetpassword',
 		})
 	});
 
+router.post('/resetpassword1',
+  passport.authenticate('jwt', {session: false}),
+	(req, res) => {
+		req.body.password = bcrypt.hashSync(req.body.password, 10);
+		Member.resetPasswordById(req.body.id, req.body.password, (err, model) => {
+			if(err) {
+				res.status(501).json(err);
+				console.log(err);
+			}
+			else {
+				res.status(200).json({message: 'Password has been successfully reset!!'});
+			}
+		})
+	});
+
+//Reset Security Credentials
+router.post('/resetSecurityCredentials',
+  passport.authenticate('jwt', {session: false}),
+	(req, res) => {
+		Member.resetSecurityCredentialsById(req.body.id, req.body.question, req.body.answer, (err, model) => {
+			if(err) {
+				res.status(501).json(err);
+				console.log(err);
+			}
+			else {
+				res.status(200).json({message: 'Security Credentials have been successfully reset!!'});
+			}
+		})
+	});
+
 //Edit profile
 router.post('/editedprofile',
 	passport.authenticate('jwt', {session: false}),
@@ -235,5 +265,22 @@ router.get('/profile', passport.authenticate('jwt', {session: false}), (req, res
 			else userDetails(model, res, token);
 	});	
 });
+
+//Check password before allowing access to change password
+router.post('/checkPassword',
+	passport.authenticate('jwt', {session: false}),
+ 		(req, res) => {
+ 			console.log(req.body);
+			Member.getById(req.body.id, (err, model) => {
+				if(err)
+					res.status(501).json({message: 'Member not found!!'});
+				else {
+					if(bcrypt.compareSync(req.body.password, model.password))
+						res.status(200).json({message: 'Password verified successfully!!'});
+					else
+						res.status(501).json({message: 'Incorrect password!!'});
+				}
+			});
+		});
 
 module.exports = router;

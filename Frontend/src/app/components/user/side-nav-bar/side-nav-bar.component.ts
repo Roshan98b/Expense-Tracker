@@ -13,6 +13,8 @@ import { UploadbillComponent } from '../../../components/user/content/uploadbill
 })
 export class SideNavBarComponent implements OnInit {
 
+  status1 = "active";
+
   constructor(
   	private userService: UserService,
   	private groupService: GroupService
@@ -23,8 +25,6 @@ export class SideNavBarComponent implements OnInit {
   });
 
   ngOnInit() {
-    //Test... this is Abhay
-	//Test... this is Ankit
   }
 
   onSubmitCG() {

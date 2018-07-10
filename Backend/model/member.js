@@ -76,6 +76,13 @@ module.exports.resetPasswordById = (id, password, callback) => {
 	Member.update(query, opt, callback);
 };
 
+//Reset security credentials by ID
+module.exports.resetSecurityCredentialsById = (id, question, answer, callback) => {
+	let query = {_id: id};
+	let opt = {$set: {securityQuestion: question, securityAnswer: answer}};
+	Member.findOneAndUpdate(query, opt, callback);
+};
+
 // Update
 module.exports.updateById = (id, groupId, callback) => {
 	let query = {_id: id};
