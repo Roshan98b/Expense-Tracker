@@ -21,7 +21,15 @@ export class TopNavBarComponent implements OnInit {
     private formBuilder: FormBuilder
    ) { }
 
+  passwordForm: FormGroup = new FormGroup({
+      existingPassword: new FormControl(null,[Validators.required, Validators.minLength(6)])
+   });
+
+  focusPassword: boolean;
+  isPasswordCorrect: boolean;
+
   selected = {};
+  obj;
   EditForm: FormGroup;
   questions: string[] = ['What was your childhood nickname?', 'What school did you attend for sixth grade?', 'What is the last name of the teacher who gave you your first failing grade?', 'In what city or town did your mother and father meet?', 'What is your favorite movie?'];
   default: string = 'What was your childhood nickname?';
@@ -29,14 +37,12 @@ export class TopNavBarComponent implements OnInit {
   pform: FormGroup = new FormGroup({
     password: new FormControl(null,[Validators.required, Validators.minLength(6)]),
     cpassword: new FormControl(null,[Validators.required]),
-    
   });
+
   sForm: FormGroup = new FormGroup({
     securityQuestion: new FormControl(null,[Validators.required]),
     securityAnswer: new FormControl(null,[Validators.required])
   });
-
-  password:FormControl =  new FormControl(null,{ validators: [Validators.required, Validators.minLength(6)]});
 
   focusDob: boolean;
   focusMobile: boolean;
@@ -106,9 +112,12 @@ export class TopNavBarComponent implements OnInit {
     if(i == 1){
         if(this.focusDob == false)
             this.focusDob = true;
-    } else {
+    } else if (i == 2) {
         if(this.focusMobile == false)
             this.focusMobile = true;
+    } else {
+        if(this.focusPassword == false)
+            this.focusPassword = true;
     }
   }
 
@@ -146,24 +155,40 @@ export class TopNavBarComponent implements OnInit {
     );
   }
 
-  onOldPassword() {
-    // Request for password check
-    let flag = true; 
-    if(flag) {
-      $("#changepassword").modal("hide");    
-      console.log(this.password.value);
-      $("#newpassword").modal("show");
-    } else {
-      $("#changepassword").modal("hide");    
-      alert('Incorrect password');
+  checkPasswordValid() {
+    this.obj = {
+      id: this.userService.user._id,
+      password: this.passwordForm.controls.existingPassword.value
     }
+    if(!this.passwordForm.valid) {
+      if(!this.passwordForm.controls.existingPassword.valid) this.focusPassword = true;
+    } else this.userService.postPassword(this.obj).subscribe(
+      (message) => {
+        console.log(message);
+        $("#changepassword").modal("hide");
+        $("#newpassword").modal("show");
+      },
+      (err) => {
+        alert('Entered password is incorrect!! Please re-type password.');
+        this.passwordForm.reset();
+        this.focusPassword = false;
+        console.log(err);
+      }
+    );
   }
 
-  onChangePassword(i){
-    $("#edit").modal("hide");
+  gotoProfile() {
+    $("#changepassword").modal("hide");
+    this.passwordForm.reset();
+    $("#profileModal").modal("show");
   }
 
-  onChangeSecurity(){
+  changePassword(){
+    $("#profileModal").modal("hide");
+    this.focusPassword = false;
+  }
+
+  /*onChangeSecurity(){
     $("#newpassword").modal("hide");
   }
 
@@ -190,7 +215,7 @@ export class TopNavBarComponent implements OnInit {
 
       alert('Security changed'); 
     }
-  }
+  }*/
 
   logout() {
     this.userService.logout();

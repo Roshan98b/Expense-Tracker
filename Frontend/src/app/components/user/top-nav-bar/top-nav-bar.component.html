@@ -86,9 +86,10 @@
         </div>
 
         <div class="modal-footer">
-            <button type="button" class="btn " data-target="
+          <button type="button" class="btn" data-target="#changepassword" data-toggle="modal" (click)="changePassword()">Change Password</button>
+          <button type="button" class="btn " data-target="
             #edit" data-toggle="modal" (click)="onEdit(selected)">Edit Profile</button>          
-            <button type="button" class="btn " data-dismiss="modal">Close</button>
+          <button type="button" class="btn " data-dismiss="modal">Close</button>
         </div>
     </div>
   </div>
@@ -159,9 +160,7 @@
         </div>
         
         <div class="modal-footer">
-          <div class="row">
-
-            <button type="button" class="btn" data-target="#changepassword" data-toggle="modal" (click)="onChangePassword()">Change Passowrd</button>            
+          <div class="row">            
             <button type="submit" class="btn " [disabled]="!EditForm.valid">Confirm Edit</button>
             <button type="button" class="btn " data-dismiss="modal">Close</button>
           </div>
@@ -178,18 +177,22 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" >
                   <span >&times;</span></button>        
-        <h4 class="modal-title">Change Password</h4>
+        <h4 class="modal-title">Change your existing password</h4>
       </div>
-      <form (ngSubmit)="onOldPassword()">
+      <form [formGroup]="passwordForm" (ngSubmit)="checkPasswordValid()">
         <div class="modal-body">
-          Please Enter your old Password
-          <input type="password" class="form-control" placeholder="Password" [formControl]="password">
+         <label for="existingPassword">Please enter your existing password:</label>
+         <div [ngClass]="{'has-success': passwordForm.controls.existingPassword.valid ,'has-error': !passwordForm.controls.existingPassword.valid && focusPassword,'form-group': true, 'has-feedback': true}">
+         <label *ngIf="passwordForm.controls.existingPassword.valid" class="control-label" for="existingPassword"><i class="fa fa-check"></i>Valid password</label>
+         <label *ngIf="!passwordForm.controls.existingPassword.valid && focusPassword" class="control-label" for="existingPassword"><i class="fa fa-times-circle-o"></i>Password should have a minimum of 6 characters</label><br />
+          <input type="password" id="existingPassword" class="form-control" placeholder="Enter your existing password ..." formControlName="existingPassword" (focus)="onFocus(3)">
+         </div>
         </div>
 
         <div class="modal-footer">
-
-            <button type="submit" class="btn " >Next</button>
-            <button type="button" class="btn " data-dismiss="modal" >Close</button>
+          <button type="button" class="btn" (click)="gotoProfile()">Back</button>
+          <button type="submit" class="btn">Next</button>
+          <button type="button" class="btn" data-dismiss="modal">Close</button>
         </div>
       </form>  
     </div>
@@ -237,7 +240,7 @@
   </div>
 
 
-<div class="modal" id="changesecurity">
+<!-- <div class="modal" id="changesecurity">
   <div class="modal-dialog">
     <div class="modal-content">
 
@@ -268,4 +271,4 @@
       </form>
     </div>
   </div>
-</div>
+</div> -->

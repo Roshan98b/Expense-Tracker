@@ -236,4 +236,20 @@ router.get('/profile', passport.authenticate('jwt', {session: false}), (req, res
 	});	
 });
 
+//Check password before allowing access to change password
+router.post('/checkPassword',
+	passport.authenticate('jwt', {session: false}),
+ 		(req, res) => {
+			Member.getById(req.body._id, (err, model) => {
+				if(err)
+					res.status(501).json({message: 'Member not found!!'});
+				else {
+					if(bcrypt.compareSync(req.body.password, model.password))
+						res.status(200).json({message: 'Password verified successfully!!'});
+					else
+						res.status(501).json({message: 'Incorrect password!!'});
+				}
+			});
+		});
+
 module.exports = router;

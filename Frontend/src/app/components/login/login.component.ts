@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     if(!this.lForm.valid) {
-      if(!this.lForm.controls.email.valid) alert('Email Invalid');
+      if(!this.lForm.controls.email.valid) alert('Invalid E-mail');
       else alert('Password should have minimum 6 charachters');
     }
     else this.userService.postLogin(this.lForm.value).subscribe(
