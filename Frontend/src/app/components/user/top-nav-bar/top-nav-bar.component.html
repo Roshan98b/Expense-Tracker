@@ -86,7 +86,8 @@
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn" data-target="#changepassword" data-toggle="modal" (click)="changePassword()">Change Password</button>
+          <button type="button" class="btn" data-target="#changepassword1" data-toggle="modal" (click)="changePassword()">Change Password</button>
+          <button type="button" class="btn" data-target="#changepassword2" data-toggle="modal" (click)="changeSecurityCredentials()">Change Security Question</button>
           <button type="button" class="btn " data-target="
             #edit" data-toggle="modal" (click)="onEdit(selected)">Edit Profile</button>          
           <button type="button" class="btn " data-dismiss="modal">Close</button>
@@ -170,7 +171,7 @@
   </div>
 </div>
 
-<div class="modal" id="changepassword">
+<div class="modal" id="changepassword1">
   <div class="modal-dialog">
     <div class="modal-content">
 
@@ -179,18 +180,47 @@
                   <span >&times;</span></button>        
         <h4 class="modal-title">Change your existing password</h4>
       </div>
-      <form [formGroup]="passwordForm" (ngSubmit)="checkPasswordValid()">
+      <form [formGroup]="passwordForm1" (ngSubmit)="checkPasswordValid1()">
         <div class="modal-body">
-         <label for="existingPassword">Please enter your existing password:</label>
-         <div [ngClass]="{'has-success': passwordForm.controls.existingPassword.valid ,'has-error': !passwordForm.controls.existingPassword.valid && focusPassword,'form-group': true, 'has-feedback': true}">
-         <label *ngIf="passwordForm.controls.existingPassword.valid" class="control-label" for="existingPassword"><i class="fa fa-check"></i>Valid password</label>
-         <label *ngIf="!passwordForm.controls.existingPassword.valid && focusPassword" class="control-label" for="existingPassword"><i class="fa fa-times-circle-o"></i>Password should have a minimum of 6 characters</label><br />
-          <input type="password" id="existingPassword" class="form-control" placeholder="Enter your existing password ..." formControlName="existingPassword" (focus)="onFocus(3)">
+         <label for="existingPassword1">Please enter your existing password:</label>
+         <div [ngClass]="{'has-success': passwordForm1.controls.existingPassword1.valid ,'has-error': !passwordForm1.controls.existingPassword1.valid && focusPassword1,'form-group': true, 'has-feedback': true}">
+         <label *ngIf="passwordForm1.controls.existingPassword1.valid" class="control-label" for="existingPassword1"><i class="fa fa-check"></i>Valid password</label>
+         <label *ngIf="!passwordForm1.controls.existingPassword1.valid && focusPassword1" class="control-label" for="existingPassword1"><i class="fa fa-times-circle-o"></i>Password should have a minimum of 6 characters</label><br />
+          <input type="password" id="existingPassword1" class="form-control" placeholder="Enter your existing password ..." formControlName="existingPassword1" (focus)="onFocus(3)">
          </div>
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn" (click)="gotoProfile()">Back</button>
+          <button type="button" class="btn" (click)="gotoProfile1()">Back</button>
+          <button type="submit" class="btn">Next</button>
+          <button type="button" class="btn" data-dismiss="modal">Close</button>
+        </div>
+      </form>  
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="changepassword2">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" >
+                  <span >&times;</span></button>        
+        <h4 class="modal-title">Change your security credentials:</h4>
+      </div>
+      <form [formGroup]="passwordForm2" (ngSubmit)="checkPasswordValid2()">
+        <div class="modal-body">
+         <label for="existingPassword2">Please enter your existing password:</label>
+         <div [ngClass]="{'has-success': passwordForm2.controls.existingPassword2.valid ,'has-error': !passwordForm2.controls.existingPassword2.valid && focusPassword2,'form-group': true, 'has-feedback': true}">
+         <label *ngIf="passwordForm2.controls.existingPassword2.valid" class="control-label" for="existingPassword2"><i class="fa fa-check"></i>Valid password</label>
+         <label *ngIf="!passwordForm2.controls.existingPassword2.valid && focusPassword2" class="control-label" for="existingPassword2"><i class="fa fa-times-circle-o"></i>Password should have a minimum of 6 characters</label><br />
+          <input type="password" id="existingPassword2" class="form-control" placeholder="Enter your existing password ..." formControlName="existingPassword2" (focus)="onFocus(4)">
+         </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn" (click)="gotoProfile2()">Back</button>
           <button type="submit" class="btn">Next</button>
           <button type="button" class="btn" data-dismiss="modal">Close</button>
         </div>
@@ -206,31 +236,27 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" >
           <span >&times;</span></button>        
-          <h4 class="modal-title">New Password</h4>
+          <h4 class="modal-title">Enter your new password:</h4>
         </div>
-        <form [formGroup]="pform" (ngSubmit)="onChangedPassword()">
+        <form [formGroup]="pform" (ngSubmit)="onEnterNewPassword()">
           <div class="modal-body">
-            <strong>Please Enter your new password</strong>
-            <br>
-            <div [ngClass]="{'has-success': pform.controls.password.valid ,'has-error': !pform.controls.password.valid,'form-group': true, 'has-feedback': true}">
-              <label *ngIf="pform.controls.password.valid" class="control-label" for="password"><i class="fa fa-check"></i>Valid password</label>
-              <label *ngIf="!pform.controls.password.valid" class="control-label" for="password"><i class="fa fa-times-circle-o"></i>Password should have a minimum of 6 characters</label>
-              <input type="password" class="form-control" placeholder="Password" id="password" name="password" formControlName="password">
-              <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-            </div>
-
-            <div [ngClass]="{'has-success': pform.controls.cpassword.valid && this.pform.controls.password.value === this.pform.controls.cpassword.value && this.pform.controls.cpassword.value != null ,'has-error': !pform.controls.cpassword.valid || (this.pform.controls.password.value != this.pform.controls.cpassword.value && this.pform.controls.cpassword.value != null),'form-group': true, 'has-feedback': true}">
-              <label *ngIf="this.pform.controls.password.value === this.pform.controls.cpassword.value && this.pform.controls.cpassword.value != null" class="control-label" for="cpassword"><i class="fa fa-check"></i>Confirm password matches password</label>
-              <label *ngIf="this.pform.controls.password.value != this.pform.controls.cpassword.value && this.pform.controls.cpassword.value != null" class="control-label" for="cpassword"><i class="fa fa-times-circle-o"></i>Confirm password does not match password</label>
-              <label *ngIf="this.pform.controls.cpassword.value === null" class="control-label" for="cpassword"><i class="fa fa-times-circle-o"></i>Please re-type password</label>
-              <input type="password" class="form-control" placeholder="Confirm password" id="cpassword" name="cpassword" formControlName="cpassword">
-              <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
-            </div>
-          </div>
+            <div [ngClass]="{'has-success': pform.controls.password.valid ,'has-error': !pform.controls.password.valid && focusPassword,'form-group': true, 'has-feedback': true}">
+         <label *ngIf="pform.controls.password.valid" class="control-label" for="password"><i class="fa fa-check"></i>Valid password</label>
+         <label *ngIf="!pform.controls.password.valid && focusPassword" class="control-label" for="password"><i class="fa fa-times-circle-o"></i>Password should have a minimum of 6 characters</label>
+          <input type="password" class="form-control" placeholder="Password" id="password" name="password" formControlName="password" (focus)="onFocus(5)">
+          <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+        </div>
+        
+        <div [ngClass]="{'has-success': pform.controls.cpassword.valid && this.pform.controls.password.value === this.pform.controls.cpassword.value && this.pform.controls.cpassword.value != null ,'has-error': (!pform.controls.cpassword.valid || (this.pform.controls.password.value != this.pform.controls.cpassword.value && this.pform.controls.cpassword.value != null)) && focusCPassword,'form-group': true, 'has-feedback': true}">
+         <label *ngIf="this.pform.controls.password.value === this.pform.controls.cpassword.value && this.pform.controls.cpassword.value != null" class="control-label" for="cpassword"><i class="fa fa-check"></i>Confirm password matches password</label>
+         <label *ngIf="this.pform.controls.password.value != this.pform.controls.cpassword.value && this.pform.controls.cpassword.value != null && focusCPassword" class="control-label" for="cpassword"><i class="fa fa-times-circle-o"></i>Confirm password does not match password</label>
+         <label *ngIf="this.pform.controls.cpassword.value === null && focusCPassword" class="control-label" for="cpassword"><i class="fa fa-times-circle-o"></i>Please re-type password</label>
+          <input type="password" class="form-control" placeholder="Confirm password" id="cpassword" name="cpassword" formControlName="cpassword" (focus)="onFocus(6)">
+          <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+         </div><br />
+         </div>
 
           <div class="modal-footer">
-            <button type="button" class="btn" data-target="#changesecurity" data-toggle="modal" (click)="onChangeSecurity()">Change Security Question</button>
-
             <button type="submit" class="btn" >Submit</button>
             <button type="button" class="btn " data-dismiss="modal" >Close</button>
           </div>
@@ -240,35 +266,35 @@
   </div>
 
 
-<!-- <div class="modal" id="changesecurity">
+<div class="modal" id="changesecurity">
   <div class="modal-dialog">
     <div class="modal-content">
 
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" >
                   <span >&times;</span></button>        
-        <h4 class="modal-title">Change Security Question</h4>
+        <h4 class="modal-title">Change Security Credentials:</h4>
       </div>
          <form [formGroup]="sForm" (ngSubmit)="onChangedSecurity()">
         <div class="modal-body">
           <div class="form-group">
-          <label>Select a security question:</label>
-          <select class="form-control" formControlName="securityQuestion">
+          <label for="securityQuestion">Select a security question:</label>
+          <select class="form-control" formControlName="securityQuestion" id="securityQuestion">
             <option *ngFor="let question of questions" [ngValue]="question">{{question}}</option>
           </select>
         </div>
-        <div [ngClass]="{'has-success': sForm.controls.securityAnswer.valid ,'has-error': !sForm.controls.securityAnswer.valid,'form-group': true, 'has-feedback': true}">
-         <label *ngIf="!sForm.controls.securityAnswer.valid" class="control-label" for="securityAnswer"><i class="fa fa-times-circle-o"></i>Please answer the security question</label>
-          <input type="text" class="form-control" placeholder="Answer to the security question" id="securityAnswer" name="securityAnswer" formControlName="securityAnswer">
+        <div [ngClass]="{'has-success': sForm.controls.securityAnswer.valid ,'has-error': !sForm.controls.securityAnswer.valid && focusSecAnswer,'form-group': true, 'has-feedback': true}">
+         <label *ngIf="!sForm.controls.securityAnswer.valid && focusSecAnswer" class="control-label" for="securityAnswer"><i class="fa fa-times-circle-o"></i>Please answer the security question</label>
+          <input type="text" class="form-control" placeholder="Answer to the security question" id="securityAnswer" name="securityAnswer" formControlName="securityAnswer" (focus)="onFocus(7)">
         </div><br />
         
         </div>
 
         <div class="modal-footer">
           <button type="submit" class="btn" >Submit</button>
-            <button type="button" class="btn " data-dismiss="modal" >Close</button>
+            <button type="button" class="btn" data-dismiss="modal" >Close</button>
         </div>
       </form>
     </div>
   </div>
-</div> -->
+</div>
