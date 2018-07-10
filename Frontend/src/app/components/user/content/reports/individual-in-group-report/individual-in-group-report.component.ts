@@ -149,10 +149,9 @@ export class IndividualInGroupReportComponent implements OnInit {
     };
     this.reportService.postUserGroup(obj).subscribe(
       (model) => {
-      	console.log(model);
-        // this.allMonths(model['monthly']);
-        // this.categorywiseReport(model['catagorical']);
-        // this.monthlyReport(model['monthly']);       
+        this.allMonths(model['monthly']);
+        this.categorywiseReport(model['catagorical']);
+        this.monthlyReport(model['monthly']);       
       },
       (err) => {
         console.log(err);

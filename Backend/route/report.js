@@ -30,11 +30,18 @@ router.post('/generatereport',
 router.post('/generateusergroupreport',	
 	passport.authenticate('jwt', {session: false}),
 	(req, res) => {
-		Transaction.getUserGroupReportByMonth(req.body.groupId, req.body.year, req.body._Uid,(err, mmodel) => {
+		Transaction.getUserGroupReportByMonth(req.body.groupId, req.body.year, req.body._Uid, (err, mmodel) => {
 			if(err) res.status(501).json(err);
 			else {
-				console.log(mmodel);
-				res.status(200).json(mmodel);				
+				Transaction.getUserGroupReportByCatagory(req.body.groupId, req.body.year, req.body._Uid, (err, cmodel) => {
+					if(err) res.status(501).json(err);
+					else {
+						res.status(200).json({
+							monthly: mmodel,
+							catagorical: cmodel
+						});						
+					}
+				});
 			}
 		});				
 	}
