@@ -5,6 +5,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserService } from '../../../../services/user/user.service';
 import { GroupService } from '../../../../services/group/group.service';
 import { Group } from '../../../../services/group/group';
+declare var $ :any;
 
 @Component({
   selector: 'app-removegh',
@@ -55,6 +56,7 @@ export class RemoveghComponent implements OnInit {
   }
 
   onSubmit() {
+    $("#delModel").modal("hide");
     var obj = {
       _id: this.delForm.value.member._id,
       _Uid: this.selGH._Uid,

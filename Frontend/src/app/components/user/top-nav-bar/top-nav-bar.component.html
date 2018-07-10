@@ -160,7 +160,7 @@
         
         <div class="modal-footer">
           <div class="row">
-
+            <button type="button" class="btn" data-target="#changepassword" data-toggle="modal" (click)="onChangeSecurity()">Change Security Question</button>
             <button type="button" class="btn" data-target="#changepassword" data-toggle="modal" (click)="onChangePassword()">Change Passowrd</button>            
             <button type="submit" class="btn " [disabled]="!EditForm.valid">Confirm Edit</button>
             <button type="button" class="btn " data-dismiss="modal">Close</button>
@@ -188,7 +188,7 @@
 
         <div class="modal-footer">
 
-            <button type="submit" class="btn " >Next</button>
+            <button type="submit" class="btn" (click)="onChangeOption()">Next</button>
             <button type="button" class="btn " data-dismiss="modal" >Close</button>
         </div>
       </form>  
@@ -226,7 +226,7 @@
           </div>
 
           <div class="modal-footer">
-            <button type="button" class="btn" data-target="#changesecurity" data-toggle="modal" (click)="onChangeSecurity()">Change Security Question</button>
+            <!-- <button type="button" class="btn" data-target="#changesecurity" data-toggle="modal" (click)="onChangeSecurity()">Change Security Question</button> -->
 
             <button type="submit" class="btn" >Submit</button>
             <button type="button" class="btn " data-dismiss="modal" >Close</button>
@@ -251,7 +251,9 @@
           <div class="form-group">
           <label>Select a security question:</label>
           <select class="form-control" formControlName="securityQuestion">
+            
             <option *ngFor="let question of questions" [ngValue]="question">{{question}}</option>
+
           </select>
         </div>
         <div [ngClass]="{'has-success': sForm.controls.securityAnswer.valid ,'has-error': !sForm.controls.securityAnswer.valid,'form-group': true, 'has-feedback': true}">

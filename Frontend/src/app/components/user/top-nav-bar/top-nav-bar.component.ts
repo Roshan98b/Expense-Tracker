@@ -45,6 +45,8 @@ export class TopNavBarComponent implements OnInit {
   dateOfBirth: Date;
   dateValid: boolean = false;
 
+  selectedid:string;
+
   ngOnInit() {
 
     this.focusDob = false;
@@ -152,19 +154,36 @@ export class TopNavBarComponent implements OnInit {
     if(flag) {
       $("#changepassword").modal("hide");    
       console.log(this.password.value);
-      $("#newpassword").modal("show");
+      /*$("#newpassword").modal("show");*/
     } else {
       $("#changepassword").modal("hide");    
       alert('Incorrect password');
     }
   }
 
-  onChangePassword(i){
+  onChangePassword(){
     $("#edit").modal("hide");
+   this.selectedid="newpassword";
   }
 
   onChangeSecurity(){
-    $("#newpassword").modal("hide");
+    $("#edit").modal("hide");
+
+   this.selectedid="changesecurity";
+  }
+
+  onChangeOption()
+  {
+    if(this.selectedid=="newpassword")
+    {
+      $("#changepassword").modal("hide");
+      $("#newpassword").modal("show");
+    }
+    else{
+    $("#changepassword").modal("hide");
+      $("#changesecurity").modal("show");
+    
+    }
   }
 
   onChangedPassword() {
@@ -181,12 +200,13 @@ export class TopNavBarComponent implements OnInit {
   }
 
   onChangedSecurity() {
+    
     if(!this.sForm.valid) {
       if(!this.sForm.controls.securityAnswer.valid) alert('Answer the security question!!');
     } else {
       $("#changesecurity").modal("hide");
 
-      // Post new password
+      // Post new security
 
       alert('Security changed'); 
     }
