@@ -67,17 +67,17 @@ export class UnapprovedComponent implements OnInit {
       uploadDate: i.uploadDate,
       expenseType: i.expenseType,
       comments: i.comments,
-      members: []
+      initial: []
     }
     this.add(this.selected, i);
   }
 
   add(selected, i) {
-    for(let j = 0 ; j < i.members.length ; j++) {
-      selected.members.push(
+    for(let j = 0 ; j < i.initial.length ; j++) {
+      selected.initial.push(
         {
           email: this.groupService.allMembers[j].email,
-          amount: i.members[j].amount
+          amount: i.initial[j].amount
         }
       );
     }
@@ -88,7 +88,6 @@ export class UnapprovedComponent implements OnInit {
     this.transactionService.updateToInitial(i).subscribe(
       (model) => {
         this.changeStatus();
-        console.log(model);        
       },
       (err) => {
         console.log(err);
@@ -101,7 +100,6 @@ export class UnapprovedComponent implements OnInit {
     this.transactionService.deleteTransaction(i._id).subscribe(
       (message) => {
         this.changeStatus();
-        console.log(message);        
       },
       (err) => {
         console.log(err);

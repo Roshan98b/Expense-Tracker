@@ -101,17 +101,14 @@ export class UploadbillComponent implements OnInit, DoCheck {
   }
 
   dateValidator() {
-
     this.currentDate = new Date().valueOf();
     this.transactionDate = new Date(this.uploadBillForm.controls.transactionDate.value).valueOf();
      if (this.currentDate - this.transactionDate < 0) {
       this.dateValid = false;
     } else this.dateValid = true;
-
   }
 
   amountValidator() {
-
     this.amountSum = 0;
     for (var i of this.members.value) {
       this.amountSum += i.amount;
@@ -134,14 +131,25 @@ export class UploadbillComponent implements OnInit, DoCheck {
       expenseType: this.uploadBillForm.controls.expenseTypeOptions.value,
       comments: this.uploadBillForm.controls.comments.value,
       members: [],
+      initial: [],
       poll: [],
       status: 0
     };
     for (let i of this.members.value) {
-      obj.members.push({
+      if(i.id != this.userService.user._id)  
+        obj.members.push({
+          _id: i.id,
+          amount: i.amount
+        });
+      else 
+        obj.members.push({
+          _id: i.id,
+          amount: 0
+        });        
+      obj.initial.push({
         _id: i.id,
         amount: i.amount
-      });
+      });      
       obj.poll.push({
         _id: i.id,
         response: false
@@ -163,13 +171,3 @@ export class UploadbillComponent implements OnInit, DoCheck {
   }
 
 }
-
- //   this.transactionService.getGroupExpense(this.groupService.active._groupId, 2018).subscribe(
- //     (model) => {
- //       console.log(model);
- //     },
- //     (err) => {
- //       console.log(err);
- //     }
- //   );
- // } 

@@ -43,13 +43,19 @@ var ModelSchema = mongoose.Schema({
 			type: mongoose.Schema.ObjectId,
 			refs: 'member'
 		},
-		email: {
-			type: String
-		},
 		amount: {
 			type: Number 
 		}
 	}],
+	initial: [{
+		_id: {
+			type: mongoose.Schema.ObjectId,
+			refs: 'member'
+		},
+		amount: {
+			type: Number 
+		}
+	}],	
 	poll: [{
 		_id: {
 			type: mongoose.Schema.ObjectId,
@@ -126,6 +132,7 @@ module.exports.updateToInitial = (obj, callback) => {
 			expenseType: obj.expenseType,
 			comments: obj.comments,
 			members: obj.members,
+			initial: obj.initial,
 			poll: obj.poll,
 			status: 0,
 			uploadDate: obj.uploadDate,
