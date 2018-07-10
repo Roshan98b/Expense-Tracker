@@ -79,4 +79,13 @@ export class UserService {
     this.token = null;
     this.user = null;
   }
+
+  postPassword(model) {
+    this.token = localStorage.getItem('id_token'); 
+    return this.http.post(this.url+'/checkPassword', {
+      observe: 'body',
+      headers: new HttpHeaders().append('Content-Type','application/json').append('Authorization',this.token)
+    });
+  }
+
 }
