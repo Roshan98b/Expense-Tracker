@@ -8,12 +8,9 @@
           <i class="fa fa-files-o"></i> <span>Reports</span> <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
-          <li><a routerLink="content/groupReport" routerLinkActive="active" [routerLinkActiveOptions]="{exact:
-true}"><i class="fa fa-circle-o"></i>For this Group</a></li>
-          <li><a routerLink="content/individualInGroupReport" routerLinkActive="active" [routerLinkActiveOptions]="{exact:
-true}"><i class="fa fa-circle-o"></i>For you in this group</a></li>
-          <li><a routerLink="content/individualReport" routerLinkActive="active" [routerLinkActiveOptions]="{exact:
-true}"><i class="fa fa-circle-o"></i>Overall Individual report</a></li>
+          <li><a routerLink="content/groupReport" routerLinkActive="active"><i class="fa fa-circle-o"></i>For this Group</a></li>
+          <li><a routerLink="content/individualInGroupReport" routerLinkActive="active"><i class="fa fa-circle-o"></i>For you in this group</a></li>
+          <li><a routerLink="content/individualReport" routerLinkActive="active"><i class="fa fa-circle-o"></i>Overall Individual report</a></li>
         </ul>
       </li>
       <li class="treeview" *ngIf="show()">
@@ -21,14 +18,10 @@ true}"><i class="fa fa-circle-o"></i>Overall Individual report</a></li>
           <i class="fa fa-ticket"></i> <span>Transactions</span> <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
-          <li><a routerLink="content/initialtransaction" routerLinkActive="active" [routerLinkActiveOptions]="{exact:
-true}"><i class="fa fa-circle-o"></i> Initial Transactions</a></li>
-          <li><a routerLink="content/approvedtransaction" routerLinkActive="active" [routerLinkActiveOptions]="{exact:
-true}"><i class="fa fa-circle-o"></i> Approved Transactions</a></li>
-          <li><a routerLink="content/unapprovedtransaction" routerLinkActive="active" [routerLinkActiveOptions]="{exact:
-true}"><i class="fa fa-circle-o"></i> Unapproved Transactions</a></li>
-          <li><a routerLink="content/completedtransaction" routerLinkActive="active" [routerLinkActiveOptions]="{exact:
-true}"><i class="fa fa-circle-o"></i> Completed Transactions</a></li>
+          <li><a routerLink="content/initialtransaction" routerLinkActive="active"><i class="fa fa-circle-o"></i> Initial Transactions</a></li>
+          <li><a routerLink="content/approvedtransaction" routerLinkActive="active"><i class="fa fa-circle-o"></i> Approved Transactions</a></li>
+          <li><a routerLink="content/unapprovedtransaction" routerLinkActive="active"><i class="fa fa-circle-o"></i> Unapproved Transactions</a></li>
+          <li><a routerLink="content/completedtransaction" routerLinkActive="active"><i class="fa fa-circle-o"></i> Completed Transactions</a></li>
         </ul>
       </li>
       <li class="treeview" *ngIf="checkGH()">
@@ -36,17 +29,13 @@ true}"><i class="fa fa-circle-o"></i> Completed Transactions</a></li>
           <i class="fa fa-user"></i> <span>Manage Members</span> <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
-          <li><a routerLink="content/viewMembers" routerLinkActive="active" [routerLinkActiveOptions]="{exact:
-true}"><i class="fa fa-circle-o"></i>View Members</a></li>
-          <li><a routerLink="content/addmember" routerLinkActive="active" [routerLinkActiveOptions]="{exact:
-true}"><i class="fa fa-circle-o"></i>Add Members</a></li>
-          <li><a routerLink="content" routerLinkActive="active" [routerLinkActiveOptions]="{exact:
-true}"><i class="fa fa-circle-o"></i>Delete Members</a></li>
+          <li><a routerLink="content/viewMembers" routerLinkActive="active"><i class="fa fa-circle-o"></i>View Members</a></li>
+          <li><a routerLink="content/addmember" routerLinkActive="active"><i class="fa fa-circle-o"></i>Add Members</a></li>
+          <li><a routerLink="content" routerLinkActive="active"><i class="fa fa-circle-o"></i>Delete Members</a></li>
         </ul>
       </li>
       <li *ngIf="show()">
-        <a routerLink="content/uploadbill" routerLinkActive="active" [routerLinkActiveOptions]="{exact:
-true}">
+        <a routerLink="content/uploadbill" routerLinkActive="active">
           <i class="fa fa-laptop"></i>
           <span>Upload Bill</span>
         </a>
@@ -54,8 +43,7 @@ true}">
 
       <li class="header">MANAGE GROUPS</li>
       <li>
-        <a routerLink="content/invitation" routerLinkActive="active" [routerLinkActiveOptions]="{exact:
-true}"> <i class="fa fa-envelope"></i> <span>Invitations Received</span> </a>
+        <a routerLink="content/invitation" routerLinkActive="active" > <i class="fa fa-envelope"></i> <span>Invitations Received</span> </a>
       </li>
       <li>
         <a data-toggle="modal" data-target="#cgModel"> <i class="fa fa-group"></i> <span>Create New Group</span> </a>

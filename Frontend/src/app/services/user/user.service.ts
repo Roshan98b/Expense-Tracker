@@ -19,13 +19,17 @@ export class UserService {
       observe: 'body',
       headers: new HttpHeaders().append('Content-Type','application/json')
     });
+
   }
 
   postLogin(member) {
+
     return this.http.post(this.url+'/login', member, {
       observe: 'body',
       headers: new HttpHeaders().append('Content-Type','application/json')
     });  
+    
+
   }
 
   postEditedProfile(profile) {
