@@ -30,4 +30,12 @@ export class ReportService {
     });
   }  
 
+  postUser(model) {
+    this.token = localStorage.getItem('id_token');
+    return this.http.post(this.url + '/generateuserreport', model, {
+      observe: 'body',
+      headers: new HttpHeaders().append('Content-Type','application/json').append('Authorization',this.token)
+    });
+  }  
+
 }

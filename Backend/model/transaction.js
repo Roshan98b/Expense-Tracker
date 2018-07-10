@@ -282,3 +282,70 @@ module.exports.getUserGroupReportByCatagory = (groupId, year, Uid, callback) => 
 	};
 	Transaction.aggregate([unwind, match, group, project], callback);
 };
+
+// Individual Report By Month
+module.exports.getUserReportByMonth = (year, Uid, callback) => {
+	var unwind = {
+		$unwind: "$initial" 
+	};
+	var match = {
+		$match: {
+			status: 3, 
+			"initial._id": mongoose.Types.ObjectId(Uid), 
+			expenseDate: {
+				$gte: new Date(year+"-01-01T00:00:00.0Z"), 
+				$lte: new Date(year+"-12-31T00:00:00.0Z")
+			}
+		}
+	};
+	var group = {
+		$group: {
+			_id: {month: {$month: '$expenseDate'}, year: {$year: '$expenseDate'}},
+			expense: {$sum: '$initial.amount'}
+		}
+	};
+	var project = {
+		$project: {
+			_id: 0,
+			month: "$_id.month",
+			expense: 1	
+		}
+	};
+	var sort = {
+		$sort: {
+			month: 1
+		}
+	};
+	Transaction.aggregate([unwind, match, group, project, sort], callback);
+};
+
+// Individual  Report By Catagory
+module.exports.getUserReportByCatagory = (year, Uid, callback) => {
+	var unwind = {
+		$unwind: "$initial" 
+	};
+	var match = {
+		$match: {
+			status: 3, 
+			"initial._id": mongoose.Types.ObjectId(Uid), 
+			expenseDate: {
+				$gte: new Date(year+"-01-01T00:00:00.0Z"), 
+				$lte: new Date(year+"-12-31T00:00:00.0Z")
+			}
+		}
+	};
+	var group = {
+		$group: {
+			_id: "$expenseType",
+			expense: {$sum: '$initial.amount'}
+		}
+	};
+	var project = {
+		$project: {
+			_id: 0,
+			expenseType: "$_id",
+			expense: 1	
+		}
+	};
+	Transaction.aggregate([unwind, match, group, project], callback);
+};

@@ -47,4 +47,23 @@ router.post('/generateusergroupreport',
 	}
 );
 
+router.post('/generateuserreport',	
+	passport.authenticate('jwt', {session: false}),
+	(req, res) => {
+		Transaction.getUserReportByMonth(req.body.year, req.body._Uid, (err, mmodel) => {
+			if(err) res.status(501).json(err);
+			else {
+				Transaction.getUserReportByCatagory(req.body.year, req.body._Uid, (err, cmodel) => {
+					if(err) res.status(501).json(err);
+					else {
+						res.status(200).json({
+							monthly: mmodel,
+							catagorical: cmodel
+						});						
+					}
+				});
+			}
+		});				
+	}
+);
 module.exports = router;

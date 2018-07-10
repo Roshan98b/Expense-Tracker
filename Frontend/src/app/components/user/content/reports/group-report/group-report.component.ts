@@ -161,7 +161,7 @@ export class GroupReportComponent implements OnInit {
   }
 
   onSubmit() {
-    this.getReport(this.reportForm.value, this.groupService.active._groupId);
+    this.getReport(this.reportForm.controls.reportYear.value, this.groupService.active._groupId);
   }
 
 }
