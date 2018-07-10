@@ -2,3 +2,12 @@
 
 # dependencies
 /node_modules
+
+# project files
+/.je-project-settings
+Login.sublime-project
+Login.sublime-workspace
+
+# flow files
+/flow-typed
+.flowconfig
