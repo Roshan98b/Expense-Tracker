@@ -14,13 +14,58 @@
 						<th>Last Name</th>
 						<th></th>
 					</tr>
-					<tr *ngFor="let i of groupService.tempAllGroup">
+					<tr *ngFor="let i of groupService.allMembers">
 						<td>{{i.email}}</td>
 						<td>{{i.firstname}}</td>
 						<td>{{i.lastname}}</td>
-						<td><button class="btn btn-sm" (click)="viewProfile(i)">View Profile</button></td>					
+						<td><button class="btn btn-sm" (click)="viewProfile(i)" data-target="#view" data-toggle="modal">View Profile</button></td>					
 					</tr>
 				</table>
 			</div>
 		</div>			
 	</section>
+
+	
+<div class="modal" id="view">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" >
+                  <span >&times;</span></button>        
+        <h4 class="modal-title">Member Details</h4>
+      </div>
+      
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-sm-6"><b>First Name:</b></div>
+            <div class="col-sm-6">{{selected.firstname}}</div>
+          </div><br>        	
+          <div class="row">
+            <div class="col-sm-6"><b>Last Name:</b></div>
+            <div class="col-sm-6">{{selected.lastname}}</div>
+          </div><br>        	
+          <div class="row">
+            <div class="col-sm-6"><b>Email:</b></div>
+            <div class="col-sm-6">{{selected.email}}</div>
+          </div><br>        	
+          <div class="row">
+            <div class="col-sm-6"><b>Date of Birth:</b></div>
+            <div class="col-sm-6">{{selected.dob | date}}</div>
+          </div><br>        	                  	
+          <div class="row">
+            <div class="col-sm-6"><b>Gender:</b></div>
+            <div class="col-sm-6">{{selected.gender}}</div>
+          </div><br>
+          <div class="row">
+            <div class="col-sm-6"><b>Contact Number:</b></div>
+            <div class="col-sm-6">{{selected.contactno}}</div>
+          </div><br>        	
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn " data-dismiss="modal" >Close</button>
+        </div>
+    </div>
+  </div>
+</div>

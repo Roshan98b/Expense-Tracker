@@ -11,6 +11,7 @@ import { GroupService } from '../../../../services/group/group.service';
 export class ViewMembersComponent implements OnInit {
 
 	active;
+  selected = {};
 
   constructor(
   	private router: Router,
@@ -18,10 +19,12 @@ export class ViewMembersComponent implements OnInit {
   	) { }
 
   ngOnInit() {
-
   	this.active = this.groupService.active;
-  	console.log(this.active);
-  	
+    this.groupService.getAllMembers(() => {});  	
+  }
+
+  viewProfile(i) {
+    this.selected = i;
   }
 
 }

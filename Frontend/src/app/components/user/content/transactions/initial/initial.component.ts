@@ -145,7 +145,7 @@ export class InitialComponent implements OnInit {
   }
 
   onAmount(i) {
-    for(let j of i.members)
+    for(let j of i.initial)
       if(j._id == this.userService.user._id && j.amount == 0)
         return true;
     return false;          
