@@ -19,6 +19,7 @@ export class CompletedComponent implements OnInit {
 
   selected = {};
   active;
+  content: boolean;
 
   ngOnInit() {
   	this.getCompletedTransactions();
@@ -27,7 +28,7 @@ export class CompletedComponent implements OnInit {
 
   ngDoCheck() {
     if(this.active !== this.groupService.active) {
-    	this.getCompletedTransactions();
+    	this.checkComplete();
       this.active = this.groupService.active;
     }
   }  
@@ -36,6 +37,10 @@ export class CompletedComponent implements OnInit {
   	this.transactionService.getCompletedTransactions(this.groupService.active._groupId).subscribe(
   		(model: any[]) => {
   			this.transactionService.completed = model;
+        if(this.transactionService.completed.length == 0)
+          this.content = false;
+        else
+          this.content = true;
   		},
   		(err) => {
   			console.log(err);

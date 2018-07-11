@@ -21,7 +21,7 @@ var ModelSchema = mongoose.Schema({
 		unique: true
 	},
 	contactno: {
-		type: Number,
+		type: String,
 		required: true
 	},
 	gender: {

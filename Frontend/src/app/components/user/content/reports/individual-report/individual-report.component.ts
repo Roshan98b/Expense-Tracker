@@ -56,7 +56,8 @@ export class IndividualReportComponent implements OnInit {
       },
       options: {
         legend: {
-          display: false
+          display: true,
+          position: 'right'
         },
         scales: {
           xAxes: [{

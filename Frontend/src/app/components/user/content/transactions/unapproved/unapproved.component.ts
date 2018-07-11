@@ -21,6 +21,8 @@ export class UnapprovedComponent implements OnInit {
 
   selected = {};
   active;
+  content:boolean;
+  selectedBill;
 
   ngOnInit() {
   	this.changeStatus();
@@ -40,6 +42,10 @@ export class UnapprovedComponent implements OnInit {
   	this.transactionService.getUnapprovedTransactions(this.groupService.active._groupId).subscribe(
   		(model: any[]) => {
   			this.transactionService.unapproved = model;
+        if(this.transactionService.unapproved.length == 0)
+          this.content = false;
+        else
+          this.content = true;
   		},
   		(err) => {
   			console.log(err);
@@ -82,12 +88,16 @@ export class UnapprovedComponent implements OnInit {
       );
     }
   }
+  confirmMove(i) {
+    this.selectedBill = i;
+  }
 
   onMove(i) {
     i.poll = 0;
     this.transactionService.updateToInitial(i).subscribe(
       (model) => {
         this.changeStatus();
+        $("#confirmMove").modal("hide");
       },
       (err) => {
         console.log(err);
@@ -95,8 +105,12 @@ export class UnapprovedComponent implements OnInit {
     );
   }
 
-  onDelete(i) {
+  confirmDelete() {
     $("#view").modal("hide");
+  }
+
+  onDelete(i) {
+    $("#confirmDeleteBill").modal("hide");
     this.transactionService.deleteTransaction(i._id).subscribe(
       (message) => {
         this.changeStatus();
