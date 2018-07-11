@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, DoCheck } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -6,17 +6,20 @@ import { ReportService } from '../../../../../services/report/report.service';
 import { GroupService } from '../../../../../services/group/group.service';
 import { Chart } from 'chart.js';
 
+declare var $ :any;
+
 @Component({
   selector: 'app-group-report',
   templateUrl: './group-report.component.html',
   styleUrls: ['./group-report.component.css']
 })
-export class GroupReportComponent implements OnInit {
+export class GroupReportComponent implements OnInit, DoCheck {
 
   categoryChart = [];
   monthlyChart = [];
   years: number[] = [];
   default: number = 2018;
+  currentGroupId;
 
   constructor(
     private reportService: ReportService,
@@ -33,7 +36,17 @@ export class GroupReportComponent implements OnInit {
     for (var i = 2018; i <= this.getCurrentYear(); i++) {
       this.years.push(i);
     }
-    this.getReport(this.reportForm.controls.reportYear.value, this.groupService.active._groupId);  
+    this.getReport(this.reportForm.controls.reportYear.value, this.groupService.active._groupId);
+    this.currentGroupId = this.groupService.active._groupId;
+  }
+
+  ngDoCheck() {
+    if(this.currentGroupId != this.groupService.active._groupId) {
+      this.currentGroupId = this.groupService.active._groupId;
+      $("#categoryCanvas").replaceWith('<canvas id="categoryCanvas"></canvas>');
+      $("#monthlyCanvas").replaceWith('<canvas id="monthlyCanvas"></canvas>');
+      this.getReport(this.reportForm.controls.reportYear.value, this.currentGroupId);
+    }
   }
 
   categorywiseReport(obj) {
@@ -54,7 +67,8 @@ export class GroupReportComponent implements OnInit {
       },
       options: {
         legend: {
-          display: false
+          display: true,
+          position: 'right'
         },
         scales: {
           xAxes: [{

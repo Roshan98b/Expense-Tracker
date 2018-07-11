@@ -22,6 +22,7 @@ export class ApprovedComponent implements OnInit {
 
   selected = {};
   active;
+  content: boolean;
 
   paymentForm: FormGroup = new FormGroup({
     balance: new FormControl(0),
@@ -48,6 +49,10 @@ export class ApprovedComponent implements OnInit {
   	this.transactionService.getApprovedTransactions(this.groupService.active._groupId).subscribe(
   		(model: any[]) => {
   			this.transactionService.approved = model;
+        if(this.transactionService.approved.length == 0)
+          this.content = false;
+        else
+          this.content = true;
   		},
   		(err) => {
   			console.log(err);

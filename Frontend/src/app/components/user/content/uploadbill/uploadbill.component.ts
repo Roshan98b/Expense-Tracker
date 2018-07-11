@@ -165,7 +165,7 @@ export class UploadbillComponent implements OnInit, DoCheck {
       if(!this.uploadBillForm.controls.transactionDate.valid) this.focusTdate = true;
     } else this.transactionService.postBill(obj).subscribe(
       (model) => {
-        alert('The bill hs been successfully uploaded and is available for polling!!');
+        alert('The bill has been successfully uploaded and is available for polling!!');
         this.uploadBillForm.reset();
         this.uploadBillForm.setControl('members', new FormArray([]));
         this.groupService.getAllMembers(() => {

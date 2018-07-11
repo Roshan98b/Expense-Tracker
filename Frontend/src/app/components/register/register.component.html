@@ -60,7 +60,7 @@
 	      <div [ngClass]="{'has-success': rForm.controls.contactno.valid ,'has-error': !rForm.controls.contactno.valid && focusMobile,'form-group': true, 'has-feedback': true}">
 	       <label *ngIf="rForm.controls.contactno.valid" class="control-label" for="contactno"><i class="fa fa-check"></i>Valid mobile number</label>
 	       <label *ngIf="!rForm.controls.contactno.valid && focusMobile" class="control-label" for="contactno"><i class="fa fa-times-circle-o"></i>Please enter a valid mobile number</label>
-	        <input type="number" oninput="this.value=this.value.slice(0,10)" class="form-control" placeholder="Mobile number" id="contactno" name="contactno" formControlName="contactno" (focus)="onFocus(3)">
+	        <input type="string" oninput="this.value=this.value.slice(0,10)" class="form-control" placeholder="Mobile number" id="contactno" name="contactno" formControlName="contactno" (focus)="onFocus(3)">
 	        <span class="glyphicon glyphicon-phone form-control-feedback"></span>
 	      </div>          
 	      
@@ -102,7 +102,7 @@
 	    </form><br />
 
 	    <div class="position">
-	    	<a class="text-center" (click)="navLogin()">I am already a member</a>
+	    	<a class="text-center" (click)="navLogin()">Already a member? Login.</a>
 	    </div>
 	  </div>
 	</div>
