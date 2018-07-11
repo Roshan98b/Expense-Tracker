@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes,CanActivate } from '@angular/router';
 
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
@@ -22,8 +22,167 @@ import { GroupReportComponent } from './components/user/content/reports/group-re
 import { IndividualInGroupReportComponent } from './components/user/content/reports/individual-in-group-report/individual-in-group-report.component';
 import { IndividualReportComponent } from './components/user/content/reports/individual-report/individual-report.component';
 import { ViewMembersComponent } from './components/user/content/view-members/view-members.component';
+import { 
+  AuthGuardService as AuthGuard 
+} from './auth-guard.service';
+/*import {AuthGuard} from './guard/auth.guard';*/
+
 
 const routes: Routes = [
+	{
+		path: '',
+		redirectTo: 'login',
+		pathMatch: 'full'
+	},
+	{
+		path: 'login',
+		component: LoginComponent
+	},
+	{
+		path: 'register',
+		component: RegisterComponent,
+		canActivate:[AuthGuard],
+	},
+	{
+		path: 'forgotPassword',
+		component: ForgotPasswordComponent,
+		canActivate:[AuthGuard],
+	},
+	{
+		path: 'resetPassword/:id',
+		component: ResetPasswordComponent,
+		canActivate:[AuthGuard],
+	},
+	{
+		path: 'admin',
+		component: AdminComponent,
+		canActivate:[AuthGuard],
+		children: [
+			{
+				path: '',
+				redirectTo: 'content',
+				pathMatch: 'full'
+			},
+			{
+				path: 'content',
+				component: AdminContentComponent,
+				canActivate:[AuthGuard],
+				children: [
+					{
+						path: '',
+						redirectTo: 'approvegh',
+						pathMatch: 'full'
+					},
+					{
+						path: 'approvegh',
+						component: ApproveghComponent,
+						canActivate:[AuthGuard],
+					},
+					{
+						path: 'removegh',
+						component: RemoveghComponent,
+						canActivate:[AuthGuard],
+					}
+				]
+			}
+		]
+	},
+	{
+		path: 'user',
+		component: UserComponent,
+		canActivate:[AuthGuard],
+		children: [
+			{
+				path: '',
+				redirectTo: 'content',
+				pathMatch: 'full'
+			},
+			{
+				path: 'content',
+				component: ContentComponent,
+				canActivate:[AuthGuard],
+				children: [
+					{
+						path: '',
+						redirectTo: 'invitation',
+						pathMatch: 'full'
+					},
+					{
+						path: 'invitation',
+						component: InvitationComponent,
+						canActivate:[AuthGuard],
+					},
+					{
+						path: 'viewMembers',
+						component: ViewMembersComponent,
+						canActivate:[AuthGuard],
+					},
+					{
+						path: 'addmember',
+						component: AddmemberComponent,
+						canActivate:[AuthGuard],
+					},
+					{
+						path: 'uploadbill',
+						component: UploadbillComponent,
+						canActivate:[AuthGuard],
+					},
+					{
+						path: 'groupReport',
+						component: GroupReportComponent,
+						canActivate:[AuthGuard],
+					},
+					{
+						path: 'individualInGroupReport',
+						component: IndividualInGroupReportComponent,
+						canActivate:[AuthGuard],
+					},
+					{
+						path: 'individualReport',
+						component: IndividualReportComponent,
+						canActivate:[AuthGuard],
+					},
+					{
+						path: 'initialtransaction',
+						component: InitialComponent,
+						canActivate:[AuthGuard],						
+					},
+					{
+						path: 'completedtransaction',
+						component: CompletedComponent,
+						canActivate:[AuthGuard],						
+					},
+					{
+						path: 'approvedtransaction',
+						component: ApprovedComponent,
+						canActivate:[AuthGuard],						
+					},
+					{
+						path: 'unapprovedtransaction',
+						component: UnapprovedComponent,
+						canActivate:[AuthGuard],												
+					}										
+				]
+			}
+		]
+	}
+];
+
+@NgModule({
+	exports: [
+		RouterModule
+	],
+  imports: [
+    RouterModule.forRoot(routes)
+  ],
+  declarations: []
+})
+export class AppRoutingModule { }
+
+
+
+
+/*const routes: Routes = [
 	{
 		path: '',
 		redirectTo: 'login',
@@ -141,15 +300,4 @@ const routes: Routes = [
 			}
 		]
 	}
-];
-
-@NgModule({
-	exports: [
-		RouterModule
-	],
-  imports: [
-    RouterModule.forRoot(routes)
-  ],
-  declarations: []
-})
-export class AppRoutingModule { }
+];*/

@@ -33,6 +33,10 @@ import { GroupReportComponent } from './components/user/content/reports/group-re
 import { IndividualInGroupReportComponent } from './components/user/content/reports/individual-in-group-report/individual-in-group-report.component';
 import { IndividualReportComponent } from './components/user/content/reports/individual-report/individual-report.component';
 import { ViewMembersComponent } from './components/user/content/view-members/view-members.component';
+/*import {AuthGuard} from './guard/auth.guard';*/ //extra
+import { 
+  AuthGuardService as AuthGuard 
+} from './auth-guard.service';
 
 @NgModule({
   declarations: [
@@ -72,7 +76,7 @@ import { ViewMembersComponent } from './components/user/content/view-members/vie
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [ReportService],
+  providers: [ReportService,AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
