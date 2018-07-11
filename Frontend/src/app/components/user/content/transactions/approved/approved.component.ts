@@ -104,17 +104,20 @@ export class ApprovedComponent implements OnInit {
 
   getUserAmount() {
     var _id = this.userService.user._id;
+    var amt;
     for(let i of this.selected['members']) {
-      if(i._id == _id) return i.amount;
-      else return 0;
+      if(i._id == _id) amt = i.amount;
+      else amt = 0;
     }
+    return amt;
   }
 
   onPay() {
     $("#pay").modal("hide");
-    var obj = {
+    let obj = {
       _id: this.selected['_id'],
       _Uid: this.userService.user._id,
+      _Did: this.selected['_Uid'],
       amount: this.paymentForm.controls.amount.value,
       memberBalance: this.userService.user.balance,
       transactionAmount: this.getUserAmount(),
@@ -123,11 +126,15 @@ export class ApprovedComponent implements OnInit {
     this.transactionService.billPayment(obj).subscribe(
       (model) => {
         this.checkComplete();
+        let user = JSON.parse(localStorage.getItem('user'));
+        user.balance = model['memberBalance'];
+        localStorage.setItem('user', JSON.stringify(user));
+        this.userService.user = user;
       },
       (err) => {
         console.log(err)
       }  
-    ) 
+    ); 
   }
 
 } 

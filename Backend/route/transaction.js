@@ -99,11 +99,10 @@ router.post('/checkcomplete',
 						if(flag) {
 							Transaction.statusCompleted(i._id, (err, model) => {
 								if(err) res.status(501).json(err);
-								else res.status(200).json({message: "Completed"});											
 							});
 						}
-						res.status(200).json({message: "Not Completed"});
 					}
+					res.status(200).json({message: "Success"});
 				}
 			}
 		});
@@ -175,27 +174,28 @@ router.post('/billpayment',
 		let obj = {};
 		obj._id = req.body._id;
 		obj._Uid = req.body._Uid;
+		obj._Did = req.body._Did;
 		if(req.body.checked) {
 			amt = req.body.memberBalance + req.body.amount;	
 			if(amt > req.body.transactionAmount) {
 				obj.transactionAmount = 0;
 				obj.memberBalance = amt - req.body.transactionAmount;
-				// bal = req.body.transactionAmount
+				obj.destBalance = req.body.transactionAmount;
 			} else {
 				obj.transactionAmount = req.body.transactionAmount - amt;
 				obj.memberBalance = 0;
-				// bal = amt	
+				obj.destBalance = amt;
 			}			
 		} else {
 			amt = req.body.amount;
 			if(amt > req.body.transactionAmount) {
 				obj.transactionAmount = 0;
 				obj.memberBalance = req.body.memberBalance + (amt - req.body.transactionAmount);
-				// bal = req.body.transactionAmount
+				obj.destBalance = req.body.transactionAmount;
 			} else {
 				obj.transactionAmount =  req.body.transactionAmount - amt;
 				obj.memberBalance = req.body.memberBalance;
-				// bal = amt			
+				obj.destBalance = amt;
 			}
 		}
 		Transaction.makePayment(obj, (err, model) => {
@@ -203,7 +203,12 @@ router.post('/billpayment',
 			else {
 				Member.makePayment(obj, (err, model) => {
 					if(err) res.status(501).json(err);
-					else res.status(200).json({message: "Payment Successful"});	
+					else {
+						Member.updateBalance(obj, (err, model) => {
+							if(err) res.status(501).json(err);
+							else res.status(200).json(obj);
+						});
+					}	
 				});
 			}				
 		});
