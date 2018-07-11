@@ -18,7 +18,7 @@
 						<td>{{i.email}}</td>
 						<td>{{i.firstname}}</td>
 						<td>{{i.lastname}}</td>
-						<td><button class="btn btn-sm" (click)="viewProfile(i)" data-target="#view" data-toggle="modal">View Profile</button></td>					
+						<td><button class="btn btn-sm btn-info" (click)="viewProfile(i)" data-target="#view" data-toggle="modal">View Profile</button></td>					
 					</tr>
 				</table>
 			</div>
@@ -30,7 +30,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
 
-      <div class="modal-header">
+      <div class="modal-header" style="background-color: #357ca5; color: white;">
         <button type="button" class="close" data-dismiss="modal" >
                   <span >&times;</span></button>        
         <h4 class="modal-title">Member Details</h4>
@@ -64,7 +64,7 @@
         </div>
 
         <div class="modal-footer">
-            <button type="button" class="btn " data-dismiss="modal" >Close</button>
+            <button type="button" class="btn " data-dismiss="modal" style="background-color: #357ca5; color: white;">Close</button>
         </div>
     </div>
   </div>
