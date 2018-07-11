@@ -64,8 +64,12 @@
             <div class="col-sm-6"><b>Comments:</b></div>
             <div class="col-sm-6">{{selected.comments}}</div>
           </div><br>          
+          <div class="row"><div class="col-sm-12"><b>Members involved:</b></div></div>
+          <div class="row rows" *ngFor="let j of selected.initial">
+            <div class="col-sm-6">{{j.email}}</div>
+            <div class="col-sm-6">{{j.amount}}</div>
+          </div><br>
         </div>
-
         <div class="modal-footer">
             <button type="button" class="btn btn-sm" data-dismiss="modal" style="background-color: #357ca5; color: white;">Close</button>
         </div>

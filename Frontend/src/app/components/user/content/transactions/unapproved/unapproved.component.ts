@@ -64,9 +64,20 @@ export class UnapprovedComponent implements OnInit {
   	);
   }
 
+  checkGH(i) {
+    if(this.groupService.active.gh) return true;
+    else return false;
+  }
+
+  checkUser(i) {
+    if(i._Uid == this.userService.user._id) return true;
+    else return false;
+  }
+
   onView(i) {
     this.selected = {
       _id: i._id,
+      _Uid: i._Uid,
       transactionName: i.transactionName,
       amount: i.amount,
       expenseDate: i.expenseDate,
@@ -80,6 +91,7 @@ export class UnapprovedComponent implements OnInit {
 
   add(selected, i) {
     for(let j = 0 ; j < i.initial.length ; j++) {
+      if(this.groupService.allMembers[j])
       selected.initial.push(
         {
           email: this.groupService.allMembers[j].email,

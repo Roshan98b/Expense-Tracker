@@ -60,6 +60,14 @@ export class ApprovedComponent implements OnInit {
   	);
   }
 
+  checkPay(i) {
+    for(let j of i.members) {
+      if(j._id == this.userService.user._id && j.amount == 0)
+        return true;
+    }
+    return false;
+  }
+
   checkComplete() {
     this.transactionService.checkComplete(this.groupService.active._groupId).subscribe(
       (model) => {
@@ -98,6 +106,7 @@ export class ApprovedComponent implements OnInit {
 
   add(selected, i) {
     for(let j = 0 ; j < i.members.length ; j++) {
+      if(this.groupService.allMembers[j])
       selected.members.push(
         {
           email: this.groupService.allMembers[j].email,
