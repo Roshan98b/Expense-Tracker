@@ -66,7 +66,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
 
-      <div class="modal-header">
+      <div class="modal-header" style="background-color: #357ca5; color: white;">
         <button type="button" class="close" data-dismiss="modal" >
                   <span >&times;</span></button>        
         <h4 class="modal-title">Create Group</h4>
@@ -74,14 +74,14 @@
       
       <form [formGroup]="cgForm" (ngSubmit)="onSubmitCG()">
         <div class="modal-body">
-          <label for="name">Enter Group Name</label>
-          <input type="text" name="name" formControlName="name" class="form-control">
+          <label for="name">Enter Group Name:</label>
+          <input type="text" name="name" formControlName="name" class="form-control" autocomplete="off">
         </div>
 
         <div class="modal-footer">
-            <button type="submit" [disabled]="!cgForm.valid" class="btn">Submit</button>
-            <button type="reset" class="btn ">Reset</button>
-            <button type="button" class="btn " data-dismiss="modal" >Close</button>
+            <button type="submit" [disabled]="!cgForm.valid" class="btn btn-sm"  style="background-color: #357ca5; color: white;">Submit</button>
+            <button type="reset" class="btn btn-sm"  style="background-color: #357ca5; color: white;">Reset</button>
+            <button type="button" class="btn btn-sm" data-dismiss="modal" style="background-color: #357ca5; color: white;">Close</button>
         </div>
 
       </form>

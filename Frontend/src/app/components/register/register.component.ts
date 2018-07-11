@@ -119,12 +119,12 @@ export class RegisterComponent implements OnInit {
       if(this.rForm.controls.password.value != this.rForm.controls.cpassword.value) this.focusCPassword = true;
     }else this.userService.postMember(this.rForm.value).subscribe(
       (message) => {
-        alert('Registration successful');
+        alert('Registration successful!!');
         console.log(message);
         this.router.navigate(['login']);
       },
       (err) => {
-        alert('Registration unsuccessful. This E-mail ID is already in use.')
+        alert('Registration unsuccessful!! This E-mail ID is already in use.')
         console.log(err);
       }
     );

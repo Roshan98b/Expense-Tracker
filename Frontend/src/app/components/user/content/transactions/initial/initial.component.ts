@@ -26,6 +26,17 @@ export class InitialComponent implements OnInit {
   active;
   selected = {};
   EditForm: FormGroup;  
+  amountSum: number;
+
+  focusTname:boolean;
+  focusEamount: boolean;
+  focusTdate: boolean;
+
+  currentDate: number;
+  transactionDate: number;
+  transactionDateYear: number;
+  dateValid: boolean = false;
+  amountValid: boolean;
 
   ngOnInit() {
   	this.changeStatus();
@@ -39,6 +50,7 @@ export class InitialComponent implements OnInit {
       members: this.formBuilder.array([]) 
     });
     this.groupService.getAllMembers(() => {});
+    console.log(this.transactionService.initial);
   }
 
   ngDoCheck() {
@@ -48,6 +60,9 @@ export class InitialComponent implements OnInit {
       this.groupService.getAllMembers(() => {});      
       this.active = this.groupService.active;
     }
+
+    this.dateValidator();
+    this.amountValidator();
   }
 
   get members(): FormArray {
@@ -66,15 +81,44 @@ export class InitialComponent implements OnInit {
     }
   }
 
+  onFocus(i) {
+    if (i == 1) {
+      if (this.focusTname == false)
+        this.focusTname = true;
+    } else if (i == 2) {
+      if (this.focusEamount == false)
+        this.focusEamount = true;
+    } else {
+      if (this.focusTdate == false)
+        this.focusTdate = true;
+    }
+  }
+
   check(value) {
     if(value) return value.amount;
     else return 0;
   }  
 
-  checkDateValid(): boolean {
-    if (this.EditForm.controls.transactionDate.value > Date()) {
-      return false;
-    } else return true;
+  dateValidator() {
+    this.currentDate = new Date().valueOf();
+    this.transactionDate = new Date(this.EditForm.controls.transactionDate.value).valueOf();
+    this.transactionDateYear = new Date(this.EditForm.controls.transactionDate.value).getFullYear();
+     if (this.currentDate - this.transactionDate < 0 || this.transactionDateYear < 2018) {
+      this.dateValid = false;
+    } else this.dateValid = true;
+  }
+
+  amountValidator() {
+    this.amountSum = 0;
+    for (var i of this.members.value) {
+      this.amountSum += i.amount;
+      if (i.amount < 0 && this.amountValid == true)
+        this.amountValid = false;
+    }
+    if (this.EditForm.controls.expenseAmount.value != this.amountSum && this.amountValid == true)
+      this.amountValid = false;
+    if (this.EditForm.controls.expenseAmount.value == this.amountSum)
+      this.amountValid = true;
   }
 
 
@@ -181,10 +225,14 @@ export class InitialComponent implements OnInit {
     this.EditForm.controls['comments'].setValue(i.comments);    
     this.EditForm.setControl('members', new FormArray([])); 
     this.addMembers(this.groupService.allMembers, i.initial);
+    this.focusTname = false;
+    this.focusEamount = false;
+    this.focusTdate = false;
+
+    this.amountValid = true;
   }
 
   onSubmit() {
-    $("#edit1").modal("hide");
     this.selected['_Uid'] = this.userService.user._id;
     this.selected['_groupId'] = this.groupService.active._groupId;    
     this.selected['transactionName'] = this.EditForm.controls['transactionName'].value;
@@ -201,10 +249,30 @@ export class InitialComponent implements OnInit {
     }       
     this.selected['status'] = 0;
 
-    this.transactionService.updateToInitial(this.selected).subscribe(
+    if(!this.dateValid) this.focusTdate = true;
+    else if(!this.amountValid) this.focusEamount = true;
+    else if(!this.EditForm.valid){
+      if(!this.EditForm.controls.transactionName.valid) this.focusTname = true;
+      if(!this.EditForm.controls.expenseAmount.valid) this.focusEamount = true;
+      if(!this.EditForm.controls.transactionDate.valid) this.focusTdate = true;
+    } else this.transactionService.updateToInitial(this.selected).subscribe(
       (model) => {
         this.changeStatus();        
         console.log(model);
+        alert('The bill has been edited successfully and is available for polling!!');
+        this.focusTname = false;
+        this.focusEamount = false;
+        this.focusTdate = false;
+        this.amountValid = true;
+        $("#edit1").modal("hide");
+        this.EditForm = this.formBuilder.group({
+          transactionName: [null, [Validators.minLength(1), Validators.required]],
+          expenseAmount: [null, [Validators.required, Validators.min(0)]],
+          transactionDate: [null, [Validators.required]],
+          expenseTypeOptions: ['Rent', [Validators.required]],
+          comments: null,
+          members: this.formBuilder.array([]) 
+        });
       },
       (err) => {
         console.log(err);
@@ -212,12 +280,17 @@ export class InitialComponent implements OnInit {
     );     
   }
 
-  onDelete(i) {
+  confirmDelete() {
     $("#view").modal("hide");
+  }
+
+  onDelete(i) {
+    $("#confirmDeleteBill").modal("hide");
     this.transactionService.deleteTransaction(i._id).subscribe(
       (message) => {
         this.changeStatus();
         console.log(message);
+        alert('The selected bill has been successfully deleted!!');
       },
       (err) => {
         console.log(err);

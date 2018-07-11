@@ -1,26 +1,29 @@
 <div class="content-wrapper" >
 	<section class="content-header">
 	  <h1>
-	    Invitation
+	    Invitations Received
 	  </h1>
 	</section>
 
 	<section class="content">
 			<div class="box-body table-responsive no-padding">
 				<table class="table table-hover table-bordered">
-					<tr>
-						<th>Group Head EmailId</th>
-						<th>Group Name</th>
+					<tr *ngIf="content">
+						<th style="text-align: center;">Group Head EmailId</th>
+						<th style="text-align: center;">Group Name</th>
 						<th></th>
 						<th></th>
 					</tr>
 					<tr *ngFor="let i of groupService.tempAllMember">
-						<td>{{i.email}}</td>
-						<td>{{i.groupName}}</td>
-						<td><button class="btn btn-sm btn-link" (click)="onAccept(i)">Accept</button></td>
-						<td><button class="btn btn-sm btn-link" (click)="onReject(i)">Reject</button></td>					
+						<td align="center">{{i.email}}</td>
+						<td align="center">{{i.groupName}}</td>
+						<td align="center"><button class="btn btn-sm btn-success" (click)="onAccept(i)">Accept Invite</button></td>
+						<td align="center"><button class="btn btn-sm btn-danger" (click)="onReject(i)">Reject Invite <span class="glyphicon glyphicon-trash"></span></button></td>					
 					</tr>
 				</table>
+				<div *ngIf="!content">
+					<h4>You currently have no requests to join any group.</h4>
+				</div>
 			</div>			
 	</section>
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, DoCheck } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { UserService } from '../../../../services/user/user.service';
@@ -10,7 +10,9 @@ import { Group } from '../../../../services/group/group';
   templateUrl: './addmember.component.html',
   styleUrls: ['./addmember.component.css']
 })
-export class AddmemberComponent implements OnInit {
+export class AddmemberComponent implements OnInit, DoCheck {
+
+  focusSearch: boolean;
 
   constructor(
   	private userService: UserService,
@@ -21,6 +23,15 @@ export class AddmemberComponent implements OnInit {
 
   ngOnInit() {
     this.groupService.getAllMembers(() => {});
+    this.focusSearch = false;
+    this.groupService.tempMember = [];
+  }
+
+  ngDoCheck() {
+    if(this.groupService.tempMember.length != 0)
+      this.focusSearch = true;
+    else
+      this.focusSearch = false;
   }
 
   filterUsers(model) {
@@ -58,7 +69,7 @@ export class AddmemberComponent implements OnInit {
   			console.log(message);
         this.search.reset();
         this.groupService.tempMember = [];
-        alert('Invitation sent successfully');        
+        alert('Invitation sent successfully!!');        
   		},
   		(err) => {
   			console.log(err);

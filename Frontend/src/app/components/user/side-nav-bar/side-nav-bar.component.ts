@@ -6,6 +6,8 @@ import { UserService } from '../../../services/user/user.service';
 import { GroupService } from '../../../services/group/group.service';
 import { UploadbillComponent } from '../../../components/user/content/uploadbill/uploadbill.component'; 
 
+declare var $ :any;
+
 @Component({
   selector: 'app-side-nav-bar',
   templateUrl: './side-nav-bar.component.html',
@@ -31,7 +33,9 @@ export class SideNavBarComponent implements OnInit {
     this.groupService.postTempGroup(this.userService.user._id, this.cgForm.value.name).subscribe(
       (message) => {
         console.log(message);
-        alert('Create Group Request sent..!');
+        alert('A new group creation request has been sent to the administrator!! Your group will be activated once the administrator approves your request!!');
+        $("#cgModel").modal("hide");
+        this.cgForm.reset();
       },
       (err) => {
         console.log(err);

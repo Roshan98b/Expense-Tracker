@@ -10,12 +10,15 @@ import { UserService } from '../../../../services/user/user.service';
 })
 export class InvitationComponent implements OnInit {
 
+  content: boolean;
+
   constructor(
   	private userService: UserService,
   	private groupService: GroupService
   ) { }
   
   ngOnInit() {
+    this.groupService.tempAllMember = [];
     this.getAllTempMembers();
   }
 
@@ -23,6 +26,10 @@ export class InvitationComponent implements OnInit {
     this.groupService.getAllTempMember(this.userService.user._id).subscribe(
       (model) => {
         this.groupService.tempAllMember = model;
+        if(this.groupService.tempAllMember.length == 0)
+          this.content = false;
+        else
+          this.content = true;
       },
       (err) => {
         console.log(err);

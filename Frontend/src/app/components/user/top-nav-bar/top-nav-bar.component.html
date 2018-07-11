@@ -48,7 +48,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
 
-      <div class="modal-header">
+      <div class="modal-header" style="background-color: #357ca5; color: white;">
         <button type="button" class="close" data-dismiss="modal" >
                   <span >&times;</span></button>        
         <h4 class="modal-title">Your Profile</h4>
@@ -86,11 +86,11 @@
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn" data-target="#changepassword1" data-toggle="modal" (click)="changePassword()">Change Password</button>
-          <button type="button" class="btn" data-target="#changepassword2" data-toggle="modal" (click)="changeSecurityCredentials()">Change Security Question</button>
-          <button type="button" class="btn " data-target="
-            #edit" data-toggle="modal" (click)="onEdit(selected)">Edit Profile</button>          
-          <button type="button" class="btn " data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-sm pull-left" data-target="#changepassword1" data-toggle="modal" (click)="changePassword()" style="background-color: #357ca5; color: white;">Change Password</button>
+          <button type="button" class="btn btn-sm pull-left" data-target="#changepassword2" data-toggle="modal" (click)="changeSecurityCredentials()" style="background-color: #357ca5; color: white;">Change Security Question</button>
+          <button type="button" class="btn btn-sm" data-target="
+            #edit" data-toggle="modal" (click)="onEdit(selected)" style="background-color: #357ca5; color: white;">Edit Profile</button>          
+          <button type="button" class="btn btn-sm" data-dismiss="modal" style="background-color: #357ca5; color: white;">Close</button>
         </div>
     </div>
   </div>
@@ -100,7 +100,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
 
-      <div class="modal-header">
+      <div class="modal-header" style="background-color: #357ca5; color: white;">
         <button type="button" class="close" data-dismiss="modal" >
                   <span >&times;</span></button>        
         <h4 class="modal-title">Your Profile</h4>
@@ -162,8 +162,8 @@
         
         <div class="modal-footer">
           <div class="row">            
-            <button type="submit" class="btn " [disabled]="!EditForm.valid">Confirm Edit</button>
-            <button type="button" class="btn " data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-sm" [disabled]="!EditForm.valid">Confirm Edit</button>
+            <button type="button" class="btn btn-sm" data-dismiss="modal">Close</button>
           </div>
         </div>
       </form>
@@ -175,7 +175,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
 
-      <div class="modal-header">
+      <div class="modal-header" style="background-color: #357ca5; color: white;">
         <button type="button" class="close" data-dismiss="modal" >
                   <span >&times;</span></button>        
         <h4 class="modal-title">Change your existing password</h4>
@@ -191,9 +191,9 @@
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn" (click)="gotoProfile1()">Back</button>
-          <button type="submit" class="btn">Next</button>
-          <button type="button" class="btn" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-sm" (click)="gotoProfile1()" style="background-color: #357ca5; color: white;">Back</button>
+          <button type="submit" class="btn btn-sm" style="background-color: #357ca5; color: white;">Next</button>
+          <button type="button" class="btn btn-sm" data-dismiss="modal" style="background-color: #357ca5; color: white;">Close</button>
         </div>
       </form>  
     </div>
@@ -204,7 +204,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
 
-      <div class="modal-header">
+      <div class="modal-header" style="background-color: #357ca5; color: white;">
         <button type="button" class="close" data-dismiss="modal" >
                   <span >&times;</span></button>        
         <h4 class="modal-title">Change your security credentials:</h4>
@@ -220,9 +220,9 @@
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn" (click)="gotoProfile2()">Back</button>
-          <button type="submit" class="btn">Next</button>
-          <button type="button" class="btn" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-sm" (click)="gotoProfile2()" style="background-color: #357ca5; color: white;">Back</button>
+          <button type="submit" class="btn btn-sm" style="background-color: #357ca5; color: white;">Next</button>
+          <button type="button" class="btn btn-sm" data-dismiss="modal" style="background-color: #357ca5; color: white;">Close</button>
         </div>
       </form>  
     </div>
@@ -233,7 +233,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
 
-      <div class="modal-header">
+      <div class="modal-header" style="background-color: #357ca5; color: white;">
         <button type="button" class="close" data-dismiss="modal" >
           <span >&times;</span></button>        
           <h4 class="modal-title">Enter your new password:</h4>
@@ -257,8 +257,8 @@
          </div>
 
           <div class="modal-footer">
-            <button type="submit" class="btn" >Submit</button>
-            <button type="button" class="btn " data-dismiss="modal" >Close</button>
+            <button type="submit" class="btn btn-sm" style="background-color: #357ca5; color: white;">Submit</button>
+            <button type="button" class="btn btn-sm" data-dismiss="modal" style="background-color: #357ca5; color: white;">Close</button>
           </div>
         </form>
       </div>
@@ -270,7 +270,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
 
-      <div class="modal-header">
+      <div class="modal-header" style="background-color: #357ca5; color: white;">
         <button type="button" class="close" data-dismiss="modal" >
                   <span >&times;</span></button>        
         <h4 class="modal-title">Change Security Credentials:</h4>
@@ -285,14 +285,14 @@
         </div>
         <div [ngClass]="{'has-success': sForm.controls.securityAnswer.valid ,'has-error': !sForm.controls.securityAnswer.valid && focusSecAnswer,'form-group': true, 'has-feedback': true}">
          <label *ngIf="!sForm.controls.securityAnswer.valid && focusSecAnswer" class="control-label" for="securityAnswer"><i class="fa fa-times-circle-o"></i>Please answer the security question</label>
-          <input type="text" class="form-control" placeholder="Answer to the security question" id="securityAnswer" name="securityAnswer" formControlName="securityAnswer" (focus)="onFocus(7)">
+          <input type="text" class="form-control" placeholder="Answer to the security question" id="securityAnswer" name="securityAnswer" formControlName="securityAnswer" (focus)="onFocus(7)" autocomplete="off">
         </div><br />
         
         </div>
 
         <div class="modal-footer">
-          <button type="submit" class="btn" >Submit</button>
-            <button type="button" class="btn" data-dismiss="modal" >Close</button>
+          <button type="submit" class="btn btn-sm" style="background-color: #357ca5; color: white;">Submit</button>
+            <button type="button" class="btn btn-sm" data-dismiss="modal" style="background-color: #357ca5; color: white;">Close</button>
         </div>
       </form>
     </div>

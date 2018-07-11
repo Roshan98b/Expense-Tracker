@@ -87,7 +87,7 @@
 	      </div>
 	      <div [ngClass]="{'has-success': rForm.controls.securityAnswer.valid ,'has-error': !rForm.controls.securityAnswer.valid && focusSecAnswer,'form-group': true, 'has-feedback': true}">
 	       <label *ngIf="!rForm.controls.securityAnswer.valid && focusSecAnswer" class="control-label" for="securityAnswer"><i class="fa fa-times-circle-o"></i>Please answer the security question</label>
-	        <input type="text" class="form-control" placeholder="Answer to the security question" id="securityAnswer" name="securityAnswer" formControlName="securityAnswer" (focus)="onFocus(6)">
+	        <input type="text" class="form-control" placeholder="Answer to the security question" id="securityAnswer" name="securityAnswer" formControlName="securityAnswer" (focus)="onFocus(6)" autocomplete="off">
 	      </div><br />
 	      
 	      <div class="row">
