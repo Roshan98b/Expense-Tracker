@@ -88,7 +88,7 @@ module.exports.updateByEmail = (email, firstName, lastName, dob, gender, mobileN
 	let query = {email: email};
 	let opt = {$set: {firstname: firstName, lastname: lastName, dob: dob, gender: gender, contactno: mobileNumber}};
 	Member.findOneAndUpdate(query, opt, callback);
-}
+};
 
 // Search Member
 module.exports.searchgh = (model, callback) => {
@@ -114,10 +114,16 @@ module.exports.updateByEmail = (email, firstName, lastName, dob, gender, mobileN
 	let query = {email: email};
 	let opt = {$set: {firstname: firstName, lastname: lastName, dob: dob, gender: gender, contactno: mobileNumber}};
 	Member.findOneAndUpdate(query, opt, callback);
-}
+};
 
 module.exports.makePayment = (obj, callback) => {
 	var query = {_id: mongoose.Types.ObjectId(obj._Uid)};
 	var update = {$set: {balance: obj.memberBalance}};
+	Member.update(query, update, callback);
+};
+
+module.exports.updateBalance = (obj, callback) => {
+	var query = {_id: mongoose.Types.ObjectId(obj._Did)};
+	var update = {$inc: {balance: obj.destBalance}};
 	Member.update(query, update, callback);
 };
