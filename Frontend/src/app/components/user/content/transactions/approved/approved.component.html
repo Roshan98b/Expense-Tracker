@@ -19,8 +19,8 @@
           <td>{{i.transactionName}}</td>
           <td>{{i.amount}}</td>
           <td>{{i.expenseType}}</td>
-          <td>{{i.expenseDate}}</td>                    
-          <td><button class="btn btn-sm btn-link" data-toggle="modal" data-target="#pay" (click)="selected = i">Pay</button></td>
+          <td>{{i.expenseDate | date}}</td>                    
+          <td><button [disabled]="checkPay(i)" class="btn btn-sm btn-link" data-toggle="modal" data-target="#pay" (click)="selected = i">Pay</button></td>
           <td><button class="btn btn-sm btn-link" (click)="onView(i)" data-toggle="modal" data-target="#view">View</button></td>
         </tr>
       </table>
