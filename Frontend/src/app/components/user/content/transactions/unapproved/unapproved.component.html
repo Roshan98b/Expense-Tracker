@@ -20,7 +20,7 @@
           <td>{{i.amount}}</td>
           <td>{{i.expenseType}}</td>
           <td>{{i.expenseDate | date}}</td>                    
-          <td><button class="btn btn-sm btn-link" (click)="onMove(i)">Move To Initial</button></td>
+          <td><button [disabled]="!(checkGH(i))" class="btn btn-sm btn-link" (click)="onMove(i)">Move To Initial</button></td>
           <td><button class="btn btn-sm btn-link" (click)="onView(i)" data-toggle="modal" data-target="#view">View</button></td>
         </tr>
       </table>
@@ -71,7 +71,7 @@
         </div>
 
         <div class="modal-footer">
-            <button type="button" class="btn " (click)="onDelete(selected)">Delete</button>         
+            <button *ngIf="(checkGH(selected) || checkUser(selected))" type="button" class="btn " (click)="onDelete(selected)">Delete</button>        
             <button type="button" class="btn " data-dismiss="modal">Close</button>
         </div>
     </div>

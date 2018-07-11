@@ -35,16 +35,15 @@ export class AddmemberComponent implements OnInit, DoCheck {
   }
 
   filterUsers(model) {
-    let pos;
+    let pos = [];
     for(let i=0 ; i<model.length ; i++) {
       for(let j=0 ; j<this.groupService.allMembers.length ; j++)
         if(model[i]) {
-          if(model[i].email == "admin@admin.com") pos = i; 
-          if(model[i].email == this.groupService.allMembers[j].email)
-            model.splice(i, 1);         
+          if(model[i].email == "admin@admin.com") pos.push(i);
+          if(model[i].email == this.groupService.allMembers[j].email) pos.push(i);
         }
     }
-    if(model[pos]) model.splice(pos, 1);
+    for(let i in pos) model.splice(i, 1);  
     this.groupService.tempMember = model;
   }
 

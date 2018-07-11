@@ -50,7 +50,6 @@ export class InitialComponent implements OnInit {
       members: this.formBuilder.array([]) 
     });
     this.groupService.getAllMembers(() => {});
-    console.log(this.transactionService.initial);
   }
 
   ngDoCheck() {
@@ -99,6 +98,11 @@ export class InitialComponent implements OnInit {
     else return 0;
   }  
 
+  checkUser(model) {
+    if(model._Uid == this.userService.user._id) return true;
+    else return false;
+  }
+
   dateValidator() {
     this.currentDate = new Date().valueOf();
     this.transactionDate = new Date(this.EditForm.controls.transactionDate.value).valueOf();
@@ -120,7 +124,6 @@ export class InitialComponent implements OnInit {
     if (this.EditForm.controls.expenseAmount.value == this.amountSum)
       this.amountValid = true;
   }
-
 
   getInitialTransactions() {
   	this.transactionService.getInitialTransactions(this.groupService.active._groupId).subscribe(
@@ -185,6 +188,7 @@ export class InitialComponent implements OnInit {
       if(j.amount == 0) False--;
     this.selected = {
       _id: i._id,
+      _Uid: i._Uid,
       transactionName: i.transactionName,
       amount: i.amount,
       expenseDate: i.expenseDate,
@@ -205,6 +209,7 @@ export class InitialComponent implements OnInit {
 
   add(selected, i) {
     for(let j = 0 ; j < i.initial.length ; j++) {
+      if(this.groupService.allMembers[j])
       selected.initial.push(
         {
           email: this.groupService.allMembers[j].email,
@@ -220,7 +225,7 @@ export class InitialComponent implements OnInit {
     this.EditForm.controls['transactionName'].setValue(i.transactionName);
     this.EditForm.controls['expenseAmount'].setValue(i.amount);
     let date = new Date(i.expenseDate);
-    this.EditForm.controls['transactionDate'].setValue(date.getFullYear()+'-'+('0'+date.getMonth()).slice(-2)+'-'+('0'+date.getDate()).slice(-2));
+    this.EditForm.controls['transactionDate'].setValue(date.getFullYear()+'-'+('0'+(date.getMonth()+1)).slice(-2)+'-'+('0'+date.getDate()).slice(-2));
     this.EditForm.controls['expenseTypeOptions'].setValue(i.expenseType);    
     this.EditForm.controls['comments'].setValue(i.comments);    
     this.EditForm.setControl('members', new FormArray([])); 

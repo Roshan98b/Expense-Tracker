@@ -22,13 +22,15 @@ export class CompletedComponent implements OnInit {
 
   ngOnInit() {
   	this.getCompletedTransactions();
-    this.active = this.groupService.active;  	
+    this.active = this.groupService.active;    
+    this.groupService.getAllMembers(() => {});
   }
 
   ngDoCheck() {
     if(this.active !== this.groupService.active) {
     	this.getCompletedTransactions();
       this.active = this.groupService.active;
+      this.groupService.getAllMembers(() => {});
     }
   }  
 
@@ -64,6 +66,20 @@ export class CompletedComponent implements OnInit {
       uploadDate: i.uploadDate,
       expenseType: i.expenseType,
       comments: i.comments,
+      initial: []
+    }
+    this.add(this.selected, i);
+  }
+
+  add(selected, i) {
+    for(let j = 0 ; j < i.initial.length ; j++) {
+      if(this.groupService.allMembers[j])
+      selected.initial.push(
+        {
+          email: this.groupService.allMembers[j].email,
+          amount: i.initial[j].amount
+        }
+      );
     }
   }
 

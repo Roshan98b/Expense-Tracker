@@ -41,6 +41,7 @@ export class InvitationComponent implements OnInit {
     this.userService.getProfile().subscribe(
       (model) => {
         this.userService.setUser(model);
+        if(this.userService.user.group.length == 1) this.groupService.active = this.userService.user.group[0];
       },
       (err) => {
         console.log(err);

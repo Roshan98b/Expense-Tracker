@@ -148,7 +148,8 @@ export class TopNavBarComponent implements OnInit {
     $("#profileModal").modal("hide");
     this.EditForm.controls['firstname'].setValue(i.firstName);
     this.EditForm.controls['lastname'].setValue(i.lastName);
-    this.EditForm.controls['dob'].setValue(i.dob);
+    let date = new Date(i.dob);
+    this.EditForm.controls['dob'].setValue(date.getFullYear()+'-'+('0'+(date.getMonth()+1)).slice(-2)+'-'+('0'+date.getDate()).slice(-2));
     this.EditForm.controls['gender'].setValue(i.gender);
     this.EditForm.controls['contactno'].setValue(i.mobileNumber);
   }
