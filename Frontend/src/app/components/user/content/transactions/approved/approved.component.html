@@ -20,7 +20,7 @@
           <td align="center">{{i.amount}}</td>
           <td align="center">{{i.expenseType}}</td>
           <td align="center">{{i.expenseDate}}</td>                    
-          <td align="center"><button class="btn btn-sm btn-info" data-toggle="modal" data-target="#pay" (click)="selected = i">Pay</button></td>
+          <td align="center"><button [disabled]="checkPay(i)" class="btn btn-sm btn-info" data-toggle="modal" data-target="#pay" (click)="selected = i">Pay</button></td>
           <td align="center"><button class="btn btn-sm btn-info" (click)="onView(i)" data-toggle="modal" data-target="#view">View Details</button></td>
         </tr>
       </table>

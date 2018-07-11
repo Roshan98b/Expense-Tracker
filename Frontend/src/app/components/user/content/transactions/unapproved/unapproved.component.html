@@ -20,7 +20,7 @@
           <td align="center">{{i.amount}}</td>
           <td align="center">{{i.expenseType}}</td>
           <td align="center">{{i.expenseDate | date}}</td>                    
-          <td align="center"><button class="btn btn-sm btn-info" data-toggle="modal" data-target="#confirmMove" (click)="confirmMove(i)">Move To Initial Transactions</button></td>
+          <td align="center"><button [disabled]="!(checkGH(i))" class="btn btn-sm btn-info" data-toggle="modal" data-target="#confirmMove" (click)="confirmMove(i)">Move To Initial Transactions</button></td>
           <td align="center"><button class="btn btn-sm btn-info" (click)="onView(i)" data-toggle="modal" data-target="#view">View Details</button></td>
         </tr>
       </table>
@@ -74,7 +74,7 @@
         </div>
 
         <div class="modal-footer">
-            <button type="button" class="btn btn-sm" (click)="confirmDelete()" style="background-color: #357ca5; color: white;" data-toggle="modal" data-target="#confirmDeleteBill">Delete Transaction</button>         
+            <button *ngIf="(checkGH(selected) || checkUser(selected))" type="button" class="btn btn-sm" (click)="confirmDelete()" style="background-color: #357ca5; color: white;" data-toggle="modal" data-target="#confirmDeleteBill">Delete Transaction</button>         
             <button type="button" class="btn btn-sm" data-dismiss="modal" style="background-color: #357ca5; color: white;">Close</button>
         </div>
     </div>
