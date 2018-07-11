@@ -50,6 +50,22 @@ export class UserService {
     });
   }
 
+  resetPasswordRequest1(password) {
+    this.token = localStorage.getItem('id_token');
+    return this.http.post(this.url+'/resetpassword1', password, {
+      observe: 'body',
+      headers: new HttpHeaders().append('Content-Type','application/json').append('Authorization',this.token)
+    });
+  }
+
+  resetSecurityCredentials(securityCredentials) {
+    this.token = localStorage.getItem('id_token');
+    return this.http.post(this.url+'/resetSecurityCredentials', securityCredentials, {
+      observe: 'body',
+      headers: new HttpHeaders().append('Content-Type','application/json').append('Authorization',this.token)
+    });
+  }
+
   getProfile() {
    this.token = localStorage.getItem('id_token'); 
    return this.http.get(this.url+'/profile', {
@@ -79,4 +95,13 @@ export class UserService {
     this.token = null;
     this.user = null;
   }
+
+  postPassword(model) {
+    this.token = localStorage.getItem('id_token'); 
+    return this.http.post(this.url+'/checkPassword', model, {
+      observe: 'body',
+      headers: new HttpHeaders().append('Content-Type','application/json').append('Authorization',this.token)
+    });
+  }
+
 }

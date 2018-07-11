@@ -3,13 +3,13 @@
 
     <ul class="sidebar-menu">
       <li class="header">MAIN MENU</li>
-      <li>
+      <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
         <a routerLink="content/approvegh">
           <i class="fa fa-laptop"></i>
           <span>Approve Group Creation</span>
         </a>
       </li>
-      <li>
+      <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
         <a routerLink="content/removegh">
           <i class="fa fa-user"></i>
           <span>Replace Group Head</span>

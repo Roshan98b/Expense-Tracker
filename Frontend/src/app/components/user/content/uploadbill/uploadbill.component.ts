@@ -24,6 +24,7 @@ export class UploadbillComponent implements OnInit, DoCheck {
 
   currentDate: number;
   transactionDate: number;
+  transcationDateYear: number;
   dateValid: boolean = false;
   amountValid: boolean;
 
@@ -103,7 +104,8 @@ export class UploadbillComponent implements OnInit, DoCheck {
   dateValidator() {
     this.currentDate = new Date().valueOf();
     this.transactionDate = new Date(this.uploadBillForm.controls.transactionDate.value).valueOf();
-     if (this.currentDate - this.transactionDate < 0) {
+    this.transcationDateYear = new Date(this.uploadBillForm.controls.transactionDate.value).getFullYear();
+     if (this.currentDate - this.transactionDate < 0 || this.transcationDateYear < 2018) {
       this.dateValid = false;
     } else this.dateValid = true;
   }
@@ -155,14 +157,33 @@ export class UploadbillComponent implements OnInit, DoCheck {
         response: false
       });
     }
-    this.transactionService.postBill(obj).subscribe(
+    if(!this.dateValid) this.focusTdate = true;
+    else if(!this.amountValid) this.focusEamount = true;
+    else if(!this.uploadBillForm.valid){
+      if(!this.uploadBillForm.controls.transactionName.valid) this.focusTname = true;
+      if(!this.uploadBillForm.controls.expenseAmount.valid) this.focusEamount = true;
+      if(!this.uploadBillForm.controls.transactionDate.valid) this.focusTdate = true;
+    } else this.transactionService.postBill(obj).subscribe(
       (model) => {
-        alert('Success');
+        alert('The bill hs been successfully uploaded and is available for polling!!');
         this.uploadBillForm.reset();
         this.uploadBillForm.setControl('members', new FormArray([]));
         this.groupService.getAllMembers(() => {
           this.addMembers(this.groupService.allMembers);
-        });        
+        });
+        this.focusTname = false;
+        this.focusEamount = false;
+        this.focusTdate = false;
+        this.amountValid = true;
+
+        this.uploadBillForm = this.formBuilder.group({
+          transactionName: [null, [Validators.minLength(1), Validators.required]],
+          expenseAmount: [null, [Validators.required, Validators.min(0)]],
+          transactionDate: [null, [Validators.required]],
+          expenseTypeOptions: ['Rent', [Validators.required]],
+          comments: null,
+          members: this.formBuilder.array([]) 
+        });
       },
       (err) => {
         console.log(err);

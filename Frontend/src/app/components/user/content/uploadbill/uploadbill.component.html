@@ -24,6 +24,7 @@
 	       			  <label *ngIf="uploadBillForm.controls.expenseAmount.valid" class="control-label" for="expenseAmount"><i class="fa fa-check"></i>Valid expense amount</label>
 	       			  <label *ngIf="!uploadBillForm.controls.expenseAmount.valid && focusEamount" class="control-label" for="expenseAmount"><i class="fa fa-times-circle-o"></i>Please enter a valid number</label>
 						<input type="number" name="expenseAmount" id="expenseAmount" class="form-control" placeholder="Expense Amount" step="0.01" min="0" required formControlName="expenseAmount" (focus)="onFocus(2)"/>
+						<span class="fa fa-money form-control-feedback"></span>
 					</div>
 					
 					<div [ngClass]="{'has-success': uploadBillForm.controls.transactionDate.valid && dateValid ,'has-error': (!uploadBillForm.controls.transactionDate.valid || !dateValid) && focusTdate,'form-group': true, 'has-feedback': true}">

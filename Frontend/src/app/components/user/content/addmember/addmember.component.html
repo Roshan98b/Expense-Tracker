@@ -18,14 +18,13 @@
 			<br><br>
 		  <div class="box-body table-responsive no-padding">
 				<table class="table table-hover table-bordered">
-					<tr>
-						<th>EmailID</th>
-						<th>Group Name</th>
+					<tr  *ngIf="focusSearch">
+						<th style="text-align: center;">E-mail ID</th>
 						<th></th>
 					</tr>
 					<tr *ngFor="let i of groupService.tempMember">
-						<td>{{i.email}}</td>
-						<td><button class="btn btn-sm btn-link" (click)="sendInvite(i)">Send</button></td>
+						<td align="center">{{i.email}}</td>
+						<td align="center"><button class="btn btn-sm btn-success" (click)="sendInvite(i)">Send Group Join Request</button></td>
 					</tr>
 				</table>
 			</div>
