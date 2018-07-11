@@ -16,9 +16,11 @@ export class UserComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.userService.isAuthenticated();
   	this.userService.getUser();
   	if(this.userService.user.group.length) this.groupService.active = this.userService.user.group[0];
   	else this.groupService.active = false;
+
   }
   
 }
