@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root'
@@ -88,6 +89,28 @@ export class UserService {
 
   getUser() {
     this.user = JSON.parse(localStorage.getItem('user'));
+  }
+
+  getToken() {
+    if(!!localStorage.getItem('id_token')) {
+      let token = localStorage.getItem('id_token');
+      return this.checkExpiryDate(token); 
+    } else return false;
+  }
+
+  checkExpiryDate(token) {
+    const helper = new JwtHelperService();
+    let isExpired = helper.isTokenExpired(token);
+    return !isExpired;
+  }
+
+  checkUser() {
+    this.getUser();
+    if(this.user) {
+      if(this.user.email != "admin@admin.com") return true;
+      else return false;
+    }
+    else return false;
   }
 
   logout() {
