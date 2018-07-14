@@ -111,9 +111,9 @@
       </div>                  
       
       <div class="modal-footer">
-          <button *ngIf="userService.user.balance - amount < 0" (click)="onWallet()" class="btn" data-target="#wallet" data-toggle="modal">Add To Wallet</button>
-          <button *ngIf="userService.user.balance - amount >= 0" (click)="onPay()" class="btn">Pay</button>
-          <button type="button" class="btn " data-dismiss="modal">Close</button>
+          <button *ngIf="userService.user.balance - amount < 0" (click)="onWallet()" class="btn" data-target="#wallet" data-toggle="modal" style="background-color: #357ca5; color: white;">Add To Wallet</button>
+          <button *ngIf="userService.user.balance - amount >= 0" (click)="onPay()" class="btn" style="background-color: #357ca5; color: white;">Pay</button>
+          <button type="button" class="btn " data-dismiss="modal" style="background-color: #357ca5; color: white;">Close</button>
       </div>
 
     </div>
