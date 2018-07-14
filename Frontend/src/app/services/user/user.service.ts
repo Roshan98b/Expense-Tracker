@@ -104,4 +104,12 @@ export class UserService {
     });
   }
 
+  addMoney(amount) {
+    this.token = localStorage.getItem('id_token'); 
+    return this.http.post(this.url+'/addmoney', {amount: amount, _id: this.user._id}, {
+      observe: 'body',
+      headers: new HttpHeaders().append('Content-Type','application/json').append('Authorization',this.token)
+    });
+  }  
+
 }

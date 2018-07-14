@@ -29,6 +29,10 @@ export class TopNavBarComponent implements OnInit {
       existingPassword2: new FormControl(null,[Validators.required, Validators.minLength(6)])
    });
 
+  wForm: FormGroup = new FormGroup({
+    money: new FormControl(0,[Validators.required, Validators.min(1)]),
+  });
+
   focusPassword1: boolean;
   focusPassword2: boolean;
 
@@ -290,6 +294,26 @@ export class TopNavBarComponent implements OnInit {
       },
       (err) => {
         alert(err.error.message);
+      }
+    );
+  }
+
+  onWallet() {
+    $("#profileModal").modal("hide");
+
+  }
+
+  onAddMoney() {
+    $("#wallet").modal("hide");    
+    this.userService.addMoney(this.wForm.controls.money.value).subscribe(
+      (model) => {
+        let user = JSON.parse(localStorage.getItem('user'));
+        user.balance += model['destBalance'];
+        localStorage.setItem('user', JSON.stringify(user));
+        this.userService.user = user;        
+      },
+      (err) => {
+        console.log(err);
       }
     );
   }

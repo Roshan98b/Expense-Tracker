@@ -163,7 +163,7 @@ router.post('/resetpassword',
 			else {
 				res.status(200).json({message: 'Password has been successfully reset!!'});
 			}
-		})
+		});
 	});
 
 router.post('/resetpassword1',
@@ -178,7 +178,7 @@ router.post('/resetpassword1',
 			else {
 				res.status(200).json({message: 'Password has been successfully reset!!'});
 			}
-		})
+		});
 	});
 
 //Reset Security Credentials
@@ -193,7 +193,7 @@ router.post('/resetSecurityCredentials',
 			else {
 				res.status(200).json({message: 'Security Credentials have been successfully reset!!'});
 			}
-		})
+		});
 	});
 
 //Edit profile
@@ -283,5 +283,19 @@ router.post('/checkPassword',
 				}
 			});
 		});
+
+// Profile
+router.post('/addmoney', 
+	passport.authenticate('jwt', {session: false}), 
+	(req, res) => {
+		let obj = {};
+		obj.destBalance = req.body.amount;
+		obj._Did = req.body._id;
+		Member.updateBalance(obj, (err, model) => {
+				if(err) res.status(501).json(err);
+				else res.status(200).json(obj);
+		});	
+	}
+);
 
 module.exports = router;
