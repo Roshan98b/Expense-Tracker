@@ -22,15 +22,9 @@ export class ApprovedComponent implements OnInit {
 
   selected = {};
   active;
-
-  paymentForm: FormGroup = new FormGroup({
-    balance: new FormControl(0),
-    useBalance: new FormControl(false),
-    amount: new FormControl(0,[Validators.required, Validators.min(0)])
-  });
+  amount = 0;
 
   ngOnInit() {
-    this.paymentForm.controls['balance'].setValue(this.userService.user.balance);
   	this.checkComplete();
     this.active = this.groupService.active;  	
     this.groupService.getAllMembers(() => {});
@@ -111,14 +105,22 @@ export class ApprovedComponent implements OnInit {
     }
   }
 
+  onPayInit(i) {
+    this.selected = i;
+    this.amount = this.getUserAmount();
+  }
+
   getUserAmount() {
     var _id = this.userService.user._id;
-    var amt;
+    var amt = 0;
     for(let i of this.selected['members']) {
       if(i._id == _id) amt = i.amount;
-      else amt = 0;
     }
     return amt;
+  }
+
+  onWallet() {
+    $("#pay").modal("hide");
   }
 
   onPay() {
@@ -127,10 +129,8 @@ export class ApprovedComponent implements OnInit {
       _id: this.selected['_id'],
       _Uid: this.userService.user._id,
       _Did: this.selected['_Uid'],
-      amount: this.paymentForm.controls.amount.value,
       memberBalance: this.userService.user.balance,
-      transactionAmount: this.getUserAmount(),
-      checked: this.paymentForm.controls.useBalance.value
+      transactionAmount: this.getUserAmount()
     };
     this.transactionService.billPayment(obj).subscribe(
       (model) => {
@@ -139,6 +139,7 @@ export class ApprovedComponent implements OnInit {
         user.balance = model['memberBalance'];
         localStorage.setItem('user', JSON.stringify(user));
         this.userService.user = user;
+        console.log(model);
       },
       (err) => {
         console.log(err)

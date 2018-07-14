@@ -20,7 +20,7 @@
           <td>{{i.amount}}</td>
           <td>{{i.expenseType}}</td>
           <td>{{i.expenseDate | date}}</td>                    
-          <td><button [disabled]="checkPay(i)" class="btn btn-sm btn-link" data-toggle="modal" data-target="#pay" (click)="selected = i">Pay</button></td>
+          <td><button [disabled]="checkPay(i)" class="btn btn-sm btn-link" data-toggle="modal" data-target="#pay" (click)="onPayInit(i)">Pay</button></td>
           <td><button class="btn btn-sm btn-link" (click)="onView(i)" data-toggle="modal" data-target="#view">View</button></td>
         </tr>
       </table>
@@ -88,30 +88,29 @@
         <h4 class="modal-title">Make payment</h4>
       </div>
       
-      <form [formGroup]="paymentForm" (ngSubmit)="onPay()">
-        <div class="modal-body">
-            <div class="form-group">
-              <label for="balance">Balance amount in your account:</label>
-              <input type="text" id="balance" class="form-control" formControlName="balance" value="100" readonly />
-            </div>
-            <div class="form-group">
-              <div class="checkbox">
-                <label for="useBalance">
-                  <input type="checkbox" id="useBalance" value="true" formControlName="expenseTypeOptions" formControlName="useBalance" />
-                  Do you want to use balance amount?
-                </label>
-              </div>
-            </div>  
-            <div class="form-group">
-              <label for="amount">Enter the amount to be payed:</label>
-              <input type="number" class="form-control" formControlName="amount" id="amount" />
-            </div>      
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-sm-6"><b>Current Balance</b></div>
+          <div class="col-sm-6">{{userService.user.balance}}</div>
+        </div><br>
+        <div class="row">
+          <div class="col-sm-6"><b>Transaction Amount</b></div>
+          <div class="col-sm-6">{{amount}}</div>
+        </div><br>
+        <div class="row" *ngIf="userService.user.balance - amount >= 0">
+          <div class="col-sm-6"><b>Balance After Payment</b></div>
+          <div class="col-sm-6">{{userService.user.balance - amount}}</div>
+        </div><br>
+        <div [ngClass]="{'has-success': (userService.user.balance - amount >= 0),'has-error': (userService.user.balance - amount < 0)}">
+          <label *ngIf="userService.user.balance - amount >= 0" class="control-label">Sufficient Balance</label>
+          <label *ngIf="userService.user.balance - amount < 0" class="control-label">Insufficient Balance</label>
         </div>
-        <div class="modal-footer">
-            <button type="submit" [disabled]="!paymentForm.valid" class="btn">Pay</button>
-            <button type="button" class="btn " data-dismiss="modal">Close</button>
-        </div>
-      </form>
+      </div>
+      <div class="modal-footer">
+          <button *ngIf="userService.user.balance - amount < 0" (click)="onWallet()" class="btn" data-target="#wallet" data-toggle="modal">Add To Wallet</button>
+          <button *ngIf="userService.user.balance - amount >= 0" (click)="onPay()" class="btn">Pay</button>
+          <button type="button" class="btn " data-dismiss="modal">Close</button>
+      </div>
 
     </div>
   </div>

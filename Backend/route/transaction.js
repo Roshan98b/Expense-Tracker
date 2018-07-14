@@ -175,29 +175,9 @@ router.post('/billpayment',
 		obj._id = req.body._id;
 		obj._Uid = req.body._Uid;
 		obj._Did = req.body._Did;
-		if(req.body.checked) {
-			amt = req.body.memberBalance + req.body.amount;	
-			if(amt > req.body.transactionAmount) {
-				obj.transactionAmount = 0;
-				obj.memberBalance = amt - req.body.transactionAmount;
-				obj.destBalance = req.body.transactionAmount;
-			} else {
-				obj.transactionAmount = req.body.transactionAmount - amt;
-				obj.memberBalance = 0;
-				obj.destBalance = amt;
-			}			
-		} else {
-			amt = req.body.amount;
-			if(amt > req.body.transactionAmount) {
-				obj.transactionAmount = 0;
-				obj.memberBalance = req.body.memberBalance + (amt - req.body.transactionAmount);
-				obj.destBalance = req.body.transactionAmount;
-			} else {
-				obj.transactionAmount =  req.body.transactionAmount - amt;
-				obj.memberBalance = req.body.memberBalance;
-				obj.destBalance = amt;
-			}
-		}
+		obj.memberBalance = req.body.memberBalance - req.body.transactionAmount;
+		obj.destBalance = req.body.transactionAmount;
+		obj.transactionAmount = 0;
 		Transaction.makePayment(obj, (err, model) => {
 			if(err) res.status(501).json(err);
 			else {
