@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, DoCheck } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -7,17 +7,20 @@ import { GroupService } from '../../../../../services/group/group.service';
 import { UserService } from '../../../../../services/user/user.service';
 import { Chart } from 'chart.js';
 
+declare var $ :any;
+
 @Component({
   selector: 'app-individual-in-group-report',
   templateUrl: './individual-in-group-report.component.html',
   styleUrls: ['./individual-in-group-report.component.css']
 })
-export class IndividualInGroupReportComponent implements OnInit {
+export class IndividualInGroupReportComponent implements OnInit, DoCheck {
 
   categoryChart = [];
   monthlyChart = [];
   years: number[] = [];
   default: number = 2018;
+  currentGroupId;
 
   constructor(
     private reportService: ReportService,
@@ -38,6 +41,15 @@ export class IndividualInGroupReportComponent implements OnInit {
     this.getReport(this.reportForm.controls.reportYear.value, this.groupService.active._groupId, this.userService.user._id);  
   }
 
+  ngDoCheck() {
+    if(this.currentGroupId != this.groupService.active._groupId) {
+      this.currentGroupId = this.groupService.active._groupId;
+      $("#categoryCanvas").replaceWith('<canvas id="categoryCanvas"></canvas>');
+      $("#monthlyCanvas").replaceWith('<canvas id="monthlyCanvas"></canvas>');
+      this.getReport(this.reportForm.controls.reportYear.value, this.currentGroupId, this.userService.user._id);
+    }
+  }
+
   categorywiseReport(obj) {
     obj = this.toCatagoryArray(obj);
     let expense = obj.expense;
@@ -56,7 +68,8 @@ export class IndividualInGroupReportComponent implements OnInit {
       },
       options: {
         legend: {
-          display: false
+          display: true,
+          position: 'right'
         },
         scales: {
           xAxes: [{

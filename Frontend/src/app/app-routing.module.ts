@@ -22,6 +22,7 @@ import { GroupReportComponent } from './components/user/content/reports/group-re
 import { IndividualInGroupReportComponent } from './components/user/content/reports/individual-in-group-report/individual-in-group-report.component';
 import { IndividualReportComponent } from './components/user/content/reports/individual-report/individual-report.component';
 import { ViewMembersComponent } from './components/user/content/view-members/view-members.component';
+import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
 	{
@@ -65,11 +66,13 @@ const routes: Routes = [
 					},
 					{
 						path: 'approvegh',
-						component: ApproveghComponent
+						component: ApproveghComponent,
+						canActivate: [AuthGuard]
 					},
 					{
 						path: 'removegh',
-						component: RemoveghComponent
+						component: RemoveghComponent,
+						canActivate: [AuthGuard]
 					}
 				]
 			}
@@ -95,47 +98,58 @@ const routes: Routes = [
 					},
 					{
 						path: 'invitation',
-						component: InvitationComponent
+						component: InvitationComponent,
+						canActivate: [AuthGuard]
 					},
 					{
 						path: 'viewMembers',
-						component: ViewMembersComponent
+						component: ViewMembersComponent,
+						canActivate: [AuthGuard]
 					},
 					{
 						path: 'addmember',
-						component: AddmemberComponent
+						component: AddmemberComponent,
+						canActivate: [AuthGuard]
 					},
 					{
 						path: 'uploadbill',
-						component: UploadbillComponent
+						component: UploadbillComponent,
+						canActivate: [AuthGuard]
 					},
 					{
 						path: 'groupReport',
-						component: GroupReportComponent
+						component: GroupReportComponent,
+						canActivate: [AuthGuard]
 					},
 					{
 						path: 'individualInGroupReport',
-						component: IndividualInGroupReportComponent
+						component: IndividualInGroupReportComponent,
+						canActivate: [AuthGuard]
 					},
 					{
 						path: 'individualReport',
-						component: IndividualReportComponent
+						component: IndividualReportComponent,
+						canActivate: [AuthGuard]
 					},
 					{
 						path: 'initialtransaction',
-						component: InitialComponent						
+						component: InitialComponent,
+						canActivate: [AuthGuard]				
 					},
 					{
 						path: 'completedtransaction',
-						component: CompletedComponent						
+						component: CompletedComponent,
+						canActivate: [AuthGuard]				
 					},
 					{
 						path: 'approvedtransaction',
-						component: ApprovedComponent						
+						component: ApprovedComponent,
+						canActivate: [AuthGuard]					
 					},
 					{
 						path: 'unapprovedtransaction',
-						component: UnapprovedComponent												
+						component: UnapprovedComponent,
+						canActivate: [AuthGuard]								
 					}										
 				]
 			}

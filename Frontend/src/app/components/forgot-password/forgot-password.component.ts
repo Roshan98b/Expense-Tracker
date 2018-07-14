@@ -49,8 +49,8 @@ export class ForgotPasswordComponent implements OnInit {
 
   onSubmit() {
     if(!this.forgotPasswordForm.valid) {
-      if(!this.forgotPasswordForm.controls.email.valid) alert('Please enter a valid E-mail ID');
-      if(!this.forgotPasswordForm.controls.securityAnswer.valid) alert('Answer the security question!!');
+      if(!this.forgotPasswordForm.controls.email.valid) this.focusEmail = true;
+      if(!this.forgotPasswordForm.controls.securityAnswer.valid) this.focusSecAnswer = true;
     }else this.userService.postPasswordRequest(this.forgotPasswordForm.value).subscribe(
       (message) => {
         console.log(message);

@@ -261,8 +261,8 @@ export class TopNavBarComponent implements OnInit {
       password: this.pform.controls.password.value
     };
     if(!this.pform.valid) {
-      if(!this.pform.controls.password.valid) this.focusPassword = false;
-      if(!this.pform.controls.cpassword.valid) this.focusCPassword = false;
+      if(!this.pform.controls.password.valid) this.focusPassword = true;
+      if(!this.pform.controls.cpassword.valid) this.focusCPassword = true;
     } else if(this.pform.controls.password.value != this.pform.controls.cpassword.value) alert('Confirm Password does not match password!!');
     else this.userService.resetPasswordRequest1(this.obj1).subscribe(
       (message) => {
@@ -284,7 +284,7 @@ export class TopNavBarComponent implements OnInit {
       answer: this.sForm.controls.securityAnswer.value
     };
     if(!this.sForm.valid) {
-      if(!this.sForm.controls.securityAnswer.valid) this.focusSecAnswer = false;
+      if(!this.sForm.controls.securityAnswer.valid) this.focusSecAnswer = true;
     } else this.userService.resetSecurityCredentials(this.obj2).subscribe(
       (message) => {
         console.log(message);

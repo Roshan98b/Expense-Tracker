@@ -69,7 +69,7 @@ function userDetails(model, res) {
 router.post('/login', (req, res) => {
 	Member.getByEmail(req.body.email, (err, model) => {
 		if(err) return done(err);
-		if(model == null) return res.status(501).json({message: 'Incorrect Username'});  
+		if(model == null) return res.status(501).json({message: 'Invalid username!! Please register before trying to login!!'});  
 		else {
 			var flag;
 			if(bcrypt.compareSync(req.body.password, model.password)) {
@@ -78,7 +78,7 @@ router.post('/login', (req, res) => {
 				});
 				userDetails(model, res, token);
 			}
-			else res.status(501).json({message: 'Incorrect Password'});
+			else res.status(501).json({message: 'Invalid login credentials!!'});
 		}
 	});	
 });
@@ -126,6 +126,7 @@ router.post('/forgotpassword',
 					} else {
 						
 						const output = `
+								<p>Please click on the link provided to reset your password and re-gain access to your account.</p>
 								<a href="http://127.0.0.1:4200/resetPassword/${model._id}">http://127.0.0.1:4200/resetPassword</a>
 							`;
 
@@ -133,7 +134,7 @@ router.post('/forgotpassword',
 					        from: '"Admin" <aaroncoc0001@gmail.com>', // sender address
 					        to: req.body.email, // list of receivers
 					        subject: 'Reset your ExpenseTracker password', // Subject line
-					        text: 'Please click on the link provided to reset your password and re-gain access to your account.', // plain text body
+					        text: '', // plain text body
 					        html: output // html body
 					    };
 

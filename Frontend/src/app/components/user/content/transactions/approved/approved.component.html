@@ -7,23 +7,26 @@
   <section class="content">
     <div class="box-body table-responsive no-padding">
       <table class="table table-hover">
-        <tr>
-          <th>Transaction Name</th>
-          <th>Amount(Rs)</th>
-          <th>Expense Type</th>
-          <th>Date</th>
+        <tr *ngIf="content">
+          <th style="text-align: center;">Transaction Name</th>
+          <th style="text-align: center;">Expense Amount</th>
+          <th style="text-align: center;">Expense Type</th>
+          <th style="text-align: center;">Transaction Date</th>
           <th></th>
           <th></th>
         </tr>
         <tr *ngFor="let i of this.transactionService.approved">
-          <td>{{i.transactionName}}</td>
-          <td>{{i.amount}}</td>
-          <td>{{i.expenseType}}</td>
-          <td>{{i.expenseDate | date}}</td>                    
-          <td><button [disabled]="checkPay(i)" class="btn btn-sm btn-link" data-toggle="modal" data-target="#pay" (click)="onPayInit(i)">Pay</button></td>
-          <td><button class="btn btn-sm btn-link" (click)="onView(i)" data-toggle="modal" data-target="#view">View</button></td>
+          <td align="center">{{i.transactionName}}</td>
+          <td align="center">{{i.amount}}</td>
+          <td align="center">{{i.expenseType}}</td>
+          <td align="center">{{i.expenseDate  | date}}</td>                    
+          <td align="center"><button [disabled]="checkPay(i)" class="btn btn-sm btn-link" data-toggle="modal" data-target="#pay" (click)="onPayInit(i)">Pay</button></td>
+          <td align="center"><button class="btn btn-sm btn-link" (click)="onView(i)" data-toggle="modal" data-target="#view">View</button></td>
         </tr>
       </table>
+      <div *ngIf="!content">
+        <h4>No approved transactions are currently available.</h4>
+      </div>
     </div>      
   </section>
 </div>
@@ -32,38 +35,38 @@
   <div class="modal-dialog">
     <div class="modal-content">
 
-      <div class="modal-header">
+      <div class="modal-header" style="background-color: #357ca5; color: white;">
         <button type="button" class="close" data-dismiss="modal" >
                   <span >&times;</span></button>        
-        <h4 class="modal-title">Details</h4>
+        <h4 class="modal-title">Transaction Details</h4>
       </div>
       
         <div class="modal-body">
           <div class="row">
-            <div class="col-sm-6"><b>Transaction Name</b></div>
+            <div class="col-sm-6"><b>Transaction Name:</b></div>
             <div class="col-sm-6">{{selected.transactionName}}</div>
           </div><br>
           <div class="row">
-            <div class="col-sm-6"><b>Total Amount</b></div>
+            <div class="col-sm-6"><b>Expense Amount:</b></div>
             <div class="col-sm-6">{{selected.amount}}</div>
           </div><br>
           <div class="row">
-            <div class="col-sm-6"><b>Expense Date</b></div>
-            <div class="col-sm-6">{{selected.expenseDate | date:'medium'}}</div>
+            <div class="col-sm-6"><b>Transaction Date:</b></div>
+            <div class="col-sm-6">{{selected.expenseDate | date}}</div>
           </div><br>
           <div class="row">
-            <div class="col-sm-6"><b>Upload Date</b></div>
+            <div class="col-sm-6"><b>Upload Date and Time:</b></div>
             <div class="col-sm-6">{{selected.uploadDate | date:'medium'}}</div>
           </div><br>                                      
           <div class="row">
-            <div class="col-sm-6"><b>Expense Type</b></div>
+            <div class="col-sm-6"><b>Expense Type:</b></div>
             <div class="col-sm-6">{{selected.expenseType}}</div>
           </div><br>
           <div class="row">
-            <div class="col-sm-6"><b>Comments</b></div>
+            <div class="col-sm-6"><b>Comments:</b></div>
             <div class="col-sm-6">{{selected.comments}}</div>
           </div><br>          
-          <div class="row"><div class="col-sm-12"><b>Members</b></div></div>
+          <div class="row"><div class="col-sm-12"><b>Members involved:</b></div></div>
           <div class="row rows" *ngFor="let j of selected.members">
             <div class="col-sm-6">{{j.email}}</div>
             <div class="col-sm-6">{{j.amount}}</div>
@@ -72,7 +75,7 @@
         </div>
 
         <div class="modal-footer">
-            <button type="button" class="btn " data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-sm" data-dismiss="modal" style="background-color: #357ca5; color: white;">Close</button>
         </div>
     </div>
   </div>
@@ -82,7 +85,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
 
-      <div class="modal-header">
+      <div class="modal-header" style="background-color: #357ca5; color: white;">
         <button type="button" class="close" data-dismiss="modal" >
                   <span >&times;</span></button>        
         <h4 class="modal-title">Make payment</h4>
@@ -105,7 +108,8 @@
           <label *ngIf="userService.user.balance - amount >= 0" class="control-label">Sufficient Balance</label>
           <label *ngIf="userService.user.balance - amount < 0" class="control-label">Insufficient Balance</label>
         </div>
-      </div>
+      </div>                  
+      
       <div class="modal-footer">
           <button *ngIf="userService.user.balance - amount < 0" (click)="onWallet()" class="btn" data-target="#wallet" data-toggle="modal">Add To Wallet</button>
           <button *ngIf="userService.user.balance - amount >= 0" (click)="onPay()" class="btn">Pay</button>

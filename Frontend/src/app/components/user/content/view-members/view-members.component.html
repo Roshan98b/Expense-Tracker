@@ -9,16 +9,16 @@
 			<div class="box-body table-responsive no-padding">
 				<table class="table table-hover table-bordered">
 					<tr>
-						<th>E-mail ID</th>
-						<th>First Name</th>
-						<th>Last Name</th>
+						<th style="text-align: center;">E-mail ID</th>
+						<th style="text-align: center;">First Name</th>
+						<th style="text-align: center;">Last Name</th>
 						<th></th>
 					</tr>
 					<tr *ngFor="let i of groupService.allMembers">
-						<td>{{i.email}}</td>
-						<td>{{i.firstname}}</td>
-						<td>{{i.lastname}}</td>
-						<td><button class="btn btn-sm btn-info" (click)="viewProfile(i)" data-target="#view" data-toggle="modal">View Profile</button></td>					
+						<td align="center">{{i.email}}</td>
+						<td align="center">{{i.firstname}}</td>
+						<td align="center">{{i.lastname}}</td>
+						<td align="center"><button class="btn btn-sm btn-info" (click)="viewProfile(i)" data-target="#view" data-toggle="modal">View Profile</button></td>					
 					</tr>
 				</table>
 			</div>
