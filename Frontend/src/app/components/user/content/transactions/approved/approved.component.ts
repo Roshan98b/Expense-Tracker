@@ -23,6 +23,7 @@ export class ApprovedComponent implements OnInit {
   selected = {};
   active;
   amount = 0;
+  content: Boolean;
 
   ngOnInit() {
   	this.checkComplete();
