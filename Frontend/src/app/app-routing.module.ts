@@ -23,6 +23,7 @@ import { IndividualInGroupReportComponent } from './components/user/content/repo
 import { IndividualReportComponent } from './components/user/content/reports/individual-report/individual-report.component';
 import { ViewMembersComponent } from './components/user/content/view-members/view-members.component';
 import { AuthGuard } from './auth.guard';
+import { AdminGuard } from './admin.guard';
 
 const routes: Routes = [
 	{
@@ -67,12 +68,12 @@ const routes: Routes = [
 					{
 						path: 'approvegh',
 						component: ApproveghComponent,
-						canActivate: [AuthGuard]
+						canActivate: [AdminGuard]
 					},
 					{
 						path: 'removegh',
 						component: RemoveghComponent,
-						canActivate: [AuthGuard]
+						canActivate: [AdminGuard]
 					}
 				]
 			}

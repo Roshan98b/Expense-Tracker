@@ -22,7 +22,10 @@ export class LoginComponent implements OnInit {
   });
 
   ngOnInit() {
-    
+    if(this.userService.getToken()) {
+      if(this.userService.checkUser()) this.router.navigate(['user']);
+      else this.router.navigate(['admin']);
+    }
   }
 
   navRegister() {
