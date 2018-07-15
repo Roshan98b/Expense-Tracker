@@ -1,6 +1,5 @@
 import { Component, OnInit, DoCheck } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 
 import { ReportService } from '../../../../../services/report/report.service';
 import { GroupService } from '../../../../../services/group/group.service';
@@ -20,6 +19,8 @@ export class GroupReportComponent implements OnInit, DoCheck {
   years: number[] = [];
   default: number = 2018;
   currentGroupId;
+  contentC: Boolean = true;
+  contentM: Boolean = true;
 
   constructor(
     private reportService: ReportService,
@@ -43,6 +44,8 @@ export class GroupReportComponent implements OnInit, DoCheck {
   ngDoCheck() {
     if(this.currentGroupId != this.groupService.active._groupId) {
       this.currentGroupId = this.groupService.active._groupId;
+      this.contentC = true;
+      this.contentM = true;
       $("#categoryCanvas").replaceWith('<canvas id="categoryCanvas"></canvas>');
       $("#monthlyCanvas").replaceWith('<canvas id="monthlyCanvas"></canvas>');
       this.getReport(this.reportForm.controls.reportYear.value, this.currentGroupId);
@@ -116,7 +119,7 @@ export class GroupReportComponent implements OnInit, DoCheck {
           }],
         }
       }
-    });    
+    });
   }
 
   toMonthArray(obj) {
@@ -160,9 +163,13 @@ export class GroupReportComponent implements OnInit, DoCheck {
     };
     this.reportService.postYear(obj).subscribe(
       (model) => {
+        if(Object.keys(model['catagorical']).length == 0) this.contentC = false;
+        else this.contentC = true;
+        if(Object.keys(model['monthly']).length == 0) this.contentM = false;
+        else this.contentM = true;
         this.allMonths(model['monthly']);
         this.categorywiseReport(model['catagorical']);
-        this.monthlyReport(model['monthly']);       
+        this.monthlyReport(model['monthly']);
       },
       (err) => {
         console.log(err);

@@ -13,29 +13,36 @@
             	</form>
             </div>
         </div>
-    </section>
-    <section class="content-header">
-    	<h1>Category-wise Expense Report</h1>
-    </section>
-    <section class="content-header">
-        <div class="box box-info">
-            <div class="box-body">
-                <div *ngIf="categoryChart">
-                    <canvas id="categoryCanvas">{{ categoryChart }}</canvas>
+        <div *ngIf="contentC">
+            <section class="content-header">
+                <h1>Category-wise Expense Report</h1>
+            </section>
+            <section class="content-header">
+                <div class="box box-info">
+                    <div class="box-body">
+                        <div *ngIf="contentC">
+                            <canvas id="categoryCanvas">{{ categoryChart }}</canvas>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </section>
         </div>
-    </section>
-	<section class="content-header">
-       <h1>Monthly Expense Report</h1>
-    </section>
-    <section class="content">
-        <div class="box box-info">
-            <div class="box-body">
-                <div *ngIf="monthlyChart">
-                    <canvas id="monthlyCanvas">{{ monthlyChart }}</canvas>
+        <div *ngIf="contentM">
+            <section class="content-header">
+                <h1>Monthly Expense Report</h1>
+            </section>
+            <section class="content">
+                <div class="box box-info">
+                    <div class="box-body">
+                        <div *ngIf="contentM">
+                            <canvas id="monthlyCanvas">{{ monthlyChart }}</canvas>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </section>
+        </div>        
+        <div *ngIf="!contentC && !contentM">
+            <h4>No completed transactions are currently available.</h4>
         </div>
-    </section>
+    </section>            
 </div>
