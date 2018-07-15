@@ -54,7 +54,6 @@ export class CompletedComponent implements OnInit {
     this.transactionService.checkComplete(this.groupService.active._groupId).subscribe(
       (model) => {
         this.getCompletedTransactions();
-        console.log(model);
       },
       (err) => {
         console.log(err);

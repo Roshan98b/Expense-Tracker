@@ -1,41 +1,48 @@
 <div class="content-wrapper">
-    <section class="content">
-        <div class="box box-info">
-            <div class="box-body">
-            	<form [formGroup]="reportForm" (ngSubmit)="onSubmit()">
-                	<div class="form-group">
-                    	<label for="reportYear">Select the year for which report has to be generated:</label>
-                    	<select id="reportYear" name="reportYear" class="form-control" formControlName="reportYear">
-                        	<option *ngFor="let year of years" [ngValue]="year">{{year}}</option>
-                    	</select>
-                	</div>
-                	<button type="submit" class="btn btn-primary btn-block btn-flat">Get Report</button>
-            	</form>
-            </div>
-        </div>
-    </section>
-    <section class="content-header">
-    	<h1>Category-wise Expense Report</h1>
-    </section>
-    <section class="content-header">
-        <div class="box box-info">
-            <div class="box-body">
-                <div *ngIf="categoryChart">
-                    <canvas id="categoryCanvas">{{ categoryChart }}</canvas>
+        <section class="content">
+            <div class="box box-info">
+                <div class="box-body">
+                    <form [formGroup]="reportForm" (ngSubmit)="onSubmit()">
+                        <div class="form-group">
+                            <label for="reportYear">Select the year for which report has to be generated:</label>
+                            <select id="reportYear" name="reportYear" class="form-control" formControlName="reportYear">
+                                <option *ngFor="let year of years" [ngValue]="year">{{year}}</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block btn-flat">Get Report</button>
+                    </form>
                 </div>
             </div>
-        </div>
-    </section>
-	<section class="content-header">
-       <h1>Monthly Expense Report</h1>
-    </section>
-    <section class="content">
-        <div class="box box-info">
-            <div class="box-body">
-                <div *ngIf="monthlyChart">
-                    <canvas id="monthlyCanvas">{{ monthlyChart }}</canvas>
-                </div>
+            <div *ngIf="contentC">
+                <section class="content-header">
+                    <h1>Category-wise Expense Report</h1>
+                </section>
+                <section class="content-header">
+                    <div class="box box-info">
+                        <div class="box-body">
+                            <div *ngIf="contentC">
+                                <canvas id="categoryCanvas">{{ categoryChart }}</canvas>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </div>
-        </div>
-    </section>
-</div>
+            <div *ngIf="contentM">
+                <section class="content-header">
+                    <h1>Monthly Expense Report</h1>
+                </section>
+                <section class="content">
+                    <div class="box box-info">
+                        <div class="box-body">
+                            <div *ngIf="contentM">
+                                <canvas id="monthlyCanvas">{{ monthlyChart }}</canvas>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>        
+            <div *ngIf="!contentC && !contentM">
+                <h4>No completed transactions are currently available.</h4>
+            </div>
+        </section>            
+    </div>
