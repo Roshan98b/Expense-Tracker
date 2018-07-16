@@ -2,43 +2,47 @@
 	<section class="content-header">
 	  <h1>
 	    Replace Group Head
-	    <small></small>
 	  </h1>
 	</section>
 
 	<section class="content">
 
 			<div class="box-body">
+        <form [formGroup]="selForm">
         <div class="input-group input-group-sm">
-          <input type="text" class="form-control" (keyup)="onKey($event)">
+          <input type="text" formControlName="selectedGH" class="form-control" (keyup)="onKey($event)">
             <span class="input-group-btn">
               <button type="button" class="btn btn-info btn-flat">Go!</button>
             </span>
         </div>
+        </form>
 			</div>
 			<br><br>
 		  <div class="box-body table-responsive no-padding">
 				<table class="table table-hover table-bordered">
-					<tr>
-						<th class="col-5">EmailID</th>
-						<th class="col-5">Group Name</th>
+					<tr *ngIf="content">
+						<th class="col-5" style="text-align: center;">EmailID</th>
+						<th class="col-5" style="text-align: center;">Group Name</th>
 						<th class="col-2"></th>
 					</tr>
 					<tr *ngFor="let i of groupService.tempGH">
-						<td class="col-5">{{i.email}}</td>
-						<td class="col-5">{{i.groupName}}</td>
-						<td class="col-2"><button class="btn btn-sm btn-danger" (click)="onClick(i)" data-toggle="modal" data-target="#delModel">Replace Group Head</button></td>
+						<td class="col-5" align="center">{{i.email}}</td>
+						<td class="col-5" align="center">{{i.groupName}}</td>
+						<td class="col-2" align="center"><button class="btn btn-sm btn-danger" (click)="onClick(i)" data-toggle="modal" data-target="#delModal">Replace Group Head</button></td>
 					</tr>
 				</table>
+        <div *ngIf="!content">
+          <h4>No matching results exist.</h4>
+        </div>
 			</div>
 	</section>
 </div>
 
-<div class="modal" id="delModel">
+<div class="modal" id="delModal">
   <div class="modal-dialog">
     <div class="modal-content">
 
-      <div class="modal-header">
+      <div class="modal-header" style="background-color: #357ca5; color: white;">
         <button type="button" class="close" data-dismiss="modal" >
                   <span >&times;</span></button>        
         <h4 class="modal-title">Select Another Group Head</h4>
@@ -55,9 +59,9 @@
         </div>
 
         <div class="modal-footer">
-            <button type="submit" [disabled]="!delForm.valid" class="btn">Sumbit</button>
-            <button type="reset" class="btn ">Reset</button>
-            <button type="button" class="btn " data-dismiss="modal">Close</button>
+            <button type="submit" [disabled]="!delForm.valid" class="btn btn-sm" style="background-color: #357ca5; color: white;">Submit</button>
+            <button type="reset" class="btn btn-sm" style="background-color: #357ca5; color: white;">Reset</button>
+            <button type="button" class="btn btn-sm" data-dismiss="modal" style="background-color: #357ca5; color: white;">Close</button>
         </div>
 
       </form>

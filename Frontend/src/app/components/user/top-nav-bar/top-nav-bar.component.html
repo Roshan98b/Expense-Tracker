@@ -89,7 +89,7 @@
           <button type="button" class="btn btn-sm pull-left" data-target="#changepassword1" data-toggle="modal" (click)="changePassword()" style="background-color: #357ca5; color: white;">Change Password</button>
           <button type="button" class="btn btn-sm pull-left" data-target="#changepassword2" data-toggle="modal" (click)="changeSecurityCredentials()" style="background-color: #357ca5; color: white;">Change Security Question</button>
           <button type="button" class="btn btn-sm" data-target="#edit" data-toggle="modal" (click)="onEdit(selected)" style="background-color: #357ca5; color: white;">Edit Profile</button> 
-          <button type="button" class="btn btn-sm" data-target="#wallet" (click)="onWallet()" data-toggle="modal" style="background-color: #357ca5; color: white;">Wallet</button>         
+          <button type="button" class="btn btn-sm" data-target="#wallet" (click)="onWallet()" data-toggle="modal" style="background-color: #357ca5; color: white;">Your Wallet</button>         
           <button type="button" class="btn btn-sm" data-dismiss="modal" style="background-color: #357ca5; color: white;">Close</button>
         </div>
     </div>
@@ -306,24 +306,24 @@
       <div class="modal-header" style="background-color: #357ca5; color: white;">
         <button type="button" class="close" data-dismiss="modal" >
                   <span >&times;</span></button>        
-        <h4 class="modal-title">Wallet</h4>
+        <h4 class="modal-title">Your Wallet</h4>
       </div>
 
       <form [formGroup]="wForm" (ngSubmit)="onAddMoney()">
         <div class="modal-body">
           <div class="row">
-            <div class="col-sm-6"><b>Current Balance</b></div>
+            <div class="col-sm-6"><b>Current Balance:</b></div>
             <div class="col-sm-6">{{userService.user.balance}}</div>
           </div><br>
           <div class="form-group has-feedback">
-            <label for="money">Enter Amount</label>
-            <input type="number" class="form-control" placeholder="Enter Amount" id="money" name="money" formControlName="money" autocomplete="off">
+            <label for="money">Enter amount to be added:</label>
+            <input type="number" class="form-control" placeholder="Enter Amount" id="money" name="money" formControlName="money" autocomplete="off" min="0">
           </div><br/>        
         </div>
 
         <div class="modal-footer">
-          <button [disabled]="!wForm.valid" type="submit" class="btn btn-sm" style="background-color: #357ca5; color: white;">Add</button>
-            <button type="button" class="btn btn-sm" data-dismiss="modal" style="background-color: #357ca5; color: white;">Close</button>
+          <button [disabled]="!wForm.valid" type="submit" class="btn btn-sm" style="background-color: #357ca5; color: white;">Add Money</button>
+            <button type="button" class="btn btn-sm" data-dismiss="modal" style="background-color: #357ca5; color: white;" (click)="onClose()">Close</button>
         </div>
       </form>
     </div>

@@ -6,6 +6,8 @@ import { UserService } from '../../../../services/user/user.service';
 import { GroupService } from '../../../../services/group/group.service';
 import { Group } from '../../../../services/group/group';
 
+declare var $: any;
+
 @Component({
   selector: 'app-removegh',
   templateUrl: './removegh.component.html',
@@ -21,8 +23,13 @@ export class RemoveghComponent implements OnInit {
     member: new FormControl(null,[Validators.required])
   });
 
+  selForm: FormGroup = new FormGroup({
+    selectedGH: new FormControl(null)
+   });
+
   selGH;
   allMembers;
+  content: Boolean;
 
   ngOnInit() {
   }
@@ -32,6 +39,7 @@ export class RemoveghComponent implements OnInit {
     this.groupService.getCurrentGroupMembers(this.selGH._id).subscribe(
       (model) => {
         this.allMembers = model;
+        this.filterUsers(this.allMembers);
       },
       (err) => {
         console.log(err);
@@ -39,11 +47,22 @@ export class RemoveghComponent implements OnInit {
     );
   }
 
+  filterUsers(model) {
+    for(let i=0 ; i<model.length ; i++)
+      if(model[i])
+        if(model[i].email == this.selGH.email)
+          model.splice(i, 1);
+  }
+
   onKey(event: any) { 
     if(event.target.value) {
     	this.groupService.searchGroupHead(event.target.value).subscribe(
     		(model) => {
     			this.groupService.tempGH = <Group[]>model;
+          if(this.groupService.tempGH.length == 0)
+            this.content = false;
+          else
+            this.content = true;
     		},
     		(err) => {
     			console.log(err);
@@ -51,6 +70,7 @@ export class RemoveghComponent implements OnInit {
     	);
     } else {
       this.groupService.tempGH = [];
+      this.content = false;
     }
   }
 
@@ -64,6 +84,10 @@ export class RemoveghComponent implements OnInit {
     this.groupService.postDeleteGH(obj).subscribe(
       (message) => {
         console.log(message);
+        $("#delModal").modal("hide");
+        this.selForm.reset();
+        this.groupService.tempGH = [];
+        this.content = false;
       },
       (err) => {
         console.log(err);
