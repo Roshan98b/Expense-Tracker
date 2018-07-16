@@ -310,12 +310,17 @@ export class TopNavBarComponent implements OnInit {
         let user = JSON.parse(localStorage.getItem('user'));
         user.balance += model['destBalance'];
         localStorage.setItem('user', JSON.stringify(user));
-        this.userService.user = user;        
+        this.userService.user = user;
+        this.wForm.reset();      
       },
       (err) => {
         console.log(err);
       }
     );
+  }
+
+  onClose() {
+    this.wForm.reset();
   }
 
   logout() {
