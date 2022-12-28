@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +8,7 @@ import { map } from 'rxjs/operators';
 export class ReportService {
 
 	token: any;
-  url: string = 'http://172.22.92.82:3000/users';
+  url: string = environment.backend_url;
 
   constructor(
     private http: HttpClient
