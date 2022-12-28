@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class UserService {
     private http: HttpClient
   ) { }
 
-  url: string = 'http://127.0.0.1:3000/users';
+  url: string = environment.backend_url;
   token: any;
   user: any;
 

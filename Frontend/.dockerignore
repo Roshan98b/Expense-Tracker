@@ -1,0 +1,13 @@
+# Dependencies
+node_modules
+npm-debug.log
+
+# Database
+datadir
+
+# Config
+.env
+
+# Docker files
+Dockerfile
+.dockerignore
