@@ -38,11 +38,11 @@ router.post('/creategroup',
 									`;
 
 					    			let mailOptions = {
-					        		from: '"Admin" <aaroncoc0001@gmail.com>', // sender address
-					        		to: req.body.email, // list of receivers
-					        		subject: 'Regarding Group creation request in ExpenseTracker', // Subject line
-					        		text: '', // plain text body
-					        		html: output // html body
+										from: `Admin ${process.env.NODEMAILER_EMAIL}`, // sender address
+										to: req.body.email, // list of receivers
+										subject: 'Regarding Group creation request in ExpenseTracker', // Subject line
+										text: '', // plain text body
+										html: output // html body
 					    			};
 
 					    			Mail.sendMail(mailOptions, (error, info) => {
@@ -68,7 +68,7 @@ router.post('/creategroup',
 					`;
 
 					let mailOptions = {
-						from: '"Admin" <aaroncoc0001@gmail.com>', // sender address
+						from: `Admin ${process.env.NODEMAILER_EMAIL}`, // sender address					        		
 						to: req.body.email, // list of receivers
 						subject: 'Regarding Group creation request in ExpenseTracker', // Subject line
 						text: '', // plain text body

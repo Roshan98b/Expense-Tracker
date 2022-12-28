@@ -4,8 +4,12 @@
 /node_modules
 
 # Config
+.env
 /.je-project-settings
 /flow-typed
 .flowconfig
 Login.sublime-project
 Login.sublime-workspace
+
+# Database
+/datadir

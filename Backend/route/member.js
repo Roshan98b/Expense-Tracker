@@ -131,8 +131,8 @@ router.post('/forgotpassword',
 							`;
 
 					    let mailOptions = {
-					        from: '"Admin" <aaroncoc0001@gmail.com>', // sender address
-					        to: req.body.email, // list of receivers
+					        from: `Admin ${process.env.NODEMAILER_EMAIL}`, // sender address
+							to: req.body.email, // list of receivers
 					        subject: 'Reset your ExpenseTracker password', // Subject line
 					        text: '', // plain text body
 					        html: output // html body
