@@ -3,32 +3,32 @@
 
     <ul class="sidebar-menu">
       <li class="header" *ngIf="show()">MAIN MENU</li>
-      <li class="treeview" *ngIf="show()">
+      <li class="treeview menu-open" *ngIf="show()">
         <a>
           <i class="fa fa-files-o"></i> <span>Reports</span> <i class="fa fa-angle-left pull-right"></i>
         </a>
-        <ul class="treeview-menu">
+        <ul class="treeview-menu treeview-menu-visible">
           <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a routerLink="content/groupReport"><i class="fa fa-circle-o"></i>For this Group</a></li>
           <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a routerLink="content/individualInGroupReport"><i class="fa fa-circle-o"></i>For you in this group</a></li>
           <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a routerLink="content/individualReport"><i class="fa fa-circle-o"></i>Overall Individual report</a></li>
         </ul>
       </li>
-      <li class="treeview" *ngIf="show()">
+      <li class="treeview menu-open" *ngIf="show()">
         <a>
           <i class="fa fa-ticket"></i> <span>Transactions</span> <i class="fa fa-angle-left pull-right"></i>
         </a>
-        <ul class="treeview-menu">
+        <ul class="treeview-menu treeview-menu-visible">
           <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a routerLink="content/initialtransaction"><i class="fa fa-circle-o"></i> Initial Transactions</a></li>
           <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a routerLink="content/approvedtransaction"><i class="fa fa-circle-o"></i> Approved Transactions</a></li>
           <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a routerLink="content/unapprovedtransaction"><i class="fa fa-circle-o"></i> Unapproved Transactions</a></li>
           <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a routerLink="content/completedtransaction"><i class="fa fa-circle-o"></i> Completed Transactions</a></li>
         </ul>
       </li>
-      <li class="treeview" *ngIf="checkGH()">
+      <li class="treeview menu-open" *ngIf="checkGH()">
         <a>
           <i class="fa fa-user"></i> <span>Manage Members</span> <i class="fa fa-angle-left pull-right"></i>
         </a>
-        <ul class="treeview-menu">
+        <ul class="treeview-menu treeview-menu-visible">
           <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a routerLink="content/addmember"><i class="fa fa-circle-o"></i>Add Members</a></li>
         </ul>
       </li>

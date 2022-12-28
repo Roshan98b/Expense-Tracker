@@ -77,5 +77,22 @@ npm install
 Run app locally
 ```
 export NODE_OPTIONS=--openssl-legacy-provider #optional, if app fails to start
+npm run build
 npm start
+```
+
+Build docker image from `Dockerfile`
+```
+docker build -t ext-frontend:1.0.0 -t ext-frontend:latest .
+```
+
+If build fails, optional environment variables to be added
+```
+export DOCKER_BUILDKIT=0
+export COMPOSE_DOCKER_CLI_BUILD=0
+```
+
+Run app on a docker container
+```
+ docker run -d --rm --name ext-frontend -p 8080:80 -e ENV_API_BACKEND_URL=http://172.22.92.82:3000/users ext-frontend:latest
 ```
