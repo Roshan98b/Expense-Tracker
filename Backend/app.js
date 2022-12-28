@@ -6,13 +6,16 @@ var cors = require('cors');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var path = require('path');
+var session = require('express-session');
+require('dotenv').config()
 
 var users = require('./route/users');
 
 var app = express();
-var mongodbUrl = 'mongodb://localhost:27017/project';
+var mongodbUrl = process.env.MONGO_URL;
 
 // MongoDB Connection
+mongoose.set('strictQuery', false);
 mongoose.connect(mongodbUrl);
 mongoose.connection.on('connected', () => {
 	console.log('Connected to mongodb '+ mongodbUrl);
@@ -23,6 +26,11 @@ mongoose.connection.on('error', (err) => {
 });
 
 // Add Passport Code
+app.use(session({
+  resave: false,
+  saveUninitialized: true,
+  secret: process.env.SESSION_SECRET 
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 require('./config/passportjwt');
@@ -37,7 +45,7 @@ app.use(bodyParser.urlencoded({extended:false}));
 // CORS
 app.use(cors(
 	{
-		origin: ['http://127.0.0.1:4200'],
+		origin: [process.env.CORS_ORIGIN],
 		credentials: true
 	}
 ));
