@@ -10,7 +10,7 @@ export class GroupService {
 
   constructor(private http: HttpClient) { }
 
-  url: string = 'http://127.0.0.1:3000/users';
+  url: string = 'http://172.22.92.82:3000/users';
 
   token;
   tempGroup: Group = new Group();
