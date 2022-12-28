@@ -36,6 +36,11 @@ NODEMAILER_EMAIL=nodemailer_emailid
 NODEMAILER_PASSWORD=nodemailer_password
 ```
 
+Install dependencies
+```
+npm install
+```
+
 Run app locally
 ```
 node app
@@ -57,3 +62,20 @@ Run app on a docker container
 docker run -d --rm --name ext-backend -p 3000:3000 --env-file ./.env ext-backend:latest
 ```
 
+## Angular frontend
+
+Install Angluar CLI
+```
+sudo npm install -g @angular/cli
+```
+
+Install dependencies
+```
+npm install
+```
+
+Run app locally
+```
+export NODE_OPTIONS=--openssl-legacy-provider #optional, if app fails to start
+npm start
+```
