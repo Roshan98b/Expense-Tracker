@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ext-backend
+  labels:
+    app: ext-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ext-backend
+  template:
+    metadata:
+      labels:
+        app: ext-backend
+    spec:
+      containers:
+        - name: ext-frontend
+          image: robadrinacr1.azurecr.io/ext-backend:latest
+          ports:
+            - containerPort: 3000
+          imagePullPolicy: Always
+          env:
+            - name: MONGO_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: ext-backend-configmap
+                  key: mongo_url
+            - name: MONGO_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: ext-backend-configmap
+                  key: mongo_port
+            - name: MONGO_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: ext-backend-configmap
+                  key: mongo_database
+            - name: NODEMAILER_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: ext-backend-configmap
+                  key: nodemailer_host
+            - name: SESSION_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: ext-backend-secret
+                  key: secret_session
+            - name: NODEMAILER_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: ext-backend-secret
+                  key: nodemailer_email
+            - name: NODEMAILER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ext-backend-secret
+                  key: nodemailer_password
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ext-backend-service
+spec:
+  selector:
+    app: ext-backend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
