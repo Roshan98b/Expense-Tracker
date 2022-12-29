@@ -12,7 +12,7 @@ require('dotenv').config()
 var users = require('./route/users');
 
 var app = express();
-var mongodbUrl = process.env.MONGO_URL;
+var mongodbUrl = `mongodb://${process.env.MONGO_URL}:${process.env.MONGO_PORT}/${process.env.MONGO_DATABASE}`;
 
 // MongoDB Connection
 mongoose.set('strictQuery', false);

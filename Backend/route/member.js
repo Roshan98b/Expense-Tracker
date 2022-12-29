@@ -124,27 +124,32 @@ router.post('/forgotpassword',
 					if(req.body.securityQuestion != model.securityQuestion || req.body.securityAnswer != model.securityAnswer) {
 						res.status(501).json({message: 'Invalid Security credentials!!!'});
 					} else {
-						
-						const output = `
+						if (process.env.FF_NODEMAILER == null || process.env.FF_NODEMAILER === 'false') {
+							console.log("Mailer is not applicable");
+							res.status(200).json({ message: 'Security credentials verified successfully!!' });
+						} else {
+
+							const output = `
 								<p>Please click on the link provided to reset your password and re-gain access to your account.</p>
 								<a href="http://127.0.0.1:4200/resetPassword/${model._id}">http://127.0.0.1:4200/resetPassword</a>
 							`;
 
-					    let mailOptions = {
-					        from: `Admin ${process.env.NODEMAILER_EMAIL}`, // sender address
-							to: req.body.email, // list of receivers
-					        subject: 'Reset your ExpenseTracker password', // Subject line
-					        text: '', // plain text body
-					        html: output // html body
-					    };
+							let mailOptions = {
+								from: `Admin ${process.env.NODEMAILER_EMAIL}`, // sender address
+								to: req.body.email, // list of receivers
+								subject: 'Reset your ExpenseTracker password', // Subject line
+								text: '', // plain text body
+								html: output // html body
+							};
 
-					    Mail.sendMail(mailOptions, (error, info) => {
-					        if (error) {
-					            return console.log(error);
-					        }
-					        console.log('Message sent: %s', info.messageId);
-					        res.status(200).json({message: 'Security credentials verified successfully!!'});
-					    });
+							Mail.sendMail(mailOptions, (error, info) => {
+								if (error) {
+									return console.log(error);
+								}
+								console.log('Message sent: %s', info.messageId);
+								res.status(200).json({ message: 'Security credentials verified successfully!!' });
+							});
+						}
 					}
 				}
 			}

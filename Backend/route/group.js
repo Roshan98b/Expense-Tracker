@@ -32,26 +32,30 @@ router.post('/creategroup',
 							TempGroup.deleteById(req.body._id, (err) => {
 								if(err) res.status(501).json(err);
 								else {
-
-									const output = `
-										<p>Your Group Creation request has been accepted by the admin. Group with name '${req.body.groupName}' has been successfully been created.</p>
-									`;
-
-					    			let mailOptions = {
-										from: `Admin ${process.env.NODEMAILER_EMAIL}`, // sender address
-										to: req.body.email, // list of receivers
-										subject: 'Regarding Group creation request in ExpenseTracker', // Subject line
-										text: '', // plain text body
-										html: output // html body
-					    			};
-
-					    			Mail.sendMail(mailOptions, (error, info) => {
-					        			if (error) {
-					        		    	return console.log(error);
-					        			}
-					        			console.log('Message sent: %s', info.messageId);
-										res.status(200).json({message: 'Group Created Successfully'});
-									});
+									if (process.env.FF_NODEMAILER == null || process.env.FF_NODEMAILER === 'false') {
+										console.log("Mailer is not applicable");											
+										res.status(200).json({ message: 'Group Created Successfully' });
+									} else {
+										const output = `
+											<p>Your Group Creation request has been accepted by the admin. Group with name '${req.body.groupName}' has been successfully been created.</p>
+										`;
+										
+										let mailOptions = {
+											from: `Admin ${process.env.NODEMAILER_EMAIL}`, // sender address
+											to: req.body.email, // list of receivers
+											subject: 'Regarding Group creation request in ExpenseTracker', // Subject line
+											text: '', // plain text body
+											html: output // html body
+										};
+	
+										Mail.sendMail(mailOptions, (error, info) => {
+											if (error) {
+												return console.log(error);
+											}
+											console.log('Message sent: %s', info.messageId);
+											res.status(200).json({message: 'Group Created Successfully'});
+										});
+									}
 								}
 							});
 						}
@@ -62,26 +66,31 @@ router.post('/creategroup',
 			TempGroup.deleteById(req.body._id, (err) => {
 				if(err) res.status(501).json(err);
 				else {
+					if (process.env.FF_NODEMAILER == null || process.env.FF_NODEMAILER === 'false') {
+						console.log("Mailer is not applicable");
+						res.status(200).json({ message: 'Group creation rejected' });
+					} else {
 
-					const output = `
-						<p>Your Group Creation request has been rejected by the admin. Group with name '${req.body.groupName}' has not been created.</p>
-					`;
+						const output = `
+							<p>Your Group Creation request has been rejected by the admin. Group with name '${req.body.groupName}' has not been created.</p>
+						`;
 
-					let mailOptions = {
-						from: `Admin ${process.env.NODEMAILER_EMAIL}`, // sender address					        		
-						to: req.body.email, // list of receivers
-						subject: 'Regarding Group creation request in ExpenseTracker', // Subject line
-						text: '', // plain text body
-						html: output // html body
-					};
+						let mailOptions = {
+							from: `Admin ${process.env.NODEMAILER_EMAIL}`, // sender address					        		
+							to: req.body.email, // list of receivers
+							subject: 'Regarding Group creation request in ExpenseTracker', // Subject line
+							text: '', // plain text body
+							html: output // html body
+						};
 						  
-					Mail.sendMail(mailOptions, (error, info) => {
-						if (error) {
-						    return console.log(error);
-						}
-						console.log('Message sent: %s', info.messageId);
-						res.status(200).json({message: 'Group creation rejected'});
-					});
+						Mail.sendMail(mailOptions, (error, info) => {
+							if (error) {
+								return console.log(error);
+							}
+							console.log('Message sent: %s', info.messageId);
+							res.status(200).json({ message: 'Group creation rejected' });
+						});
+					}
 				}
 			});			
 		}
