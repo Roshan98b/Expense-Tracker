@@ -29,11 +29,14 @@ mongosh "mongodb://host:27017"
 
 Environment variables used in `.env` file
 ```
-MONGO_URL=mongodb://host:27017/project  
-SESSION_SECRET=any_password  
-NODEMAILER_HOST=smpt_host  
-NODEMAILER_EMAIL=nodemailer_emailid  
-NODEMAILER_PASSWORD=nodemailer_password
+MONGO_URL=172.28.194.146
+MONGO_PORT=27017
+MONGO_DATABASE=project
+SESSION_SECRET=secret
+NODEMAILER_HOST=smtp.gmail.com
+NODEMAILER_EMAIL=admin_email
+NODEMAILER_PASSWORD=admin_password
+FF_NODEMAILER=false
 ```
 
 Install dependencies
@@ -74,6 +77,19 @@ Install dependencies
 npm install
 ```
 
+Environment variables used in `.env` file
+```
+ENV_API_BACKEND_PROTOCOL=http
+ENV_API_BACKEND_URL=172.28.194.146
+ENV_API_BACKEND_PORT=80
+ENV_API_BACKEND_PATH=users
+```
+
+After exporting above variables below command replaces the variables in `env.js`
+```
+envsubst < ./src/assets/env.template.js > ./src/assets/env.js
+```
+
 Run app locally
 ```
 export NODE_OPTIONS=--openssl-legacy-provider #optional, if app fails to start
@@ -94,5 +110,5 @@ export COMPOSE_DOCKER_CLI_BUILD=0
 
 Run app on a docker container
 ```
- docker run -d --rm --name ext-frontend -p 8080:80 -e ENV_API_BACKEND_URL=http://172.22.92.82:3000/users ext-frontend:latest
+ docker run -d --rm --name ext-frontend -p 8080:80 --env-file ./.env ext-frontend:latest
 ```
