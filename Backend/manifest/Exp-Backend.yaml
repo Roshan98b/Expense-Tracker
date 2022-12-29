@@ -41,6 +41,11 @@ spec:
                 configMapKeyRef:
                   name: ext-backend-configmap
                   key: nodemailer_host
+            - name: FF_NODEMAILER
+              valueFrom:
+                configMapKeyRef:
+                  name: ext-backend-configmap
+                  key: ff_nodemailer
             - name: SESSION_SECRET
               valueFrom:
                 secretKeyRef:

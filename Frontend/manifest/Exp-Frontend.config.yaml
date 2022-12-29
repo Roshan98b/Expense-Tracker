@@ -6,4 +6,4 @@ data:
   env_api_backend_protocol: "http"
   env_api_backend_url: ext-backend-service
   env_api_backend_port: 80
-  env_api_backend_path: "/users"
+  env_api_backend_path: "users"

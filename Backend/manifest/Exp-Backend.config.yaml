@@ -7,6 +7,7 @@ data:
   mongo_port: 27017
   mongo_databaase: "project"
   nodemailer_host": "smtp.gmail.com"
+  ff_nodemailer: "false"
 ---
 apiVersion: v1
 kind: Secret
