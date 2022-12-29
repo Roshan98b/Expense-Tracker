@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ext-frontend-configmap
+data:
+  env_api_backend_protocol: "http"
+  env_api_backend_url: "robadrin-aks1.westeurope.cloudapp.azure.com"
+  env_api_backend_port: "80"
+  env_api_backend_path: "users"

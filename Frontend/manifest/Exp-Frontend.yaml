@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ext-frontend
+  labels:
+    app: ext-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ext-frontend
+  template:
+    metadata:
+      labels:
+        app: ext-frontend
+    spec:
+      containers:
+        - name: ext-frontend
+          image: robadrinacr1.azurecr.io/ext-frontend:latest
+          ports:
+            - containerPort: 80
+          imagePullPolicy: Always
+          env:
+            - name: ENV_API_BACKEND_PROTOCOL
+              valueFrom:
+                configMapKeyRef:
+                  name: ext-frontend-configmap
+                  key: env_api_backend_protocol
+            - name: ENV_API_BACKEND_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: ext-frontend-configmap
+                  key: env_api_backend_url
+            - name: ENV_API_BACKEND_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: ext-frontend-configmap
+                  key: env_api_backend_port
+            - name: ENV_API_BACKEND_PATH
+              valueFrom:
+                configMapKeyRef:
+                  name: ext-frontend-configmap
+                  key: env_api_backend_path
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ext-frontend-service
+spec:
+  selector:
+    app: ext-frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

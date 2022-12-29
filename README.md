@@ -110,5 +110,65 @@ export COMPOSE_DOCKER_CLI_BUILD=0
 
 Run app on a docker container
 ```
- docker run -d --rm --name ext-frontend -p 8080:80 --env-file ./.env ext-frontend:latest
+docker run -d --rm --name ext-frontend -p 8080:80 --env-file ./.env ext-frontend:latest
+```
+
+## Kubernetes configurations
+
+Create the Nginx Ingress Controller using Helm in a new namespace.
+```
+kubectl create namespace ingress-nginx
+
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+
+helm install ingress-nginx ingress-nginx/ingress-nginx -n ingress-nginx --set controller.replicaCount=2
+```
+
+Deploy the mongo DB service
+```
+cd ./Backend
+kubectl apply -f ./manifests/Exp-Backend.yaml -n ext
+```
+
+After build, Tag and push the application docker images to ACR
+```
+# Backend build and push image
+docker build -t ext-backend:1.0.0 -t ext-backend:latest .
+docker tag ext-backend:latest robadrinacr1.azurecr.io/ext-backend:latest
+docker push robadrinacr1.azurecr.io/ext-backend:latest
+
+# Frontend build and push image
+docker build -t ext-frontend:1.0.0 -t ext-frontend:latest .
+docker tag ext-frontend:latest robadrinacr1.azurecr.io/ext-frontend:latest
+docker push robadrinacr1.azurecr.io/ext-frontend:latest
+```
+
+Deploy the backend configuration, ingress and then the application which creates a config map, deployment and a service. Uses a new namespace `ext` for the deployment.
+```
+cd ./Backend
+kubectl apply -f ./manifests/Exp-Backend.config.yaml -n ext
+kubectl apply -f ./manifests/Exp-Backend.ingress.yaml -n ext
+kubectl apply -f ./manifests/Exp-Backend.yaml -n ext
+```
+
+Deploy the frontend configuration, ingress and then the application which creates a config map, deployment and a service. Uses a new namespace `ext` for the deployment.
+```
+cd ./Frontend
+kubectl apply -f ./manifests/Exp-Frontend.config.yaml -n ext
+kubectl apply -f ./manifests/Exp-Frontend.ingress.yaml -n ext
+kubectl apply -f ./manifests/Exp-Frontend.yaml -n ext
+```
+
+Other troubleshooting commands
+```
+# Map running pod shell to terminal
+kubectl get pods -n ext
+kubectl exec -i -t -n ext ext-frontend-podname -- /bin/sh
+
+# Get logs of a pod
+kubectl get pods -n ext
+kubectl logs  -n ext ext-frontend-podname
+
+# Restart or redeploy a deployment
+kubectl rollout restart deployment ext-frontend -n ext 
 ```

@@ -59,8 +59,7 @@
               "./node_modules/icheck/icheck.js",
               "./node_modules/admin-lte/dist/js/adminlte.js",
               "src/assets/js/adminLTEOptions.js",
-              "src/assets/js/scripts.js",
-              "src/assets/env.js"
+              "src/assets/js/scripts.js"
             ]
           },
           "configurations": {}
